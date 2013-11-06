@@ -39,7 +39,7 @@ function sl_goto_reindex(inArgs)
 %It is better to use handle instead of path, there is a bug in the way
 %Simulink use block names
 %http://www.mathworks.com/support/solutions/en/data/1-O7JS8/?solution=1-O7JS8
-GotoList = find_system(gcs,'Selected','on','BlockType','Goto');
+GotoList = find_system(gcs,'LookUnderMasks','on','Selected','on','BlockType','Goto');
 GotoListHandle = get_param(GotoList,'Handle');
 
 
@@ -53,10 +53,14 @@ for i = 1 : length(GotoListHandle)
     % get tag name
     SignalName=get_param(GotoListHandle{i},'GotoTag');
     
-    % change name accorging to Goto Tag.
-    % if you have created this block by copy&paste.
-    % it's probable that block name doesn't correspond to its tag
-    set_param(GotoListHandle{i},'Name',['Goto_' SignalName]);   
+    
+    %%%% Don't do this -- it can have unintended side effects when combined
+    %%%% with simulink's auto-incremented naming. I.e., this script might
+    %%%% try to create blocks which already exist and throw errors.
+    %% change name accorging to Goto Tag.
+    %% if you have created this block by copy&paste.
+    %% it's probable that block name doesn't correspond to its tag
+    %set_param(GotoListHandle{i},'Name',['Goto_' SignalName]);   
     
     BlockForegroundColor=get_param(GotoListHandle{i},'ForegroundColor');
     BlockBackgroundColor=get_param(GotoListHandle{i},'BackgroundColor');

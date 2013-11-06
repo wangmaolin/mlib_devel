@@ -27,6 +27,10 @@ function sl_from2goto(inArgs)
 % CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 % ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 % POSSIBILITY OF SUCH DAMAGE.
+%
+% Modified 6/11/13 JH: Added LookUnderMasks to find_system call to fix problem where blocks weren't found.
+%                      Changed behaviour so that a new from block is created even if one already exists
+%                      Changed behaviour so that goto and from blocks always have their names hidden
 %-------------------------------------------------------------------------
 
 % input inArgs is needed to link with sl_customization.m, but it is not
@@ -36,12 +40,13 @@ function sl_from2goto(inArgs)
 %It is better to use handle instead of path, there is a bug in the way
 %Simulink use block names
 %http://www.mathworks.com/support/solutions/en/data/1-O7JS8/?solution=1-O7JS8
-GotoList = find_system(gcs,'Selected','on','BlockType','Goto');
+GotoList = find_system(gcs,'LookUnderMasks','on','SearchDepth',1,'Selected','on','BlockType','Goto');
 GotoListHandle =get_param(GotoList,'Handle');
 
 
 if isempty(GotoList)
     % no Goto block selected.
+    disp 'There are no blocks'
     return
 end
 
@@ -50,14 +55,18 @@ for i = 1 : length(GotoListHandle)
     % get tag name
     SignalName=get_param(GotoListHandle{i},'GotoTag');
 
-    % change name accorging to Goto Tag.
-    % if you have created this block by copy&paste.
-    % it's probable that block name doesn't correspond to its tag
-
-    set_param(GotoListHandle{i},'Name',['Goto_' SignalName]);
+    %%%% Don't do this -- it can have unintended side effects when combined
+    %%%% with simulink's auto-incremented naming. I.e., this script might
+    %%%% try to create blocks which already exist and throw errors.
+    %% change name accorging to Goto Tag.
+    %% if you have created this block by copy&paste.
+    %% it's probable that block name doesn't correspond to its tag
+    %set_param(GotoListHandle{i},'Name',['Goto_' SignalName]); 
+    
     BlockForegroundColor=get_param(GotoListHandle{i},'ForegroundColor');
     BlockBackgroundColor=get_param(GotoListHandle{i},'BackgroundColor');
-    BlockShowName=get_param(GotoListHandle{i},'ShowName');
+    %BlockShowName=get_param(GotoListHandle{i},'ShowName');
+    set_param(GotoListHandle{i},'ShowName','off'); %force the goto block's name to be hidden
     BlockFontName=get_param(GotoListHandle{i},'FontName');
     BlockFontSize=get_param(GotoListHandle{i},'FontSize');
     BlockFontWeight=get_param(GotoListHandle{i},'FontWeight');
@@ -66,70 +75,52 @@ for i = 1 : length(GotoListHandle)
     BlockDropShadow=get_param(GotoListHandle{i},'DropShadow');
     BlockNamePlacement=get_param(GotoListHandle{i},'NamePlacement');
     BlockOrientation= get_param(GotoListHandle{i},'Orientation');
+    ParentName = get_param(GotoListHandle{i},'parent');
 
     % check if corresponding From block already exist.
-    FromBlockExist=find_system(gcs,'BlockType','From','GotoTag',SignalName);
-
-    if isempty(FromBlockExist)  % Block "From" doesn't exist, create it.
-
-        % Position:
-        % Calculate "From" block position vector
-        % The new block will have same dimensions of its corresponding Goto,
-        % and will be placed on its right
-        GotoBlockPosition=get_param(GotoListHandle{i},'Position');
-        BlockLength=GotoBlockPosition(3)-GotoBlockPosition(1);
-        FromBlockPosition(1)=GotoBlockPosition(3)+BlockLength/2; %Left
-        FromBlockPosition(2)=GotoBlockPosition(2);%Top
-        FromBlockPosition(3)=FromBlockPosition(1)+BlockLength;%Right
-        FromBlockPosition(4)=GotoBlockPosition(4);%Bottom
-
-
-        Path=GotoList{i}(1:max(regexp(gcb, '/'))-1);
-        Destination=strcat(Path,'/','From_',SignalName);
-        add_block('built-in/From',Destination,...
-            'GotoTag',SignalName,...
-            'position',FromBlockPosition,...
-            'ForegroundColor',BlockForegroundColor,...
-            'BackgroundColor',BlockBackgroundColor,...
-            'ShowName',BlockShowName,...
-            'FontName',BlockFontName,...
-            'FontSize',BlockFontSize,...
-            'FontWeight',BlockFontWeight,...
-            'FontAngle',BlockFontAngle,...
-            'TagVisibility',BlockTagVisibility,...
-            'DropShadow',BlockDropShadow,...
-            'NamePlacement',BlockNamePlacement,...
-            'Orientation',BlockOrientation);
-
-    else  %From block exist, change only block appearance
-
-        for k=1:size(FromBlockExist,1)
-
-            set_param(FromBlockExist{k},...
-                'ForegroundColor',BlockForegroundColor,...
-                'BackgroundColor',BlockBackgroundColor,...
-                'ShowName',BlockShowName,...
-                'FontName',BlockFontName,...
-                'FontSize',BlockFontSize,...
-                'FontWeight',BlockFontWeight,...
-                'FontAngle',BlockFontAngle,...
-                'TagVisibility',BlockTagVisibility,...
-                'DropShadow',BlockDropShadow,...
-                'NamePlacement',BlockNamePlacement,...
-                'Orientation',BlockOrientation);
-
-            if isempty(find_system(gcs,'Name',['From_' SignalName]))
-                % in the system there is already a block with this name,
-                % cannot create another one, keep the same name
-                set_param(FromBlockExist{k},'Name',['From_' SignalName]);
-
-            end
-
-
+    % We'll use the SignalName as the from block name, but this might already exist.
+    % Check if it does, and increment if so.
+    name_appendix = 0;
+    exists = 1;
+    while exists
+            FromName = [ParentName,'/',SignalName,'_',num2str(name_appendix)];
+        try
+            find_system(FromName);
+            name_appendix = name_appendix + 1;
+        catch exception
+            exists=0;
         end
+    end
 
-    end %if
 
+    % Position:
+    % Calculate "From" block position vector
+    % The new block will have same dimensions of its corresponding Goto,
+    % and will be placed on its right
+    GotoBlockPosition=get_param(GotoListHandle{i},'Position');
+    BlockLength=GotoBlockPosition(3)-GotoBlockPosition(1);
+    FromBlockPosition(1)=GotoBlockPosition(3)+BlockLength/2; %Left
+    FromBlockPosition(2)=GotoBlockPosition(2);%Top
+    FromBlockPosition(3)=FromBlockPosition(1)+BlockLength;%Right
+    FromBlockPosition(4)=GotoBlockPosition(4);%Bottom
+
+
+    Path=GotoList{i}(1:max(regexp(gcb, '/'))-1);
+    %Add the block -- never show the name
+    add_block('built-in/From',FromName,...
+        'GotoTag',SignalName,...
+        'position',FromBlockPosition,...
+        'ForegroundColor',BlockForegroundColor,...
+        'BackgroundColor',BlockBackgroundColor,...
+        'ShowName','off',...
+        'FontName',BlockFontName,...
+        'FontSize',BlockFontSize,...
+        'FontWeight',BlockFontWeight,...
+        'FontAngle',BlockFontAngle,...
+        'TagVisibility',BlockTagVisibility,...
+        'DropShadow',BlockDropShadow,...
+        'NamePlacement',BlockNamePlacement,...
+        'Orientation',BlockOrientation);
 
 end %for
 
