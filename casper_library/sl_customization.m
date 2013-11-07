@@ -44,7 +44,7 @@ function schema = userFunctions(callbackInfo)
   % Make a submenu label    
   schema = sl_container_schema;
   schema.label = 'CASPER helpers';     
-  schema.childrenFcns = {@userFunction1, @userFunction2};
+  schema.childrenFcns = {@userFunction1, @userFunction2, @userFunction3};
 end 
 
 function schema = userFunction1(callbackInfo)
@@ -57,6 +57,12 @@ function schema = userFunction2(callbackInfo)
   schema = sl_action_schema;
   schema.label = 'Goto++ (copy and reindex)';
   schema.callback = @sl_goto_reindex; 
+end 
+
+function schema = userFunction3(callbackInfo)
+  schema = sl_action_schema;
+  schema.label = 'Goto Tag: Increment in place';
+  schema.callback = @sl_goto_increment_inplace; 
 end 
 
 % if you'd like to add more user functions duplicate 'userFunction1'
