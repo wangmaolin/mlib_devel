@@ -1,6 +1,8 @@
-function sl_customization(cm)
+function sl_goto_increment_in_place(inArgs)
 %--------------------------------------------------------------------------
-% Description : sl_customization function used to register context menu
+% Description : Create 'From' blocks with same appearance and properties of
+%               'Goto' blocks selected in the model
+%
 % Author:       Giacomo Faggiani
 % Rev :         11-03-2009 - First version
 %
@@ -28,43 +30,45 @@ function sl_customization(cm)
 % CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 % ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 % POSSIBILITY OF SUCH DAMAGE.
+%
+% Modified 7/11/13 JH: Allow auto incrementing of both From and GoTo blocks in place
 %-------------------------------------------------------------------------
 
-  %% Register custom menu function.
-  cm.addCustomMenuFcn('Simulink:PreContextMenu', @getMyMenuItems);
+% input inArgs is needed to link with sl_customization.m, but it is not
+% used.
+
+% Select blocks in the model
+%It is better to use handle instead of path, there is a bug in the way
+%Simulink use block names
+%http://www.mathworks.com/support/solutions/en/data/1-O7JS8/?solution=1-O7JS8
+GotoList = find_system(gcs,'LookUnderMasks','on','Selected','on','BlockType','Goto');
+FromList = find_system(gcs,'LookUnderMasks','on','Selected','on','BlockType','From');
+List = [GotoList, FromList];
+GotoListHandle = get_param(List,'Handle');
+
+
+if isempty(GotoListHandle)
+    % no Goto block selected.
+    return
 end
 
-%% Define the custom menu function.
-function schemaFcns = getMyMenuItems(callbackInfo) 
-  schemaFcns = {@userFunctions}; 
-end
+for i = 1 : length(GotoListHandle)
 
-%% Define the schema function for first menu item.
-function schema = userFunctions(callbackInfo)
-  % Make a submenu label    
-  schema = sl_container_schema;
-  schema.label = 'CASPER helpers';     
-  schema.childrenFcns = {@userFunction1, @userFunction2, @userFunction3};
-end 
+    % get tag name
+    SignalName=get_param(GotoListHandle{i},'GotoTag');
+    
+    
+    % Figure out new signal ID
+    m   = regexp(SignalName, '(?<rootname>\w+)(?<idx>\d+)$', 'names');
+    if isempty(m)
+        NewSignalName = strcat(SignalName, '1');
+    else
+        idx = str2num(m.idx) + 1;
+        NewSignalName = strcat(m.rootname, num2str(idx));
+    end %if
+    
+    set_param(GotoListHandle{i},'GotoTag',NewSignalName);
 
-function schema = userFunction1(callbackInfo)
-  schema = sl_action_schema;
-  schema.label = 'Create From Blocks';
-  schema.callback = @sl_from2goto; 
-end 
+end %for
 
-function schema = userFunction2(callbackInfo)
-  schema = sl_action_schema;
-  schema.label = 'Goto++ (copy and reindex)';
-  schema.callback = @sl_goto_reindex; 
-end 
-
-function schema = userFunction3(callbackInfo)
-  schema = sl_action_schema;
-  schema.label = 'Goto Tag: Increment in place';
-  schema.callback = @sl_goto_increment_inplace; 
-end 
-
-% if you'd like to add more user functions duplicate 'userFunction1'
-% structure.
 
