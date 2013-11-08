@@ -3,7 +3,10 @@ function check_froms(sys,search_depth)
 % A script to check for From blocks with no corrensponding Gotos.
 % This is a common error in designs which causes Update Diagram to fail
 
-if nargin < 2
+if nargin < 1
+    sys = gcs;
+    search_depth = 1;
+elseif nargin < 2
     search_depth = 1;
 end
 
