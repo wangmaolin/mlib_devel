@@ -359,7 +359,7 @@ begin
   
   MMCM0: MMCM_ADV
     generic map (
-      BANDWIDTH            => "HIGH",
+      BANDWIDTH            => "OPTIMIZED",
       CLKFBOUT_MULT_F      => mmcm_m,
       DIVCLK_DIVIDE        => mmcm_d,
       CLKFBOUT_PHASE       => 0.0,
