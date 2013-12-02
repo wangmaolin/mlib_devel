@@ -21,6 +21,28 @@
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%   SKA Africa                                                                %
+%   http://www.kat.ac.za                                                      %
+%   Copyright (C) 2013 Andrew Martens (andrew@ska.ac.za)                      %
+%                                                                             %
+%   This program is free software; you can redistribute it and/or modify      %
+%   it under the terms of the GNU General Public License as published by      %
+%   the Free Software Foundation; either version 2 of the License, or         %
+%   (at your option) any later version.                                       %
+%                                                                             %
+%   This program is distributed in the hope that it will be useful,           %
+%   but WITHOUT ANY WARRANTY; without even the implied warranty of            %
+%   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             %
+%   GNU General Public License for more details.                              %
+%                                                                             %
+%   You should have received a copy of the GNU General Public License along   %
+%   with this program; if not, write to the Free Software Foundation, Inc.,   %
+%   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.               %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function pfb_fir_generic_init(blk, varargin)
   clog('entering pfb_fir_generic_init', 'trace');
 
@@ -43,6 +65,8 @@ function pfb_fir_generic_init(blk, varargin)
     'quantization', 'Truncate', ...
     'fwidth', 1, ...
     'fanout', 4, ...
+    'coeffs_bram_optimization', 'Area', ... %'Speed', 'Area'
+    'delays_bram_optimization', 'Area', ...%'Speed', 'Area'
   };
   
   check_mask_type(blk, 'pfb_fir_generic');
@@ -69,6 +93,8 @@ function pfb_fir_generic_init(blk, varargin)
   quantization                = get_var('quantization', 'defaults', defaults, varargin{:});
   fwidth                      = get_var('fwidth', 'defaults', defaults, varargin{:});
   multiplier_implementation   = get_var('multiplier_implementation', 'defaults', defaults, varargin{:});
+  coeffs_bram_optimization    = get_var('coeffs_bram_optimization', 'defaults', defaults, varargin{:});
+  delays_bram_optimization    = get_var('delays_bram_optimization', 'defaults', defaults, varargin{:});
 
   delete_lines(blk);
 
@@ -188,6 +214,7 @@ function pfb_fir_generic_init(blk, varargin)
           'bram_latency', num2str(bram_latency), ...
           'fan_latency', num2str(fan_latency), ...
           'add_latency', num2str(add_latency), ...
+          'bram_optimization', coeffs_bram_optimization, ...
           'Position', [285 33 380 197]);
   add_line(blk, 'bus_create/1', 'pfb_fir_coeff_gen/2'); 
 
@@ -222,7 +249,9 @@ function pfb_fir_generic_init(blk, varargin)
           'mult_latency', num2str(mult_latency), ...
           'add_latency', num2str(add_latency), ...
           'bram_latency', num2str(bram_latency), ...
+          'fan_latency', num2str(fan_latency), ...
           'multiplier_implementation', 'behavioral HDL', ...
+          'bram_optimization', delays_bram_optimization, ...
           'Position', [675 32 765 198]);
   add_line(blk, 'pfb_fir_coeff_gen/2', 'pfb_fir_taps/2');
   add_line(blk, 'coeff_munge/1', 'pfb_fir_taps/3');
