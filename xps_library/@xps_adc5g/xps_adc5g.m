@@ -97,7 +97,8 @@ switch s.hw_sys
         o1_allowed = 1:128;
     case 'ROACH2'
         f_pfdmax = 450; % MHz, for bandwidth set to HIGH
-        f_pfdmin = 135; % MHz, for bandwidth set to HIGH
+        f_pfdmin = 125; % MHz, %A hack to allow 2500MHz operation. pfdmin for high mode is 135.
+        % TODO autoselect high mode if possible, only drop to low mode if no high mode settings can be found
         f_vcomax = 1200; % MHz
         f_vcomin = 600; % MHz
         r_allowed = 1:8;
