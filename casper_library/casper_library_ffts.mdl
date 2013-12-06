@@ -19,7 +19,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [131.0, 110.0, 846.0, 709.0]
+      Location		      [236.0, 130.0, 894.0, 817.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -43,7 +43,7 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[804.0, 551.0]
+	Extents			[842.0, 640.0]
 	ZoomFactor		[1.0]
 	Offset			[0.0, 0.0]
       }
@@ -53,11 +53,11 @@ Library {
   Creator		  "mdexter"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "andrew"
+  LastModifiedBy	  "jack"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 23 16:21:04 2013"
-  RTWModifiedTimeStamp	  304446059
-  ModelVersionFormat	  "1.%<AutoIncrement:72>"
+  LastModifiedDate	  "Fri Dec 06 15:10:35 2013"
+  RTWModifiedTimeStamp	  308243433
+  ModelVersionFormat	  "1.%<AutoIncrement:77>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -701,7 +701,7 @@ Library {
   }
   System {
     Name		    "casper_library_ffts"
-    Location		    [131, 110, 977, 819]
+    Location		    [236, 130, 1130, 947]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -817,16 +817,18 @@ Library {
 	Description		"FFT internal block."
 	Initialization		"biplex_core_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'FFTSize', FFTSize,...\n    'input_bit"
 	"_width', input_bit_width,...\n    'bin_pt_in', bin_pt_in,...\n    'coeff_bit_width', coeff_bit_width,...\n    'async'"
-	", async, ...\n    'add_latency', add_latency,...\n    'mult_latency', mult_latency,...\n    'bram_latency', bram_late"
-	"ncy,...\n    'conv_latency', conv_latency, ...\n    'quantization', quantization,...\n    'overflow', overflow,...\n "
-	"   'delays_bit_limit', delays_bit_limit, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coe"
-	"ff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...\n    'mult_spec', m"
-	"ult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_shifts"
-	", ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders);"
+	", async, ...\n    'add_latency', add_latency,...\n    'add_latency_twiddles', add_latency_twiddles,...\n    'mult_lat"
+	"ency', mult_latency,...\n    'bram_latency', bram_latency,...\n    'conv_latency', conv_latency, ...\n    'conv_laten"
+	"cy_twiddles', conv_latency_twiddles, ...\n    'quantization', quantization,...\n    'overflow', overflow,...\n    'de"
+	"lays_bit_limit', delays_bit_limit, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sha"
+	"ring, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...\n    'mult_spec', mult_sp"
+	"ec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_shifts, ...\n"
+	"    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders, ...\n    'conv_imp', conv_imp, ...\n    "
+	"'conv_imp_twiddles', conv_imp_twiddles);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  23
+	  Dimension		  27
 	  Object {
 	    $ObjectID		    20
 	    Type		    "edit"
@@ -878,13 +880,21 @@ Library {
 	  Object {
 	    $ObjectID		    26
 	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add Latency in twiddles"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    27
+	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
 	    Value		    "2"
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    27
+	    $ObjectID		    28
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -892,7 +902,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    28
+	    $ObjectID		    29
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -900,7 +910,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    29
+	    $ObjectID		    30
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert latency in twiddles"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    31
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -917,7 +935,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    30
+	    $ObjectID		    32
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -934,7 +952,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    31
+	    $ObjectID		    33
 	    Type		    "edit"
 	    Name		    "delays_bit_limit"
 	    Prompt		    "Number bits above which to implent stage's delays in BRAM (2^? bits)"
@@ -942,7 +960,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    32
+	    $ObjectID		    34
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -950,7 +968,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    33
+	    $ObjectID		    35
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -959,7 +977,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    34
+	    $ObjectID		    36
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -968,7 +986,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    35
+	    $ObjectID		    37
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -976,7 +994,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    36
+	    $ObjectID		    38
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -984,7 +1002,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    37
+	    $ObjectID		    39
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bit growth instead of shift"
@@ -993,7 +1011,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    38
+	    $ObjectID		    40
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Maximum number of bits"
@@ -1001,7 +1019,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    39
+	    $ObjectID		    41
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -1012,7 +1030,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    40
+	    $ObjectID		    42
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
@@ -1021,7 +1039,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    41
+	    $ObjectID		    43
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "Use DSP48s for adders"
@@ -1031,7 +1049,43 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    42
+	    $ObjectID		    44
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    45
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    46
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -1078,7 +1132,7 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		43
+	$ObjectID		47
 	$ClassName		"Simulink.Mask"
 	Type			"butterfly_direct"
 	Description		"FFT internal block."
@@ -1086,17 +1140,19 @@ Library {
 	", FFTSize, ...\n   'Coeffs', Coeffs, ...\n   'StepPeriod', StepPeriod, ...\n   'coeff_bit_width', coeff_bit_width, .."
 	".\n   'input_bit_width', input_bit_width, ...\n   'bin_pt_in', bin_pt_in, ...\n   'hardcode_shifts', hardcode_shifts,"
 	" ...\n   'bitgrowth', bitgrowth, ...\n   'downshift', downshift, ...\n   'async', async, ...\n   'add_latency', add_l"
-	"atency, ...\n   'mult_latency', mult_latency, ...\n   'bram_latency', bram_latency, ...\n   'conv_latency', conv_late"
-	"ncy, ...\n   'quantization', quantization, ...\n   'overflow', overflow, ...\n   'coeffs_bit_limit', coeffs_bit_limit"
-	", ...    \n   'coeff_sharing', coeff_sharing, ...\n   'coeff_decimation', coeff_decimation, ...\n   'coeff_generation"
-	"', coeff_generation, ...\n   'cal_bits', cal_bits, ...\n   'n_bits_rotation', n_bits_rotation, ...\n   'max_fanout', "
-	"max_fanout, ...\n   'use_hdl', use_hdl, ...\n   'use_embedded', use_embedded, ...\n   'dsp48_adders', dsp48_adders);"
+	"atency, ...\n   'add_latency_twiddles', add_latency_twiddles, ...\n   'mult_latency', mult_latency, ...\n   'bram_lat"
+	"ency', bram_latency, ...\n   'conv_latency', conv_latency, ...\n   'conv_latency_twiddles', conv_latency_twiddles, .."
+	".\n   'quantization', quantization, ...\n   'overflow', overflow, ...\n   'coeffs_bit_limit', coeffs_bit_limit, ...  "
+	"  \n   'coeff_sharing', coeff_sharing, ...\n   'coeff_decimation', coeff_decimation, ...\n   'coeff_generation', coef"
+	"f_generation, ...\n   'cal_bits', cal_bits, ...\n   'n_bits_rotation', n_bits_rotation, ...\n   'max_fanout', max_fan"
+	"out, ...\n   'use_hdl', use_hdl, ...\n   'use_embedded', use_embedded, ...\n   'dsp48_adders', dsp48_adders, ...\n   "
+	"'conv_imp', conv_imp, ...\n   'conv_imp_twiddles', conv_imp_twiddles);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  28
+	  Dimension		  32
 	  Object {
-	    $ObjectID		    44
+	    $ObjectID		    48
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "number inputs"
@@ -1104,7 +1160,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    45
+	    $ObjectID		    49
 	    Type		    "checkbox"
 	    Name		    "biplex"
 	    Prompt		    "Used in biplex FFT"
@@ -1114,7 +1170,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    46
+	    $ObjectID		    50
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -1122,7 +1178,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    47
+	    $ObjectID		    51
 	    Type		    "edit"
 	    Name		    "Coeffs"
 	    Prompt		    "Coefficients: (0 to 2^(FFTSize-1)-1)"
@@ -1130,7 +1186,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    48
+	    $ObjectID		    52
 	    Type		    "edit"
 	    Name		    "StepPeriod"
 	    Prompt		    "Coefficient Step Period: (2^?)"
@@ -1138,7 +1194,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    49
+	    $ObjectID		    53
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -1146,7 +1202,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    50
+	    $ObjectID		    54
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input Bit Width"
@@ -1154,7 +1210,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    51
+	    $ObjectID		    55
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "Input binary point"
@@ -1162,7 +1218,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    52
+	    $ObjectID		    56
 	    Type		    "checkbox"
 	    Name		    "downshift"
 	    Prompt		    "Downshift"
@@ -1172,7 +1228,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    53
+	    $ObjectID		    57
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "asynchronous operation"
@@ -1181,7 +1237,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    54
+	    $ObjectID		    58
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -1189,7 +1245,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    55
+	    $ObjectID		    59
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add latency in twiddles"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    60
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -1197,7 +1261,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    56
+	    $ObjectID		    61
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -1205,7 +1269,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    57
+	    $ObjectID		    62
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -1213,7 +1277,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    58
+	    $ObjectID		    63
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert latency in twiddles"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    64
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1230,7 +1302,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    59
+	    $ObjectID		    65
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1247,7 +1319,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    60
+	    $ObjectID		    66
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -1255,7 +1327,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    61
+	    $ObjectID		    67
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -1264,7 +1336,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    62
+	    $ObjectID		    68
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -1273,7 +1345,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    63
+	    $ObjectID		    69
 	    Type		    "checkbox"
 	    Name		    "coeff_generation"
 	    Prompt		    "Generate coeffs with multipliers where useful"
@@ -1282,7 +1354,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    64
+	    $ObjectID		    70
 	    Type		    "edit"
 	    Name		    "cal_bits"
 	    Prompt		    "Number calibration locations when generating coeffs (2^?)"
@@ -1290,7 +1362,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    65
+	    $ObjectID		    71
 	    Type		    "edit"
 	    Name		    "n_bits_rotation"
 	    Prompt		    "Feedback rotation vector resolution"
@@ -1298,7 +1370,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    66
+	    $ObjectID		    72
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -1306,7 +1378,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    67
+	    $ObjectID		    73
 	    Type		    "checkbox"
 	    Name		    "use_hdl"
 	    Prompt		    "Use behavioural HDL for multipliers"
@@ -1318,7 +1390,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    68
+	    $ObjectID		    74
 	    Type		    "checkbox"
 	    Name		    "use_embedded"
 	    Prompt		    "Use embedded multipliers"
@@ -1329,7 +1401,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    69
+	    $ObjectID		    75
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bit growth instead of shifting"
@@ -1338,7 +1410,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    70
+	    $ObjectID		    76
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -1349,13 +1421,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    71
+	    $ObjectID		    77
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "Use DSP48s for adders"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "%fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    78
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    79
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation elsewhere"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -1398,26 +1506,28 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		72
+	$ObjectID		80
 	$ClassName		"Simulink.Mask"
 	Type			"fft"
 	Description		"A complex FFT."
 	Help			"eval('xlWeb(''http://casper.berkeley.edu/wiki/Fft'')')"
 	Initialization		"fft_init(gcb, ...\n    'n_streams', n_streams, ...\n    'FFTSize', FFTSize, ...\n    'n_inputs', n_i"
 	"nputs, ...\n    'input_bit_width', input_bit_width, ...\n    'coeff_bit_width', coeff_bit_width, ...\n    'async', as"
-	"ync, ...\n    'unscramble', unscramble, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mult_latency, ."
-	"..\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'quantization', quantization, ."
-	"..\n    'overflow', overflow, ...\n    'delays_bit_limit', delays_bit_limit, ...\n    'coeffs_bit_limit', coeffs_bit_"
-	"limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'coeff_genera"
-	"tion', coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotation', n_bits_rotation, ...\n    'max_fa"
-	"nout', max_fanout, ...   \n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'hardcode_shifts', h"
-	"ardcode_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders);"
+	"ync, ...\n    'unscramble', unscramble, ...\n    'add_latency', add_latency, ...\n    'add_latency_twiddles', add_lat"
+	"ency_twiddles, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency',"
+	" conv_latency, ...\n    'conv_latency_twiddles', conv_latency_twiddles, ...\n    'quantization', quantization, ...\n "
+	"   'overflow', overflow, ...\n    'delays_bit_limit', delays_bit_limit, ...\n    'coeffs_bit_limit', coeffs_bit_limit"
+	", ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'coeff_generation'"
+	", coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotation', n_bits_rotation, ...\n    'max_fanout'"
+	", max_fanout, ...   \n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'hardcode_shifts', hardco"
+	"de_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders, ...\n    'conv_imp_twidd"
+	"les', conv_imp_twiddles, ...\n    'conv_imp', conv_imp);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  28
+	  Dimension		  32
 	  Object {
-	    $ObjectID		    73
+	    $ObjectID		    81
 	    Type		    "edit"
 	    Name		    "n_streams"
 	    Prompt		    "Number input streams"
@@ -1425,7 +1535,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    74
+	    $ObjectID		    82
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -1433,7 +1543,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    75
+	    $ObjectID		    83
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number of Simultaneous Inputs: (2^?)"
@@ -1441,7 +1551,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    76
+	    $ObjectID		    84
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input bit width"
@@ -1449,7 +1559,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    77
+	    $ObjectID		    85
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "Input binary point"
@@ -1457,7 +1567,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    78
+	    $ObjectID		    86
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -1465,7 +1575,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    79
+	    $ObjectID		    87
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -1474,7 +1584,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    80
+	    $ObjectID		    88
 	    Type		    "checkbox"
 	    Name		    "unscramble"
 	    Prompt		    "Unscramble output (ie, put channels in canonical order)"
@@ -1483,7 +1593,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    81
+	    $ObjectID		    89
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -1491,7 +1601,16 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    82
+	    $ObjectID		    90
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add Latency (in twiddles)"
+	    Value		    "0"
+	    Evaluate		    "off"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    91
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -1499,7 +1618,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    83
+	    $ObjectID		    92
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -1507,7 +1626,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    84
+	    $ObjectID		    93
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert Latency"
@@ -1515,7 +1634,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    85
+	    $ObjectID		    94
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    95
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1532,7 +1659,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    86
+	    $ObjectID		    96
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1549,7 +1676,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    87
+	    $ObjectID		    97
 	    Type		    "edit"
 	    Name		    "delays_bit_limit"
 	    Prompt		    "Number bits above which to store stage's delays in BRAM (2^? bits)"
@@ -1557,7 +1684,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    88
+	    $ObjectID		    98
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -1565,7 +1692,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    89
+	    $ObjectID		    99
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -1574,7 +1701,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    90
+	    $ObjectID		    100
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -1583,7 +1710,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    91
+	    $ObjectID		    101
 	    Type		    "checkbox"
 	    Name		    "coeff_generation"
 	    Prompt		    "Generate coeffs with multipliers where useful"
@@ -1592,7 +1719,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    92
+	    $ObjectID		    102
 	    Type		    "edit"
 	    Name		    "cal_bits"
 	    Prompt		    "Number calibration locations when generating coeffs (2^?)"
@@ -1600,7 +1727,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    93
+	    $ObjectID		    103
 	    Type		    "edit"
 	    Name		    "n_bits_rotation"
 	    Prompt		    "Feedback rotation vector resolution"
@@ -1608,7 +1735,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    94
+	    $ObjectID		    104
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -1616,7 +1743,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    95
+	    $ObjectID		    105
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -1624,7 +1751,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    96
+	    $ObjectID		    106
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bitgrowth instead of shifting"
@@ -1633,7 +1760,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    97
+	    $ObjectID		    107
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Max bits to grow to"
@@ -1641,7 +1768,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    98
+	    $ObjectID		    108
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -1652,22 +1779,58 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    99
+	    $ObjectID		    109
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
-	    Value		    ""
+	    Value		    "[]"
 	    Enabled		    "off"
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    100
+	    $ObjectID		    110
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "DSP48 adders in butterfly"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    111
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    112
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation elsewhere"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -1709,25 +1872,26 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		101
+	$ObjectID		113
 	$ClassName		"Simulink.Mask"
 	Type			"fft_biplex"
 	Description		"FFT internal block."
 	Initialization		"fft_biplex_init(gcb, ...\n    'n_streams', n_streams, ...\n    'n_inputs', n_inputs, ...\n    'FFTSi"
 	"ze', FFTSize, ...\n    'input_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'coeff_bit_width"
-	"', coeff_bit_width, ...\n    'async', async, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mult_laten"
-	"cy, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'quantization', quantizati"
-	"on, ...\n    'overflow', overflow, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'delays_bit_limit', delays"
-	"_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fan"
-	"out', max_fanout, ...\n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, .."
-	".\n    'hardcode_shifts', hardcode_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_"
-	"adders);"
+	"', coeff_bit_width, ...\n    'async', async, ...\n    'add_latency', add_latency, ...\n    'add_latency_twiddles', ad"
+	"d_latency_twiddles, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_late"
+	"ncy', conv_latency, ...\n    'conv_latency_twiddles', conv_latency_twiddles, ...\n    'quantization', quantization, ."
+	"..\n    'overflow', overflow, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'delays_bit_limit', delays_bit_"
+	"limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout',"
+	" max_fanout, ...\n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n  "
+	"  'hardcode_shifts', hardcode_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adder"
+	"s, ...\n    'conv_imp_twiddles', conv_imp_twiddles, ...\n    'conv_imp', conv_imp);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  24
+	  Dimension		  28
 	  Object {
-	    $ObjectID		    102
+	    $ObjectID		    114
 	    Type		    "edit"
 	    Name		    "n_streams"
 	    Prompt		    "Number simultaneous streams"
@@ -1735,7 +1899,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    103
+	    $ObjectID		    115
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number simultaneous inputs (2*?)"
@@ -1743,7 +1907,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    104
+	    $ObjectID		    116
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -1751,7 +1915,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    105
+	    $ObjectID		    117
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input bit width"
@@ -1759,7 +1923,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    106
+	    $ObjectID		    118
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "input binary point"
@@ -1767,7 +1931,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    107
+	    $ObjectID		    119
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -1775,7 +1939,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    108
+	    $ObjectID		    120
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -1784,7 +1948,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    109
+	    $ObjectID		    121
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -1792,7 +1956,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    110
+	    $ObjectID		    122
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    123
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -1800,7 +1972,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    111
+	    $ObjectID		    124
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -1808,7 +1980,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    112
+	    $ObjectID		    125
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -1816,7 +1988,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    113
+	    $ObjectID		    126
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    127
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1833,7 +2013,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    114
+	    $ObjectID		    128
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -1850,7 +2030,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    115
+	    $ObjectID		    129
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -1858,7 +2038,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    116
+	    $ObjectID		    130
 	    Type		    "edit"
 	    Name		    "delays_bit_limit"
 	    Prompt		    "Number bits above which to implent stage's delays in BRAM (2^? bits)"
@@ -1866,7 +2046,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    117
+	    $ObjectID		    131
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -1875,7 +2055,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    118
+	    $ObjectID		    132
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -1884,7 +2064,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    119
+	    $ObjectID		    133
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -1892,7 +2072,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    120
+	    $ObjectID		    134
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -1900,7 +2080,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    121
+	    $ObjectID		    135
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bit growth instead of shift"
@@ -1909,7 +2089,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    122
+	    $ObjectID		    136
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Maximum bits to grow to"
@@ -1917,7 +2097,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    123
+	    $ObjectID		    137
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -1928,7 +2108,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    124
+	    $ObjectID		    138
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
@@ -1937,13 +2117,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    125
+	    $ObjectID		    139
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "Use DSP48s for adders"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    140
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    141
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -1986,25 +2202,27 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		126
+	$ObjectID		142
 	$ClassName		"Simulink.Mask"
 	Type			"fft_biplex_real_2x"
 	Description		"A real-sampled biplex FFT, with output demuxed by 2."
 	Help			"eval('xlWeb(''http://casper.berkeley.edu/wiki/Fft_biplex_real_2x'')')"
 	Initialization		"fft_biplex_real_2x_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'FFTSize', FFTSize, ...\n    'i"
 	"nput_bit_width', input_bit_width, ... \n    'bin_pt', bin_pt, ...\n    'coeff_bit_width', coeff_bit_width, ...\n    '"
-	"async', async, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', b"
-	"ram_latency, ...\n    'conv_latency', conv_latency, ...\n    'quantization', quantization, ...\n    'overflow', overf"
-	"low, ...\n    'delays_bit_limit', delays_bit_limit, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sh"
-	"aring', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...\n    'mu"
-	"lt_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hard"
-	"code_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders);"
+	"async', async, ...\n    'add_latency', add_latency, ...\n    'add_latency_twiddles', add_latency_twiddles, ...\n    '"
+	"mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    '"
+	"conv_latency_twiddles', conv_latency_twiddles, ...\n    'quantization', quantization, ...\n    'overflow', overflow, "
+	"...\n    'delays_bit_limit', delays_bit_limit, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing"
+	"', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...\n    'mult_sp"
+	"ec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_"
+	"shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders, ...\n    'conv_imp_twiddles"
+	"', conv_imp_twiddles, ...\n    'conv_imp', conv_imp);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  23
+	  Dimension		  27
 	  Object {
-	    $ObjectID		    127
+	    $ObjectID		    143
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number simultaneous inputs (4*?)"
@@ -2012,7 +2230,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    128
+	    $ObjectID		    144
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -2020,7 +2238,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    129
+	    $ObjectID		    145
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input bit width"
@@ -2028,7 +2246,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    130
+	    $ObjectID		    146
 	    Type		    "edit"
 	    Name		    "bin_pt"
 	    Prompt		    "Input binary point"
@@ -2036,7 +2254,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    131
+	    $ObjectID		    147
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -2044,7 +2262,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    132
+	    $ObjectID		    148
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -2053,7 +2271,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    133
+	    $ObjectID		    149
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -2061,7 +2279,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    134
+	    $ObjectID		    150
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    151
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -2069,7 +2295,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    135
+	    $ObjectID		    152
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -2077,7 +2303,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    136
+	    $ObjectID		    153
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -2085,7 +2311,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    137
+	    $ObjectID		    154
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    155
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2102,7 +2336,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    138
+	    $ObjectID		    156
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2119,7 +2353,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    139
+	    $ObjectID		    157
 	    Type		    "edit"
 	    Name		    "delays_bit_limit"
 	    Prompt		    "Number bits above which to implement stage's delays in BRAM (2^? bits)"
@@ -2127,7 +2361,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    140
+	    $ObjectID		    158
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -2135,7 +2369,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    141
+	    $ObjectID		    159
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -2144,7 +2378,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    142
+	    $ObjectID		    160
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -2153,7 +2387,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    143
+	    $ObjectID		    161
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -2161,7 +2395,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    144
+	    $ObjectID		    162
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -2169,7 +2403,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    145
+	    $ObjectID		    163
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bit growth instead of shifting"
@@ -2178,7 +2412,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    146
+	    $ObjectID		    164
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Max bits to growth to"
@@ -2186,7 +2420,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    147
+	    $ObjectID		    165
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -2197,7 +2431,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    148
+	    $ObjectID		    166
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
@@ -2206,13 +2440,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    149
+	    $ObjectID		    167
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "DSP48 adders in butterfly"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    168
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    169
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -2255,25 +2525,27 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		150
+	$ObjectID		170
 	$ClassName		"Simulink.Mask"
 	Type			"fft_biplex_real_4x"
 	Description		"A real-sampled biplex FFT, with output demuxed by 4."
 	Help			"eval('xlWeb(''http://casper.berkeley.edu/wiki/Fft_biplex_real_4x'')')"
 	Initialization		"fft_biplex_real_4x_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'FFTSize', FFTSize, ...\n    'i"
 	"nput_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'coeff_bit_width', coeff_bit_width, ...\n"
-	"    'async', async, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latenc"
-	"y', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'quantization', quantization, ...\n    'overflow', "
-	"overflow, ...\n    'delays_bit_limit', delays_bit_limit, ... \n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'co"
-	"eff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...   "
-	"\n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n    'hardcode_shif"
-	"ts', hardcode_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders);"
+	"    'async', async, ...\n    'add_latency', add_latency, ...\n    'add_latency_twiddles', add_latency_twiddles, ...\n"
+	"    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n"
+	"    'conv_latency_twiddles', conv_latency_twiddles, ...\n    'quantization', quantization, ...\n    'overflow', overf"
+	"low, ...\n    'delays_bit_limit', delays_bit_limit, ... \n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_s"
+	"haring', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...   \n   "
+	" 'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n    'max_bits', max_bits, ...\n    'hardcode_shifts', "
+	"hardcode_shifts, ...\n    'shift_schedule', shift_schedule, ...\n    'dsp48_adders', dsp48_adders, ...\n    'conv_imp"
+	"_twiddles', conv_imp_twiddles, ...\n    'conv_imp', conv_imp);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  23
+	  Dimension		  27
 	  Object {
-	    $ObjectID		    151
+	    $ObjectID		    171
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number simultaneous inputs (4*?)"
@@ -2281,7 +2553,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    152
+	    $ObjectID		    172
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -2289,7 +2561,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    153
+	    $ObjectID		    173
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input bit width"
@@ -2297,7 +2569,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    154
+	    $ObjectID		    174
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "Input binary point"
@@ -2305,7 +2577,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    155
+	    $ObjectID		    175
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -2313,7 +2585,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    156
+	    $ObjectID		    176
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -2322,7 +2594,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    157
+	    $ObjectID		    177
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -2330,7 +2602,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    158
+	    $ObjectID		    178
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    179
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -2338,7 +2618,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    159
+	    $ObjectID		    180
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -2346,7 +2626,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    160
+	    $ObjectID		    181
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -2354,7 +2634,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    161
+	    $ObjectID		    182
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    183
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2371,7 +2659,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    162
+	    $ObjectID		    184
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2388,7 +2676,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    163
+	    $ObjectID		    185
 	    Type		    "edit"
 	    Name		    "delays_bit_limit"
 	    Prompt		    "Number bits above which to implement stage's delays in BRAM (2^? bits)"
@@ -2396,7 +2684,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    164
+	    $ObjectID		    186
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -2404,7 +2692,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    165
+	    $ObjectID		    187
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -2413,7 +2701,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    166
+	    $ObjectID		    188
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -2422,7 +2710,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    167
+	    $ObjectID		    189
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -2430,7 +2718,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    168
+	    $ObjectID		    190
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -2438,7 +2726,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    169
+	    $ObjectID		    191
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bitgrowth instead of shifting"
@@ -2447,7 +2735,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    170
+	    $ObjectID		    192
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Max bits to grow to"
@@ -2455,7 +2743,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    171
+	    $ObjectID		    193
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -2466,7 +2754,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    172
+	    $ObjectID		    194
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
@@ -2475,13 +2763,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    173
+	    $ObjectID		    195
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "DSP48 adders in butterfly"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    196
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implentation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    197
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -2523,7 +2847,7 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		174
+	$ObjectID		198
 	$ClassName		"Simulink.Mask"
 	Type			"fft_direct"
 	Description		"FFT internal block.\n\nImplements an N-point FFT as the classic butterfly structure,\nwith N inputs and"
@@ -2531,19 +2855,21 @@ Library {
 	Initialization		"fft_direct_init(gcb, ...\n    'n_streams', n_streams, ...\n    'FFTSize', FFTSize, ...\n    'input_b"
 	"it_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'coeff_bit_width', coeff_bit_width, ...\n    'm"
 	"ap_tail', map_tail, ...\n    'LargerFFTSize', LargerFFTSize, ...\n    'StartStage', StartStage, ...\n    'async', asy"
-	"nc, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency"
-	", ...\n    'conv_latency', conv_latency, ...\n    'quantization', quantization, ...\n    'overflow', overflow, ...\n "
-	"   'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_"
-	"decimation, ...\n    'coeff_generation', coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotation',"
-	" n_bits_rotation, ...\n    'max_fanout', max_fanout, ...\n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth"
-	", ...\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_shifts, ...\n    'shift_schedule', shift_schedu"
-	"le, ...\n    'dsp48_adders', dsp48_adders);"
+	"nc, ...\n    'add_latency', add_latency, ...\n    'add_latency_twiddles', add_latency_twiddles, ...\n    'mult_latenc"
+	"y', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'conv_latenc"
+	"y_twiddles', conv_latency_twiddles, ...\n    'quantization', quantization, ...\n    'overflow', overflow, ...\n    'c"
+	"oeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decim"
+	"ation, ...\n    'coeff_generation', coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotation', n_bi"
+	"ts_rotation, ...\n    'max_fanout', max_fanout, ...\n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ..."
+	"\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_shifts, ...\n    'shift_schedule', shift_schedule, ."
+	"..\n    'dsp48_adders', dsp48_adders, ...\n    'conv_imp', conv_imp, ...\n    'conv_imp_twiddles', conv_imp_twiddles)"
+	";"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  28
+	  Dimension		  32
 	  Object {
-	    $ObjectID		    175
+	    $ObjectID		    199
 	    Type		    "edit"
 	    Name		    "n_streams"
 	    Prompt		    "Number simultaneous streams "
@@ -2551,7 +2877,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    176
+	    $ObjectID		    200
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -2559,7 +2885,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    177
+	    $ObjectID		    201
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input Bit Width"
@@ -2567,7 +2893,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    178
+	    $ObjectID		    202
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "Input binary point"
@@ -2575,7 +2901,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    179
+	    $ObjectID		    203
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -2583,7 +2909,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    180
+	    $ObjectID		    204
 	    Type		    "checkbox"
 	    Name		    "map_tail"
 	    Prompt		    "Map Tail of Larger FFT"
@@ -2594,7 +2920,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    181
+	    $ObjectID		    205
 	    Type		    "edit"
 	    Name		    "LargerFFTSize"
 	    Prompt		    "Size of Larger FFT (2^?)"
@@ -2602,7 +2928,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    182
+	    $ObjectID		    206
 	    Type		    "edit"
 	    Name		    "StartStage"
 	    Prompt		    "Start Stage of Map Tail"
@@ -2610,7 +2936,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    183
+	    $ObjectID		    207
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -2619,7 +2945,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    184
+	    $ObjectID		    208
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -2627,7 +2953,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    185
+	    $ObjectID		    209
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add latency in twiddles"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    210
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -2635,7 +2969,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    186
+	    $ObjectID		    211
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -2643,7 +2977,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    187
+	    $ObjectID		    212
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -2651,7 +2985,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    188
+	    $ObjectID		    213
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert latency in twiddles"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    214
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2668,7 +3010,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    189
+	    $ObjectID		    215
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2685,7 +3027,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    190
+	    $ObjectID		    216
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -2693,7 +3035,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    191
+	    $ObjectID		    217
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -2702,7 +3044,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    192
+	    $ObjectID		    218
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -2711,7 +3053,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    193
+	    $ObjectID		    219
 	    Type		    "checkbox"
 	    Name		    "coeff_generation"
 	    Prompt		    "Generate coeffs with multipliers where useful"
@@ -2720,7 +3062,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    194
+	    $ObjectID		    220
 	    Type		    "edit"
 	    Name		    "cal_bits"
 	    Prompt		    "Number calibration locations when generating coeffs (2^?)"
@@ -2728,7 +3070,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    195
+	    $ObjectID		    221
 	    Type		    "edit"
 	    Name		    "n_bits_rotation"
 	    Prompt		    "Feedback rotation vector resolution"
@@ -2736,7 +3078,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    196
+	    $ObjectID		    222
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -2744,7 +3086,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    197
+	    $ObjectID		    223
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -2752,7 +3094,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    198
+	    $ObjectID		    224
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bit growth instead of shifting"
@@ -2761,7 +3103,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    199
+	    $ObjectID		    225
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Max bits to growth to"
@@ -2769,7 +3111,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    200
+	    $ObjectID		    226
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -2780,7 +3122,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    201
+	    $ObjectID		    227
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
@@ -2788,13 +3130,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    202
+	    $ObjectID		    228
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "DSP48 adders in butterfly"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    229
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    230
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation elsewhere"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -2836,24 +3214,26 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		203
+	$ObjectID		231
 	$ClassName		"Simulink.Mask"
 	Type			"fft_stage_n"
 	Description		"FFT internal block."
 	Initialization		"fft_stage_n_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'FFTSize', FFTSize, ...\n    'FFTStage"
 	"', FFTStage, ...\n    'input_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'coeff_bit_width'"
 	", coeff_bit_width, ...\n    'bitgrowth', bitgrowth, ...\n    'downshift', downshift, ...\n    'async', async, ...\n  "
-	"  'add_latency', add_latency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    "
-	"'conv_latency', conv_latency, ...\n    'quantization', quantization, ...\n    'overflow', overflow, ...\n    'delays_"
-	"bram', delays_bram, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    "
-	"'coeff_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...\n    'use_hdl', use_hdl, ...\n    'use_e"
-	"mbedded', use_embedded, ...\n    'hardcode_shifts', hardcode_shifts, ...\n    'dsp48_adders', dsp48_adders);"
+	"  'add_latency', add_latency, ...\n    'add_latency_twiddles', add_latency_twiddles, ...\n    'mult_latency', mult_la"
+	"tency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'conv_latency_twiddles'"
+	", conv_latency_twiddles, ...\n    'quantization', quantization, ...\n    'overflow', overflow, ...\n    'delays_bram'"
+	", delays_bram, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coef"
+	"f_decimation', coeff_decimation, ...\n    'max_fanout', max_fanout, ...\n    'use_hdl', use_hdl, ...\n    'use_embedd"
+	"ed', use_embedded, ...\n    'hardcode_shifts', hardcode_shifts, ...\n    'dsp48_adders', dsp48_adders, ...\n    'conv"
+	"_imp_twiddles', conv_imp_twiddles, ...\n    'conv_imp', conv_imp);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  24
+	  Dimension		  28
 	  Object {
-	    $ObjectID		    204
+	    $ObjectID		    232
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number inputs"
@@ -2861,7 +3241,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    205
+	    $ObjectID		    233
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -2869,7 +3249,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    206
+	    $ObjectID		    234
 	    Type		    "edit"
 	    Name		    "FFTStage"
 	    Prompt		    "Stage of FFT:"
@@ -2877,7 +3257,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    207
+	    $ObjectID		    235
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input Bit Width"
@@ -2885,7 +3265,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    208
+	    $ObjectID		    236
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "Input binary point"
@@ -2893,7 +3273,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    209
+	    $ObjectID		    237
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -2901,7 +3281,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    210
+	    $ObjectID		    238
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -2910,7 +3290,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    211
+	    $ObjectID		    239
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -2918,7 +3298,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    212
+	    $ObjectID		    240
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add latency in twiddle"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    241
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -2926,7 +3314,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    213
+	    $ObjectID		    242
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -2934,7 +3322,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    214
+	    $ObjectID		    243
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert latency"
@@ -2942,7 +3330,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    215
+	    $ObjectID		    244
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert latency in twiddle"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    245
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2959,7 +3355,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    216
+	    $ObjectID		    246
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -2976,7 +3372,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    217
+	    $ObjectID		    247
 	    Type		    "checkbox"
 	    Name		    "delays_bram"
 	    Prompt		    "Implement Delays in BRAM"
@@ -2985,7 +3381,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    218
+	    $ObjectID		    248
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -2993,7 +3389,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    219
+	    $ObjectID		    249
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -3002,7 +3398,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    220
+	    $ObjectID		    250
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -3011,7 +3407,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    221
+	    $ObjectID		    251
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -3019,7 +3415,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    222
+	    $ObjectID		    252
 	    Type		    "checkbox"
 	    Name		    "use_hdl"
 	    Prompt		    "Use behavioural HDL for mutlipliers"
@@ -3031,7 +3427,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    223
+	    $ObjectID		    253
 	    Type		    "checkbox"
 	    Name		    "use_embedded"
 	    Prompt		    "Use embedded multipliers"
@@ -3042,7 +3438,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    224
+	    $ObjectID		    254
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bit growth instead of shifting"
@@ -3051,7 +3447,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    225
+	    $ObjectID		    255
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -3062,7 +3458,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    226
+	    $ObjectID		    256
 	    Type		    "checkbox"
 	    Name		    "downshift"
 	    Prompt		    "Downshift"
@@ -3072,13 +3468,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    227
+	    $ObjectID		    257
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "Use DSP48s for adders"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    258
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    259
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implemenation elsewhere"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -3120,7 +3552,7 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		228
+	$ObjectID		260
 	$ClassName		"Simulink.Mask"
 	Type			"fft_unscrambler"
 	Initialization		"fft_unscrambler_init(gcb, ...\n    'n_streams', n_streams, ...\n    'FFTSize',FFTSize, ... \n    'n_"
@@ -3131,49 +3563,49 @@ Library {
 	  Type			  "Simulink.MaskParameter"
 	  Dimension		  7
 	  Object {
-	    $ObjectID		    229
+	    $ObjectID		    261
 	    Type		    "edit"
 	    Name		    "n_streams"
 	    Prompt		    "Number of simultaneous streams"
 	    Value		    "1"
 	  }
 	  Object {
-	    $ObjectID		    230
+	    $ObjectID		    262
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^?)"
 	    Value		    "-1"
 	  }
 	  Object {
-	    $ObjectID		    231
+	    $ObjectID		    263
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number of simultaneous inputs: (2^?)"
 	    Value		    "2"
 	  }
 	  Object {
-	    $ObjectID		    232
+	    $ObjectID		    264
 	    Type		    "edit"
 	    Name		    "n_bits_in"
 	    Prompt		    "Input bit width"
 	    Value		    "18"
 	  }
 	  Object {
-	    $ObjectID		    233
+	    $ObjectID		    265
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
 	    Value		    "2"
 	  }
 	  Object {
-	    $ObjectID		    234
+	    $ObjectID		    266
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store map coefficients in BRAM (2^? bits)"
 	    Value		    "0"
 	  }
 	  Object {
-	    $ObjectID		    235
+	    $ObjectID		    267
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -3220,7 +3652,7 @@ Library {
       MaskHideContents	      off
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		236
+	$ObjectID		268
 	$ClassName		"Simulink.Mask"
 	Type			"fft_wideband_real"
 	Description		"A real-sampled wideband FFT."
@@ -3228,20 +3660,21 @@ Library {
 	Initialization		"fft_wideband_real_init(gcb, ...\n    'n_streams', n_streams, ...\n    'FFTSize', FFTSize, ...\n    '"
 	"n_inputs', n_inputs, ...\n    'input_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'coeff_bi"
 	"t_width', coeff_bit_width, ...\n    'unscramble', unscramble, ...\n    'async', async, ...\n    'add_latency', add_la"
-	"tency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_la"
-	"tency, ...\n    'input_latency', input_latency, ...\n    'biplex_direct_latency', biplex_direct_latency, ...\n    'qu"
-	"antization', quantization, ...\n    'overflow', overflow, ...\n    'delays_bit_limit', delays_bit_limit, ...\n    'co"
-	"effs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decima"
-	"tion, ...\n    'coeff_generation', coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotation', n_bit"
-	"s_rotation, ...\n    'max_fanout', max_fanout, ...   \n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ."
-	"..\n    'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_shifts, ...\n    'shift_schedule', shift_schedule,"
-	" ...\n    'dsp48_adders', dsp48_adders);"
+	"tency, ...\n    'add_latency_twiddles', add_latency_twiddles, ...\n    'mult_latency', mult_latency, ...\n    'bram_l"
+	"atency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'conv_latency_twiddles', conv_latency_twiddles"
+	", ...\n    'input_latency', input_latency, ...\n    'biplex_direct_latency', biplex_direct_latency, ...\n    'quantiz"
+	"ation', quantization, ...\n    'overflow', overflow, ...\n    'delays_bit_limit', delays_bit_limit, ...\n    'coeffs_"
+	"bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', coeff_decimation,"
+	" ...\n    'coeff_generation', coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotation', n_bits_rot"
+	"ation, ...\n    'max_fanout', max_fanout, ...   \n    'mult_spec', mult_spec, ...\n    'bitgrowth', bitgrowth, ...\n "
+	"   'max_bits', max_bits, ...\n    'hardcode_shifts', hardcode_shifts, ...\n    'shift_schedule', shift_schedule, ...\n"
+	"    'dsp48_adders', dsp48_adders, ...\n    'conv_imp_twiddles', conv_imp_twiddles, ...\n    'conv_imp', conv_imp);"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  30
+	  Dimension		  34
 	  Object {
-	    $ObjectID		    237
+	    $ObjectID		    269
 	    Type		    "edit"
 	    Name		    "n_streams"
 	    Prompt		    "Number simultaneous streams"
@@ -3249,7 +3682,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    238
+	    $ObjectID		    270
 	    Type		    "edit"
 	    Name		    "FFTSize"
 	    Prompt		    "Size of FFT: (2^? pts)"
@@ -3257,7 +3690,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    239
+	    $ObjectID		    271
 	    Type		    "edit"
 	    Name		    "n_inputs"
 	    Prompt		    "Number of Simultaneous Inputs: (2^?)"
@@ -3265,7 +3698,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    240
+	    $ObjectID		    272
 	    Type		    "edit"
 	    Name		    "input_bit_width"
 	    Prompt		    "Input Bit Width"
@@ -3273,7 +3706,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    241
+	    $ObjectID		    273
 	    Type		    "edit"
 	    Name		    "bin_pt_in"
 	    Prompt		    "Input binary point"
@@ -3281,7 +3714,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    242
+	    $ObjectID		    274
 	    Type		    "edit"
 	    Name		    "coeff_bit_width"
 	    Prompt		    "Coefficient Bit Width"
@@ -3289,7 +3722,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    243
+	    $ObjectID		    275
 	    Type		    "checkbox"
 	    Name		    "unscramble"
 	    Prompt		    "Unscramble output (ie, put channels in canonical order)"
@@ -3298,7 +3731,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    244
+	    $ObjectID		    276
 	    Type		    "checkbox"
 	    Name		    "async"
 	    Prompt		    "Asynchronous operation"
@@ -3307,7 +3740,7 @@ Library {
 	    TabName		    "Basic"
 	  }
 	  Object {
-	    $ObjectID		    245
+	    $ObjectID		    277
 	    Type		    "edit"
 	    Name		    "add_latency"
 	    Prompt		    "Add Latency"
@@ -3315,7 +3748,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    246
+	    $ObjectID		    278
+	    Type		    "edit"
+	    Name		    "add_latency_twiddles"
+	    Prompt		    "Add Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    279
 	    Type		    "edit"
 	    Name		    "mult_latency"
 	    Prompt		    "Mult Latency"
@@ -3323,7 +3764,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    247
+	    $ObjectID		    280
 	    Type		    "edit"
 	    Name		    "bram_latency"
 	    Prompt		    "BRAM Latency"
@@ -3331,7 +3772,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    248
+	    $ObjectID		    281
 	    Type		    "edit"
 	    Name		    "conv_latency"
 	    Prompt		    "Convert Latency"
@@ -3339,7 +3780,15 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    249
+	    $ObjectID		    282
+	    Type		    "edit"
+	    Name		    "conv_latency_twiddles"
+	    Prompt		    "Convert Latency (in twiddles)"
+	    Value		    "0"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    283
 	    Type		    "edit"
 	    Name		    "input_latency"
 	    Prompt		    "Input Latency"
@@ -3347,7 +3796,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    250
+	    $ObjectID		    284
 	    Type		    "edit"
 	    Name		    "biplex_direct_latency"
 	    Prompt		    "Latency between biplexes and fft_direct"
@@ -3355,7 +3804,7 @@ Library {
 	    TabName		    "Latency"
 	  }
 	  Object {
-	    $ObjectID		    251
+	    $ObjectID		    285
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -3372,7 +3821,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    252
+	    $ObjectID		    286
 	    Type		    "popup"
 	    Array {
 	      Type		      "Cell"
@@ -3389,7 +3838,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    253
+	    $ObjectID		    287
 	    Type		    "edit"
 	    Name		    "delays_bit_limit"
 	    Prompt		    "Number bits above which to store stage's delays in BRAM (2^? bits)"
@@ -3397,7 +3846,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    254
+	    $ObjectID		    288
 	    Type		    "edit"
 	    Name		    "coeffs_bit_limit"
 	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
@@ -3405,7 +3854,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    255
+	    $ObjectID		    289
 	    Type		    "checkbox"
 	    Name		    "coeff_sharing"
 	    Prompt		    "BRAM sharing in coeff storage"
@@ -3414,7 +3863,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    256
+	    $ObjectID		    290
 	    Type		    "checkbox"
 	    Name		    "coeff_decimation"
 	    Prompt		    "Store a fraction of coeff factors where useful"
@@ -3423,7 +3872,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    257
+	    $ObjectID		    291
 	    Type		    "checkbox"
 	    Name		    "coeff_generation"
 	    Prompt		    "Generate coeffs with multipliers where useful"
@@ -3432,7 +3881,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    258
+	    $ObjectID		    292
 	    Type		    "edit"
 	    Name		    "cal_bits"
 	    Prompt		    "Number calibration locations when generating coeffs (2^?)"
@@ -3440,7 +3889,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    259
+	    $ObjectID		    293
 	    Type		    "edit"
 	    Name		    "n_bits_rotation"
 	    Prompt		    "Feedback rotation vector resolution"
@@ -3448,7 +3897,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    260
+	    $ObjectID		    294
 	    Type		    "edit"
 	    Name		    "mult_spec"
 	    Prompt		    "Multiplier impl. (0=core, 1=embedded, 2=behavioural) (left=1st stage, or just one value)"
@@ -3456,7 +3905,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    261
+	    $ObjectID		    295
 	    Type		    "edit"
 	    Name		    "max_fanout"
 	    Prompt		    "Maximum fanout"
@@ -3464,7 +3913,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    262
+	    $ObjectID		    296
 	    Type		    "checkbox"
 	    Name		    "bitgrowth"
 	    Prompt		    "Bitgrowth instead of shifting"
@@ -3473,7 +3922,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    263
+	    $ObjectID		    297
 	    Type		    "edit"
 	    Name		    "max_bits"
 	    Prompt		    "Max bits to grow to"
@@ -3481,7 +3930,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    264
+	    $ObjectID		    298
 	    Type		    "checkbox"
 	    Name		    "hardcode_shifts"
 	    Prompt		    "Hardcode shift schedule"
@@ -3492,7 +3941,7 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    265
+	    $ObjectID		    299
 	    Type		    "edit"
 	    Name		    "shift_schedule"
 	    Prompt		    "Shift schedule"
@@ -3501,13 +3950,49 @@ Library {
 	    TabName		    "Implementation"
 	  }
 	  Object {
-	    $ObjectID		    266
+	    $ObjectID		    300
 	    Type		    "checkbox"
 	    Name		    "dsp48_adders"
 	    Prompt		    "DSP48 adders in butterfly"
 	    Value		    "off"
 	    Evaluate		    "off"
 	    Callback		    "fft_callback_dsp48_adders(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    301
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp_twiddles"
+	    Prompt		    "Convert implementation in twiddles"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    302
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation elsewhere"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
 	    TabName		    "Implementation"
 	  }
 	  PropName		  "Parameters"
@@ -3536,147 +4021,159 @@ MatData {
   NumRecords		  10
   DataRecord {
     Tag			    DataTag0
-    Data		    "  %)30     .    4!0   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $  OS-@(.    P!,   "
-    "8    (     @         %    \"     $    !     0         %  0 $0    $   \"8 0  9&5F875L=',           !N7VEN<'5T<P    "
-    "       $9&5%-I>F4             :6YP=71?8FET7W=I9'1H  !B:6Y?<'1?:6X          &-O969F7V)I=%]W:61T:   87-Y;F,         "
-    "      !A9&1?;&%T96YC>0       &UU;'1?;&%T96YC>0      8G)A;5]L871E;F-Y      !C;VYV7VQA=&5N8WD      '%U86YT:7IA=&EO;@"
-    "      ;W9E<F9L;W<           !D96QA>7-?8FET7VQI;6ET &-O969F<U]B:71?;&EM:70 8V]E9F9?<VAA<FEN9P    !C;V5F9E]D96-I;6%T"
-    ":6]N &UA>%]F86YO=70         ;75L=%]S<&5C          !B:71G<F]W=&@          &UA>%]B:71S            :&%R9&-O9&5?<VAI9G"
-    "1S  !S:&EF=%]S8VAE9'5L90   &1S<#0X7V%D9&5R<P      #@   # ,   &    \"     $         !0    @    !    +@    $        "
-    " #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !N7VEN<'5T<PX    X    !@    @    &   "
-    "       4    (     0    $    !          D    (            \\#\\.    .     8    (    !          %    \"     $    '  "
-    "   0         0    !P   $9&5%-I>F4 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @       "
-    "     (0 X   !     !@    @    $          4    (     0    \\    !         !     /    :6YP=71?8FET7W=I9'1H  X    X   "
-    " !@    @    &          4    (     0    $    !          D    (            ,D .    0     8    (    !          %    \""
-    "     $    )     0         0    \"0   &)I;E]P=%]I;@         .    .     8    (    !@         %    \"     $    !     "
-    "0         )    \"            #% #@   $     &    \"     0         !0    @    !    #P    $         $     \\   !C;V5F"
-    "9E]B:71?=VED=&@ #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            R0 X    X    "
-    "!@    @    $          4    (     0    4    !         !     %    87-Y;F,    .    ,     8    (    !          %    \""
-    "     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (     0    L    !         !     +    861"
-    "D7VQA=&5N8WD       X    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0  "
-    "   8    (    !          %    \"     $    ,     0         0    #    &UU;'1?;&%T96YC>0     .    .     8    (    !@  "
-    "       %    \"     $    !     0         )    \"             ! #@   $     &    \"     0         !0    @    !    #  "
-    "   $         $     P   !B<F%M7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0    $         \"0 "
-    "   @             0 X   !     !@    @    $          4    (     0    P    !         !     ,    8V]N=E]L871E;F-Y     "
-    " X    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0     8    (    !    "
-    "      %    \"     $    ,     0         0    #    '%U86YT:7IA=&EO;@     .    4     8    (    !          %    \"    "
-    " $    :     0         0    &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I        #@   #@    &    \"     0         !0  "
-    "  @    !    \"     $         $     @   !O=F5R9FQO=PX    X    !@    @    $          4    (     0    @    !         "
-    "!     (    4V%T=7)A=&4.    0     8    (    !          %    \"     $    0     0         0    $    &1E;&%Y<U]B:71?;&"
-    "EM:70.    .     8    (    !@         %    \"     $    !     0         )    \"            \"! #@   $     &    \"   "
-    "  0         !0    @    !    $     $         $    !    !C;V5F9G-?8FET7VQI;6ET#@   #@    &    \"     8         !0   "
-    " @    !     0    $         \"0    @            @0 X   !     !@    @    $          4    (     0    T    !         !"
-    "     -    8V]E9F9?<VAA<FEN9P    X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   $  "
-    "   &    \"     0         !0    @    !    $     $         $    !    !C;V5F9E]D96-I;6%T:6]N#@   #     &    \"     0 "
-    "        !0    @    !     @    $         $  \" &]N   .    0     8    (    !          %    \"     $    *     0      "
-    "   0    \"@   &UA>%]F86YO=70        .    .     8    (    !@         %    \"     $    !     0         )    \"      "
-    "      !! #@   $     &    \"     0         !0    @    !    \"0    $         $     D   !M=6QT7W-P96,         #@   $ "
-    "    &    \"     8         !0    @    !     @    $         \"0   !              0         ! #@   $     &    \"     "
-    "0         !0    @    !    \"0    $         $     D   !B:71G<F]W=&@         #@   #     &    \"     0         !0    "
-    "@    !     @    $         $  \" &]N   .    .     8    (    !          %    \"     $    (     0         0    \"    "
-    "&UA>%]B:71S#@   #@    &    \"     8         !0    @    !     0    $         \"0    @            T0 X   !     !@   "
-    " @    $          4    (     0    \\    !         !     /    :&%R9&-O9&5?<VAI9G1S  X    P    !@    @    $          "
-    "4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    !    #@    $         $     X"
-    "   !S:&EF=%]S8VAE9'5L90  #@   $     &    \"     8         !0    @    !     @    $         \"0   !            #P/P "
-    "      / _#@   $     &    \"     0         !0    @    !    #     $         $     P   !D<W T.%]A9&1E<G,     #@   #  "
-    "   &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    (    !@         %    \"     $ "
-    "   !     0         )    \"               #@   #@    &    \"     8         !0    @    !     0    $         \"0    @"
-    "            (0 X    X    !@    @    &          4    (     0    $    !          D    (            ,D .    .     8  "
-    "  (    !@         %    \"     $    !     0         )    \"            /\"_#@   #@    &    \"     8         !0    @"
-    "    !     0    $         \"0    @            R0 X    P    !@    @    $          4    (     0    ,    !         !  "
-    " P!O9F8 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX    X    !@    @ "
-    "   &          4    (     0    $    !          D    (             $ .    .     8    (    !@         %    \"     $  "
-    "  !     0         )    \"             ! #@   #@    &    \"     8         !0    @    !     0    $         \"0    @ "
-    "          #P/PX   !0    !@    @    $          4    (     0   !H    !         !     :    4F]U;F0@(\"AU;F)I87-E9#H@*"
-    "R\\M($EN9BD        .    .     8    (    !          %    \"     $    (     0         0    \"    %-A='5R871E#@   #@ "
-    "   &    \"     8         !0    @    !     0    $         \"0    @            @0 X    X    !@    @    &          4 "
-    "   (     0    $    !          D    (            ($ .    ,     8    (    !          %    \"     $    \"     0      "
-    "   0  ( ;VX   X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   #@    &    \"     8  "
-    "       !0    @    !     0    $         \"0    @            00 X   !     !@    @    &          4    (     0    (   "
-    " !          D    0             $          0 X    P    !@    @    $          4    (     0    (    !         !   @!O"
-    ";@  #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            T0 X    P    !@    @    $"
-    "          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     8         !0    @    !     @    $      "
-    "   \"0   !            #P/P       / _#@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ "
+    Data		    "  %)30     .    (!8   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ /<$. ,.    D!4   "
+    "8    (     @         %    \"     $    !     0         %  0 %@    $   !H @  9&5F875L=',                  &Y?:6YP=71"
+    "S                  !&1E13:7IE                    :6YP=71?8FET7W=I9'1H         &)I;E]P=%]I;@                !C;V5F9"
+    "E]B:71?=VED=&@         87-Y;F,                      &%D9%]L871E;F-Y              !A9&1?;&%T96YC>5]T=VED9&QE<P  ;75"
+    "L=%]L871E;F-Y             &)R86U?;&%T96YC>0            !C;VYV7VQA=&5N8WD             8V]N=E]L871E;F-Y7W1W:61D;&5S "
+    "'%U86YT:7IA=&EO;@            !O=F5R9FQO=P                  9&5L87ES7V)I=%]L:6UI=        &-O969F<U]B:71?;&EM:70    "
+    "   !C;V5F9E]S:&%R:6YG            8V]E9F9?9&5C:6UA=&EO;@       &UA>%]F86YO=70               !M=6QT7W-P96,          "
+    "       8FET9W)O=W1H                 &UA>%]B:71S                  !H87)D8V]D95]S:&EF=',         <VAI9G1?<V-H961U;&4"
+    "          &1S<#0X7V%D9&5R<P            !C;VYV7VEM<                   8V]N=E]I;7!?='=I9&1L97,       X    P#   !@   "
+    " @    !          4    (     0   \"X    !          X    X    !@    @    $          4    (     0    @    !         !"
+    "     (    ;E]I;G!U=',.    .     8    (    !@         %    \"     $    !     0         )    \"            / _#@   #"
+    "@    &    \"     0         !0    @    !    !P    $         $     <   !&1E13:7IE  X    X    !@    @    &          4"
+    "    (     0    $    !          D    (            \"$ .    0     8    (    !          %    \"     $    /     0     "
+    "    0    #P   &EN<'5T7V)I=%]W:61T:  .    .     8    (    !@         %    \"     $    !     0         )    \"      "
+    "      #) #@   $     &    \"     0         !0    @    !    \"0    $         $     D   !B:6Y?<'1?:6X         #@   #@"
+    "    &    \"     8         !0    @    !     0    $         \"0    @            Q0 X   !     !@    @    $          4"
+    "    (     0    \\    !         !     /    8V]E9F9?8FET7W=I9'1H  X    X    !@    @    &          4    (     0    $ "
+    "   !          D    (            ,D .    .     8    (    !          %    \"     $    %     0         0    !0   &%S>"
+    "6YC    #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    0     8    (    !         "
+    " %    \"     $    +     0         0    \"P   &%D9%]L871E;F-Y       .    .     8    (    !@         %    \"     $  "
+    "  !     0         )    \"            / _#@   $     &    \"     0         !0    @    !    #     $         $     P  "
+    " !M=6QT7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0    $         \"0    @             0 X  "
+    " !     !@    @    $          4    (     0    P    !         !     ,    8G)A;5]L871E;F-Y      X    X    !@    @    "
+    "&          4    (     0    $    !          D    (             $ .    0     8    (    !          %    \"     $    ,"
+    "     0         0    #    &-O;G9?;&%T96YC>0     .    .     8    (    !@         %    \"     $    !     0         ) "
+    "   \"            / _#@   $     &    \"     0         !0    @    !    #     $         $     P   !Q=6%N=&EZ871I;VX  "
+    "   #@   %     &    \"     0         !0    @    !    &@    $         $    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*"
+    "0        X    X    !@    @    $          4    (     0    @    !         !     (    ;W9E<F9L;W<.    .     8    (   "
+    " !          %    \"     $    (     0         0    \"    %-A='5R871E#@   $     &    \"     0         !0    @    !  "
+    "  $     $         $    !    !D96QA>7-?8FET7VQI;6ET#@   #@    &    \"     8         !0    @    !     0    $        "
+    " \"0    @            @0 X   !     !@    @    $          4    (     0   !     !         !     0    8V]E9F9S7V)I=%]L"
+    ":6UI= X    X    !@    @    &          4    (     0    $    !          D    (            ($ .    0     8    (    ! "
+    "         %    \"     $    -     0         0    #0   &-O969F7W-H87)I;F<    .    ,     8    (    !          %    \" "
+    "    $    \"     0         0  ( ;VX   X   !     !@    @    $          4    (     0   !     !         !     0    8V]"
+    "E9F9?9&5C:6UA=&EO;@X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   $     &    \"   "
+    "  0         !0    @    !    \"@    $         $     H   !M87A?9F%N;W5T        #@   #@    &    \"     8         !0  "
+    "  @    !     0    $         \"0    @            00 X   !     !@    @    $          4    (     0    D    !         "
+    "!     )    ;75L=%]S<&5C          X   !     !@    @    &          4    (     0    (    !          D    0           "
+    "  $          0 X   !     !@    @    $          4    (     0    D    !         !     )    8FET9W)O=W1H          X  "
+    "  P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   #@    &    \"     0         !0    @   "
+    " !    \"     $         $     @   !M87A?8FET<PX    X    !@    @    &          4    (     0    $    !          D    "
+    "(            -$ .    0     8    (    !          %    \"     $    /     0         0    #P   &AA<F1C;V1E7W-H:69T<P ."
+    "    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    ( "
+    "    0    X    !         !     .    <VAI9G1?<V-H961U;&4   X   !     !@    @    &          4    (     0    (    !   "
+    "       D    0            \\#\\       #P/PX   !     !@    @    $          4    (     0    P    !         !     ,   "
+    " 9'-P-#A?861D97)S      X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @               X    X    !@    @    &          4    (     0"
+    "    $    !          D    (            \"$ .    .     8    (    !@         %    \"     $    !     0         )    \""
+    "            #) #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #POPX    X    !"
+    "@    @    &          4    (     0    $    !          D    (            ,D .    ,     8    (    !          %    \" "
+    "    $    #     0         0  , ;V9F  X    X    !@    @    &          4    (     0    $    !          D    (        "
+    "    \\#\\.    .     8    (    !@         %    \"     $    !     0         )    \"               #@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @             0 X    X    !@    @    &          4    (     0"
+    "    $    !          D    (             $ .    .     8    (    !@         %    \"     $    !     0         )    \" "
+    "           / _#@   #@    &    \"     8         !0    @    !     0    $         \"0    @               X   !0    !@"
+    "    @    $          4    (     0   !H    !         !     :    4F]U;F0@(\"AU;F)I87-E9#H@*R\\M($EN9BD        .    . "
+    "    8    (    !          %    \"     $    (     0         0    \"    %-A='5R871E#@   #@    &    \"     8         !"
+    "0    @    !     0    $         \"0    @            @0 X    X    !@    @    &          4    (     0    $    !      "
+    "    D    (            ($ .    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X    P    !@"
+    "    @    $          4    (     0    (    !         !   @!O;@  #@   #@    &    \"     8         !0    @    !     0 "
+    "   $         \"0    @            00 X   !     !@    @    &          4    (     0    (    !          D    0        "
+    "     $          0 X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   #@    &    \"    "
+    " 8         !0    @    !     0    $         \"0    @            T0 X    P    !@    @    $          4    (     0    "
+    ",    !         !   P!O9F8 #@   $     &    \"     8         !0    @    !     @    $         \"0   !            #P/P"
+    "       / _#@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    (    !      "
+    "    %    \"     $    &     0         0    !@   $9A8G)I8P  #@   #@    &    \"     0         !0    @    !    !@    $"
+    "         $     8   !&86)R:6,   "
   }
   DataRecord {
     Tag			    DataTag1
-    Data		    "  %)30     .    V!@   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ */ED 8.    2!@   "
-    "8    (     @         %    \"     $    !     0         %  0 $0    $   #M 0  9&5F875L=',           !N7VEN<'5T<P     "
-    "      &)I<&QE>               1D944VEZ90            !#;V5F9G,              %-T97!097)I;V0         8V]E9F9?8FET7W=I9"
-    "'1H  !I;G!U=%]B:71?=VED=&@  &)I;E]P=%]I;@          :&%R9&-O9&5?<VAI9G1S  !B:71G<F]W=&@          &1O=VYS:&EF=      "
-    "     87-Y;F,               !A9&1?;&%T96YC>0       &UU;'1?;&%T96YC>0      8G)A;5]L871E;F-Y      !C;VYV7VQA=&5N8WD  "
-    "    '%U86YT:7IA=&EO;@      ;W9E<F9L;W<           !C;V5F9G-?8FET7VQI;6ET &-O969F7W-H87)I;F<     8V]E9F9?9&5C:6UA=&E"
-    "O;@!C;V5F9E]G96YE<F%T:6]N &-A;%]B:71S            ;E]B:71S7W)O=&%T:6]N  !M87A?9F%N;W5T         '5S95]H9&P          "
-    "   =7-E7V5M8F5D9&5D      !D<W T.%]A9&1E<G,           X   !@#P  !@    @    !          4    (     0   #@    !       "
-    "   X    X    !@    @    $          4    (     0    @    !         !     (    ;E]I;G!U=',.    .     8    (    !@   "
-    "      %    \"     $    !     0         )    \"            / _#@   #@    &    \"     0         !0    @    !    !@  "
-    "  $         $     8   !B:7!L97@   X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   #"
-    "@    &    \"     0         !0    @    !    !P    $         $     <   !&1E13:7IE  X    X    !@    @    &          4"
-    "    (     0    $    !          D    (            &$ .    .     8    (    !          %    \"     $    &     0      "
-    "   0    !@   $-O969F<P  #@   # !   &    \"     8         !0    @    !    (     $         \"0     !                "
-    "     #!         ($         X0        !!         -$         H0        #Q          $         R0        \"1         ."
-    "D         80        #9         +$         ^0        / _        ,4         B0        #E         %$         U0      "
-    "  \"I         /4         (0        #-         )D         [0        !Q         -T         N0        #] #@   $     &"
-    "    \"     0         !0    @    !    \"@    $         $     H   !3=&5P4&5R:6]D        #@   #@    &    \"     8    "
-    "     !0    @    !     0    $         \"0    @           #P/PX   !     !@    @    $          4    (     0    \\    "
-    "!         !     /    8V]E9F9?8FET7W=I9'1H  X    X    !@    @    &          4    (     0    $    !          D    ( "
-    "           ,D .    0     8    (    !          %    \"     $    /     0         0    #P   &EN<'5T7V)I=%]W:61T:  .  "
-    "  .     8    (    !@         %    \"     $    !     0         )    \"            #) #@   $     &    \"     0      "
-    "   !0    @    !    \"0    $         $     D   !B:6Y?<'1?:6X         #@   #@    &    \"     8         !0    @    ! "
-    "    0    $         \"0    @            Q0 X   !     !@    @    $          4    (     0    D    !         !     )  "
-    "  8FET9W)O=W1H          X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    "
-    "\"     0         !0    @    !    \"0    $         $     D   !D;W=N<VAI9G0         #@   #     &    \"     0        "
-    " !0    @    !     P    $         $  # &]F9@ .    .     8    (    !          %    \"     $    %     0         0    "
-    "!0   &%S>6YC    #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    0     8    (    !"
-    "          %    \"     $    +     0         0    \"P   &%D9%]L871E;F-Y       .    .     8    (    !@         %    \""
-    "     $    !     0         )    \"            / _#@   $     &    \"     0         !0    @    !    #     $         $"
-    "     P   !M=6QT7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0    $         \"0    @          "
-    "   0 X   !     !@    @    $          4    (     0    P    !         !     ,    8G)A;5]L871E;F-Y      X    X    !@ "
-    "   @    &          4    (     0    $    !          D    (             $ .    0     8    (    !          %    \"   "
-    "  $    ,     0         0    #    &-O;G9?;&%T96YC>0     .    .     8    (    !@         %    \"     $    !     0   "
-    "      )    \"            / _#@   $     &    \"     0         !0    @    !    #     $         $     P   !Q=6%N=&EZ8"
-    "71I;VX     #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !4<G5N8V%T90X    X    !@   "
-    " @    $          4    (     0    @    !         !     (    ;W9E<F9L;W<.    ,     8    (    !          %    \"     "
-    "$    $     0         0  0 5W)A< X   !     !@    @    $          4    (     0   !     !         !     0    8V]E9F9S"
-    "7V)I=%]L:6UI= X    X    !@    @    &          4    (     0    $    !          D    (            ($ .    0     8   "
-    " (    !          %    \"     $    -     0         0    #0   &-O969F7W-H87)I;F<    .    ,     8    (    !          "
-    "%    \"     $    \"     0         0  ( ;VX   X   !     !@    @    $          4    (     0   !     !         !     "
-    "0    8V]E9F9?9&5C:6UA=&EO;@X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   $     & "
-    "   \"     0         !0    @    !    $     $         $    !    !C;V5F9E]G96YE<F%T:6]N#@   #     &    \"     0      "
-    "   !0    @    !     @    $         $  \" &]N   .    .     8    (    !          %    \"     $    (     0         0 "
-    "   \"    &-A;%]B:71S#@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX   ! "
-    "    !@    @    $          4    (     0    \\    !         !     /    ;E]B:71S7W)O=&%T:6]N  X    X    !@    @    & "
-    "         4    (     0    $    !          D    (            .4 .    0     8    (    !          %    \"     $    *  "
-    "   0         0    \"@   &UA>%]F86YO=70        .    .     8    (    !@         %    \"     $    !     0         )  "
-    "  \"            !! #@   #@    &    \"     0         !0    @    !    !P    $         $     <   !U<V5?:&1L  X    P  "
-    "  !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    !   "
-    " #     $         $     P   !U<V5?96UB961D960     #@   #     &    \"     0         !0    @    !     P    $         "
-    "$  # &]F9@ .    0     8    (    !          %    \"     $    /     0         0    #P   &AA<F1C;V1E7W-H:69T<P .    ,"
-    "     8    (    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (     0"
-    "    P    !         !     ,    9'-P-#A?861D97)S      X    P    !@    @    $          4    (     0    ,    !        "
-    " !   P!O9F8 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX    P    !@  "
-    "  @    $          4    (     0    (    !         !   @!O;@  #@   #@    &    \"     8         !0    @    !     0   "
-    " $         \"0    @               X   !0    !@    @    &          4    (     0    0    !          D    @          "
-    "            #P/P        !         \"$ .    .     8    (    !@         %    \"     $    !     0         )    \"    "
-    "        / _#@   #@    &    \"     8         !0    @    !     0    $         \"0    @            R0 X    X    !@   "
-    " @    &          4    (     0    $    !          D    (            ,D .    .     8    (    !@         %    \"     "
-    "$    !     0         )    \"            #% #@   #     &    \"     0         !0    @    !     P    $         $  # &"
-    "]F9@ .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    P    !@    @    $          4"
-    "    (     0    ,    !         !   P!O9F8 #@   #     &    \"     0         !0    @    !     P    $         $  # &]F"
-    "9@ .    .     8    (    !@         %    \"     $    !     0         )    \"             ! #@   #@    &    \"     8"
-    "         !0    @    !     0    $         \"0    @             0 X    X    !@    @    &          4    (     0    $ "
-    "   !          D    (             $ .    .     8    (    !@         %    \"     $    !     0         )    \"       "
-    "     / _#@   #@    &    \"     0         !0    @    !    \"     $         $     @   !4<G5N8V%T90X    P    !@    @ "
-    "   $          4    (     0    0    !         !  ! !7<F%P#@   #@    &    \"     8         !0    @    !     0    $  "
-    "       \"0    @            @0 X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   #    "
-    " &    \"     0         !0    @    !     @    $         $  \" &]N   .    ,     8    (    !          %    \"     $  "
-    "  \"     0         0  ( ;VX   X    X    !@    @    &          4    (     0    $    !          D    (            \\"
-    "#\\.    .     8    (    !@         %    \"     $    !     0         )    \"            #E #@   #@    &    \"     8"
-    "         !0    @    !     0    $         \"0    @            00 X    P    !@    @    $          4    (     0    , "
-    "   !         !   P!O9F8 #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    ,     8  "
-    "  (    !          %    \"     $    #     0         0  , ;V9F  "
+    Data		    "  %)30     .    P!H   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $  5W30<.    ,!H   "
+    "8    (     @         %    \"     $    !     0         %  0 %@    $   #6 @  9&5F875L=',                  &Y?:6YP=71"
+    "S                  !B:7!L97@                     1D944VEZ90                   $-O969F<P                    !3=&5P4"
+    "&5R:6]D                8V]E9F9?8FET7W=I9'1H         &EN<'5T7V)I=%]W:61T:         !B:6Y?<'1?:6X                 :&%"
+    "R9&-O9&5?<VAI9G1S         &)I=&=R;W=T:                 !D;W=N<VAI9G0                 87-Y;F,                      "
+    "&%D9%]L871E;F-Y              !A9&1?;&%T96YC>5]T=VED9&QE<P  ;75L=%]L871E;F-Y             &)R86U?;&%T96YC>0         "
+    "   !C;VYV7VQA=&5N8WD             8V]N=E]L871E;F-Y7W1W:61D;&5S '%U86YT:7IA=&EO;@            !O=F5R9FQO=P           "
+    "       8V]E9F9S7V)I=%]L:6UI=        &-O969F7W-H87)I;F<           !C;V5F9E]D96-I;6%T:6]N        8V]E9F9?9V5N97)A=&E"
+    "O;@       &-A;%]B:71S                  !N7V)I='-?<F]T871I;VX         ;6%X7V9A;F]U=                '5S95]H9&P      "
+    "             !U<V5?96UB961D960             9'-P-#A?861D97)S             &-O;G9?:6UP                  !C;VYV7VEM<%]"
+    "T=VED9&QE<P         .    8 \\   8    (     0         %    \"     $    X     0         .    .     8    (    !      "
+    "    %    \"     $    (     0         0    \"    &Y?:6YP=71S#@   #@    &    \"     8         !0    @    !     0    "
+    "$         \"0    @           #P/PX    X    !@    @    $          4    (     0    8    !         !     &    8FEP;&5"
+    "X   .    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X    X    !@    @    $          4"
+    "    (     0    <    !         !     '    1D944VEZ90 .    .     8    (    !@         %    \"     $    !     0      "
+    "   )    \"            !A #@   #@    &    \"     0         !0    @    !    !@    $         $     8   !#;V5F9G,   X "
+    "   P 0  !@    @    &          4    (     0   \"     !          D      0                     P0        \"!         "
+    ".$         00        #1         *$         \\0         !         ,D         D0        #I         &$         V0    "
+    "    \"Q         /D        #P/P       #%         (D         Y0        !1         -4         J0        #U         \""
+    "$         S0        \"9         .T         <0        #=         +D         _0 X   !     !@    @    $          4   "
+    " (     0    H    !         !     *    4W1E<%!E<FEO9         X    X    !@    @    &          4    (     0    $    !"
+    "          D    (            \\#\\.    0     8    (    !          %    \"     $    /     0         0    #P   &-O969"
+    "F7V)I=%]W:61T:  .    .     8    (    !@         %    \"     $    !     0         )    \"            #) #@   $     "
+    "&    \"     0         !0    @    !    #P    $         $     \\   !I;G!U=%]B:71?=VED=&@ #@   #@    &    \"     8   "
+    "      !0    @    !     0    $         \"0    @            R0 X   !     !@    @    $          4    (     0    D    "
+    "!         !     )    8FEN7W!T7VEN          X    X    !@    @    &          4    (     0    $    !          D    ( "
+    "           ,4 .    0     8    (    !          %    \"     $    )     0         0    \"0   &)I=&=R;W=T:          . "
+    "   ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (  "
+    "   0    D    !         !     )    9&]W;G-H:69T          X    P    !@    @    $          4    (     0    ,    !    "
+    "     !   P!O9F8 #@   #@    &    \"     0         !0    @    !    !0    $         $     4   !A<WEN8P    X    P    !"
+    "@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    !    \""
+    "P    $         $     L   !A9&1?;&%T96YC>0      #@   #@    &    \"     8         !0    @    !     0    $         \""
+    "0    @           #P/PX   !     !@    @    $          4    (     0    P    !         !     ,    ;75L=%]L871E;F-Y   "
+    "   X    X    !@    @    &          4    (     0    $    !          D    (             $ .    0     8    (    !    "
+    "      %    \"     $    ,     0         0    #    &)R86U?;&%T96YC>0     .    .     8    (    !@         %    \"    "
+    " $    !     0         )    \"             ! #@   $     &    \"     0         !0    @    !    #     $         $    "
+    " P   !C;VYV7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/"
+    "PX   !     !@    @    $          4    (     0    P    !         !     ,    <75A;G1I>F%T:6]N      X    X    !@    @"
+    "    $          4    (     0    @    !         !     (    5')U;F-A=&4.    .     8    (    !          %    \"     $ "
+    "   (     0         0    \"    &]V97)F;&]W#@   #     &    \"     0         !0    @    !    !     $         $  $ %=R"
+    "87 .    0     8    (    !          %    \"     $    0     0         0    $    &-O969F<U]B:71?;&EM:70.    .     8  "
+    "  (    !@         %    \"     $    !     0         )    \"            \"! #@   $     &    \"     0         !0    @"
+    "    !    #0    $         $     T   !C;V5F9E]S:&%R:6YG    #@   #     &    \"     0         !0    @    !     @    $ "
+    "        $  \" &]N   .    0     8    (    !          %    \"     $    0     0         0    $    &-O969F7V1E8VEM871I"
+    ";VX.    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X   !     !@    @    $          4 "
+    "   (     0   !     !         !     0    8V]E9F9?9V5N97)A=&EO;@X    P    !@    @    $          4    (     0    (   "
+    " !         !   @!O;@  #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !C86Q?8FET<PX   "
+    " X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0     8    (    !         "
+    " %    \"     $    /     0         0    #P   &Y?8FET<U]R;W1A=&EO;@ .    .     8    (    !@         %    \"     $   "
+    " !     0         )    \"            #E #@   $     &    \"     0         !0    @    !    \"@    $         $     H  "
+    " !M87A?9F%N;W5T        #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            00 X  "
+    "  X    !@    @    $          4    (     0    <    !         !     '    =7-E7VAD;  .    ,     8    (    !          "
+    "%    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (     0    P    !         !     ,"
+    "    =7-E7V5M8F5D9&5D      X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &  "
+    "  \"     0         !0    @    !    #P    $         $     \\   !H87)D8V]D95]S:&EF=', #@   #     &    \"     0      "
+    "   !0    @    !     P    $         $  # &]F9@ .    0     8    (    !          %    \"     $    ,     0         0  "
+    "  #    &1S<#0X7V%D9&5R<P     .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    X   "
+    " !@    @    &          4    (     0    $    !          D    (            \\#\\.    ,     8    (    !          %   "
+    " \"     $    \"     0         0  ( ;VX   X    X    !@    @    &          4    (     0    $    !          D    (   "
+    "            .    4     8    (    !@         %    \"     $    $     0         )    (                       \\#\\   "
+    "      0         A #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX    X  "
+    "  !@    @    &          4    (     0    $    !          D    (            ,D .    .     8    (    !@         %    "
+    "\"     $    !     0         )    \"            #) #@   #@    &    \"     8         !0    @    !     0    $        "
+    " \"0    @            Q0 X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #     &    "
+    "\"     0         !0    @    !     P    $         $  # &]F9@ .    ,     8    (    !          %    \"     $    #    "
+    " 0         0  , ;V9F  X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @             0 X    X    !@    @    &          4    (     0"
+    "    $    !          D    (               .    .     8    (    !@         %    \"     $    !     0         )    \" "
+    "            ! #@   #@    &    \"     8         !0    @    !     0    $         \"0    @             0 X    X    !@"
+    "    @    &          4    (     0    $    !          D    (            \\#\\.    .     8    (    !@         %    \""
+    "     $    !     0         )    \"               #@   #@    &    \"     0         !0    @    !    \"     $         "
+    "$     @   !4<G5N8V%T90X    P    !@    @    $          4    (     0    0    !         !  ! !7<F%P#@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @            @0 X    P    !@    @    $          4    (     0"
+    "    (    !         !   @!O;@  #@   #     &    \"     0         !0    @    !     @    $         $  \" &]N   .    , "
+    "    8    (    !          %    \"     $    \"     0         0  ( ;VX   X    X    !@    @    &          4    (     0"
+    "    $    !          D    (            \\#\\.    .     8    (    !@         %    \"     $    !     0         )    \""
+    "            #E #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            00 X    P    !"
+    "@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #     &    \"     0         !0    @    !     P"
+    "    $         $  # &]F9@ .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    X    !@ "
+    "   @    $          4    (     0    8    !         !     &    1F%B<FEC   .    .     8    (    !          %    \"   "
+    "  $    &     0         0    !@   $9A8G)I8P  "
   }
   DataRecord {
     Tag			    DataTag2
@@ -3826,133 +4323,157 @@ MatData {
   }
   DataRecord {
     Tag			    DataTag4
-    Data		    "  %)30     .    .!0   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ (4=?0(.    J!,   "
-    "8    (     @         %    \"     $    !     0         %  0 $0    $   \"8 0  9&5F875L=',           !N7VEN<'5T<P    "
-    "       $9&5%-I>F4             :6YP=71?8FET7W=I9'1H  !B:6Y?<'0              &-O969F7V)I=%]W:61T:   87-Y;F,         "
-    "      !A9&1?;&%T96YC>0       &UU;'1?;&%T96YC>0      8G)A;5]L871E;F-Y      !C;VYV7VQA=&5N8WD      '%U86YT:7IA=&EO;@"
-    "      ;W9E<F9L;W<           !D96QA>7-?8FET7VQI;6ET &-O969F<U]B:71?;&EM:70 8V]E9F9?<VAA<FEN9P    !C;V5F9E]D96-I;6%T"
-    ":6]N &UA>%]F86YO=70         ;75L=%]S<&5C          !B:71G<F]W=&@          &UA>%]B:71S            :&%R9&-O9&5?<VAI9G"
-    "1S  !S:&EF=%]S8VAE9'5L90   &1S<#0X7V%D9&5R<P      #@   \" ,   &    \"     $         !0    @    !    +@    $       "
-    "  #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !N7VEN<'5T<PX    X    !@    @    &  "
-    "        4    (     0    $    !          D    (            \\#\\.    .     8    (    !          %    \"     $    ' "
-    "    0         0    !P   $9&5%-I>F4 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @      "
-    "       0 X   !     !@    @    $          4    (     0    \\    !         !     /    :6YP=71?8FET7W=I9'1H  X    X  "
-    "  !@    @    &          4    (     0    $    !          D    (            ,D .    .     8    (    !          %    "
-    "\"     $    &     0         0    !@   &)I;E]P=   #@   #@    &    \"     8         !0    @    !     0    $         "
-    "\"0    @            Q0 X   !     !@    @    $          4    (     0    \\    !         !     /    8V]E9F9?8FET7W=I"
-    "9'1H  X    X    !@    @    &          4    (     0    $    !          D    (            ,D .    .     8    (    ! "
-    "         %    \"     $    %     0         0    !0   &%S>6YC    #@   #     &    \"     0         !0    @    !     P"
-    "    $         $  # &]F9@ .    0     8    (    !          %    \"     $    +     0         0    \"P   &%D9%]L871E;F"
-    "-Y       .    .     8    (    !@         %    \"     $    !     0         )    \"            / _#@   $     &    \""
-    "     0         !0    @    !    #     $         $     P   !M=6QT7VQA=&5N8WD     #@   #@    &    \"     8         !0"
-    "    @    !     0    $         \"0    @             0 X   !     !@    @    $          4    (     0    P    !       "
-    "  !     ,    8G)A;5]L871E;F-Y      X    X    !@    @    &          4    (     0    $    !          D    (         "
-    "    $ .    0     8    (    !          %    \"     $    ,     0         0    #    &-O;G9?;&%T96YC>0     .    .     "
-    "8    (    !@         %    \"     $    !     0         )    \"            / _#@   $     &    \"     0         !0   "
-    " @    !    #     $         $     P   !Q=6%N=&EZ871I;VX     #@   %     &    \"     0         !0    @    !    &@    "
-    "$         $    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*0        X    X    !@    @    $          4    (     0    @"
-    "    !         !     (    ;W9E<F9L;W<.    .     8    (    !          %    \"     $    (     0         0    \"    %-"
-    "A='5R871E#@   $     &    \"     0         !0    @    !    $     $         $    !    !D96QA>7-?8FET7VQI;6ET#@   #@ "
-    "   &    \"     8         !0    @    !     0    $         \"0    @            @0 X   !     !@    @    $          4 "
-    "   (     0   !     !         !     0    8V]E9F9S7V)I=%]L:6UI= X    X    !@    @    &          4    (     0    $   "
-    " !          D    (            ($ .    0     8    (    !          %    \"     $    -     0         0    #0   &-O969"
-    "F7W-H87)I;F<    .    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X   !     !@    @    "
-    "$          4    (     0   !     !         !     0    8V]E9F9?9&5C:6UA=&EO;@X    P    !@    @    $          4    ( "
-    "    0    (    !         !   @!O;@  #@   $     &    \"     0         !0    @    !    \"@    $         $     H   !M8"
-    "7A?9F%N;W5T        #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            00 X   !  "
-    "   !@    @    $          4    (     0    D    !         !     )    ;75L=%]S<&5C          X    X    !@    @    &   "
-    "       4    (     0    $    !          D    (             $ .    0     8    (    !          %    \"     $    )    "
-    " 0         0    \"0   &)I=&=R;W=T:          .    ,     8    (    !          %    \"     $    #     0         0  , "
-    ";V9F  X    X    !@    @    $          4    (     0    @    !         !     (    ;6%X7V)I=',.    .     8    (    !@"
-    "         %    \"     $    !     0         )    \"            #- #@   $     &    \"     0         !0    @    !    #"
-    "P    $         $     \\   !H87)D8V]D95]S:&EF=', #@   #     &    \"     0         !0    @    !     P    $         $"
-    "  # &]F9@ .    0     8    (    !          %    \"     $    .     0         0    #@   '-H:69T7W-C:&5D=6QE   .    0 "
-    "    8    (    !@         %    \"     $    \"     0         )    $            / _        \\#\\.    0     8    (    "
-    "!          %    \"     $    ,     0         0    #    &1S<#0X7V%D9&5R<P     .    ,     8    (    !          %    \""
-    "     $    #     0         0  , ;V9F  X    X    !@    @    &          4    (     0    $    !          D    (       "
-    "        .    .     8    (    !@         %    \"     $    !     0         )    \"             ! #@   #@    &    \" "
-    "    8         !0    @    !     0    $         \"0    @            R0 X    X    !@    @    &          4    (     0 "
-    "   $    !          D    (            \\+\\.    .     8    (    !@         %    \"     $    !     0         )    \""
-    "            #) #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    (    !@"
-    "         %    \"     $    !     0         )    \"            / _#@   #@    &    \"     8         !0    @    !     "
-    "0    $         \"0    @             0 X    X    !@    @    &          4    (     0    $    !          D    (      "
-    "       $ .    .     8    (    !@         %    \"     $    !     0         )    \"            / _#@   %     &    \""
-    "     0         !0    @    !    &@    $         $    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*0        X    X    !@"
-    "    @    $          4    (     0    @    !         !     (    4V%T=7)A=&4.    .     8    (    !@         %    \"  "
-    "   $    !     0         )    \"            \"! #@   #@    &    \"     8         !0    @    !     0    $         \""
-    "0    @            @0 X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   #     &    \" "
-    "    0         !0    @    !     @    $         $  \" &]N   .    .     8    (    !@         %    \"     $    !     0"
-    "         )    \"            !! #@   #@    &    \"     8         !0    @    !     0    $         \"0    @          "
-    "   0 X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #@    &    \"     8         !0"
-    "    @    !     0    $         \"0    @            S0 X    P    !@    @    $          4    (     0    ,    !       "
-    "  !   P!O9F8 #@   $     &    \"     8         !0    @    !     @    $         \"0   !            #P/P       / _#@ "
-    "  #     &    \"     0         !0    @    !     P    $         $  # &]F9@ "
+    Data		    "  %)30     .    .!@   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ *&5+04.    J!<   "
+    "8    (     @         %    \"     $    !     0         %  0 %@    $   !H @  9&5F875L=',                  &Y?:6YP=71"
+    "S                  !&1E13:7IE                    :6YP=71?8FET7W=I9'1H         &)I;E]P=                     !C;V5F9"
+    "E]B:71?=VED=&@         87-Y;F,                      &%D9%]L871E;F-Y              !A9&1?;&%T96YC>5]T=VED9&QE<P  ;75"
+    "L=%]L871E;F-Y             &)R86U?;&%T96YC>0            !C;VYV7VQA=&5N8WD             8V]N=E]L871E;F-Y7W1W:61D;&5S "
+    "'%U86YT:7IA=&EO;@            !O=F5R9FQO=P                  9&5L87ES7V)I=%]L:6UI=        &-O969F<U]B:71?;&EM:70    "
+    "   !C;V5F9E]S:&%R:6YG            8V]E9F9?9&5C:6UA=&EO;@       &UA>%]F86YO=70               !M=6QT7W-P96,          "
+    "       8FET9W)O=W1H                 &UA>%]B:71S                  !H87)D8V]D95]S:&EF=',         <VAI9G1?<V-H961U;&4"
+    "          &1S<#0X7V%D9&5R<P            !C;VYV7VEM<%]T=VED9&QE<P      8V]N=E]I;7                    X   !0#@  !@   "
+    " @    !          4    (     0   #8    !          X    X    !@    @    $          4    (     0    @    !         ! "
+    "    (    ;E]I;G!U=',.    .     8    (    !@         %    \"     $    !     0         )    \"            / _#@   #@"
+    "    &    \"     0         !0    @    !    !P    $         $     <   !&1E13:7IE  X    X    !@    @    &          4 "
+    "   (     0    $    !          D    (             $ .    0     8    (    !          %    \"     $    /     0       "
+    "  0    #P   &EN<'5T7V)I=%]W:61T:  .    .     8    (    !@         %    \"     $    !     0         )    \"        "
+    "    #) #@   #@    &    \"     0         !0    @    !    !@    $         $     8   !B:6Y?<'0   X    X    !@    @   "
+    " &          4    (     0    $    !          D    (            ,4 .    0     8    (    !          %    \"     $    "
+    "/     0         0    #P   &-O969F7V)I=%]W:61T:  .    .     8    (    !@         %    \"     $    !     0         )"
+    "    \"            #) #@   #@    &    \"     0         !0    @    !    !0    $         $     4   !A<WEN8P    X    P"
+    "    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    ! "
+    "   \"P    $         $     L   !A9&1?;&%T96YC>0      #@   #@    &    \"     8         !0    @    !     0    $      "
+    "   \"0    @           #P/PX   !(    !@    @    $          4    (     0   !0    !         !     4    861D7VQA=&5N8W"
+    "E?='=I9&1L97,     #@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX   !   "
+    "  !@    @    $          4    (     0    P    !         !     ,    ;75L=%]L871E;F-Y      X    X    !@    @    &    "
+    "      4    (     0    $    !          D    (             $ .    0     8    (    !          %    \"     $    ,     "
+    "0         0    #    &)R86U?;&%T96YC>0     .    .     8    (    !@         %    \"     $    !     0         )    \""
+    "             ! #@   $     &    \"     0         !0    @    !    #     $         $     P   !C;VYV7VQA=&5N8WD     #@"
+    "   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX   !(    !@    @    $      "
+    "    4    (     0   !4    !         !     5    8V]N=E]L871E;F-Y7W1W:61D;&5S    #@   #@    &    \"     8         !0 "
+    "   @    !     0    $         \"0    @           #P/PX   !     !@    @    $          4    (     0    P    !        "
+    " !     ,    <75A;G1I>F%T:6]N      X   !0    !@    @    $          4    (     0   !H    !         !     :    4F]U;F"
+    "0@(\"AU;F)I87-E9#H@*R\\M($EN9BD        .    .     8    (    !          %    \"     $    (     0         0    \"   "
+    " &]V97)F;&]W#@   #@    &    \"     0         !0    @    !    \"     $         $     @   !3871U<F%T90X   !     !@  "
+    "  @    $          4    (     0   !     !         !     0    9&5L87ES7V)I=%]L:6UI= X    X    !@    @    &          "
+    "4    (     0    $    !          D    (            ($ .    0     8    (    !          %    \"     $    0     0     "
+    "    0    $    &-O969F<U]B:71?;&EM:70.    .     8    (    !@         %    \"     $    !     0         )    \"      "
+    "      \"! #@   $     &    \"     0         !0    @    !    #0    $         $     T   !C;V5F9E]S:&%R:6YG    #@   # "
+    "    &    \"     0         !0    @    !     @    $         $  \" &]N   .    0     8    (    !          %    \"     "
+    "$    0     0         0    $    &-O969F7V1E8VEM871I;VX.    ,     8    (    !          %    \"     $    \"     0    "
+    "     0  ( ;VX   X   !     !@    @    $          4    (     0    H    !         !     *    ;6%X7V9A;F]U=         X "
+    "   X    !@    @    &          4    (     0    $    !          D    (            $$ .    0     8    (    !         "
+    " %    \"     $    )     0         0    \"0   &UU;'1?<W!E8P         .    .     8    (    !@         %    \"     $  "
+    "  !     0         )    \"             ! #@   $     &    \"     0         !0    @    !    \"0    $         $     D "
+    "  !B:71G<F]W=&@         #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8  "
+    "  (    !          %    \"     $    (     0         0    \"    &UA>%]B:71S#@   #@    &    \"     8         !0    @ "
+    "   !     0    $         \"0    @            S0 X   !     !@    @    $          4    (     0    \\    !         !  "
+    "   /    :&%R9&-O9&5?<VAI9G1S  X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $    "
+    " &    \"     0         !0    @    !    #@    $         $     X   !S:&EF=%]S8VAE9'5L90  #@   $     &    \"     8   "
+    "      !0    @    !     @    $         \"0   !            #P/P       / _#@   $     &    \"     0         !0    @   "
+    " !    #     $         $     P   !D<W T.%]A9&1E<G,     #@   #     &    \"     0         !0    @    !     P    $    "
+    "     $  # &]F9@ .    .     8    (    !          %    \"     $    (     0         0    \"    &-O;G9?:6UP#@   #@    "
+    "&    \"     0         !0    @    !    !@    $         $     8   !&86)R:6,   X   !(    !@    @    $          4    ("
+    "     0   !$    !         !     1    8V]N=E]I;7!?='=I9&1L97,         #@   #@    &    \"     0         !0    @    ! "
+    "   !@    $         $     8   !&86)R:6,   X    X    !@    @    &          4    (     0    $    !          D    (   "
+    "            .    .     8    (    !@         %    \"     $    !     0         )    \"             ! #@   #@    &   "
+    " \"     8         !0    @    !     0    $         \"0    @            R0 X    X    !@    @    &          4    (   "
+    "  0    $    !          D    (            \\+\\.    .     8    (    !@         %    \"     $    !     0         )  "
+    "  \"            #) #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    (  "
+    "  !@         %    \"     $    !     0         )    \"            / _#@   #@    &    \"     8         !0    @    ! "
+    "    0    $         \"0    @               X    X    !@    @    &          4    (     0    $    !          D    (  "
+    "           $ .    .     8    (    !@         %    \"     $    !     0         )    \"             ! #@   #@    &  "
+    "  \"     8         !0    @    !     0    $         \"0    @           #P/PX    X    !@    @    &          4    (  "
+    "   0    $    !          D    (               .    4     8    (    !          %    \"     $    :     0         0   "
+    " &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I        #@   #@    &    \"     0         !0    @    !    \"     $      "
+    "   $     @   !3871U<F%T90X    X    !@    @    &          4    (     0    $    !          D    (            ($ .   "
+    " .     8    (    !@         %    \"     $    !     0         )    \"            \"! #@   #     &    \"     0      "
+    "   !0    @    !     @    $         $  \" &]N   .    ,     8    (    !          %    \"     $    \"     0         0"
+    "  ( ;VX   X    X    !@    @    &          4    (     0    $    !          D    (            $$ .    .     8    (  "
+    "  !@         %    \"     $    !     0         )    \"             ! #@   #     &    \"     0         !0    @    ! "
+    "    P    $         $  # &]F9@ .    .     8    (    !@         %    \"     $    !     0         )    \"            "
+    "#- #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    0     8    (    !@         %  "
+    "  \"     $    \"     0         )    $            / _        \\#\\.    ,     8    (    !          %    \"     $    "
+    "#     0         0  , ;V9F  X    X    !@    @    $          4    (     0    8    !         !     &    1F%B<FEC   . "
+    "   .     8    (    !          %    \"     $    &     0         0    !@   $9A8G)I8P  "
   }
   DataRecord {
     Tag			    DataTag5
-    Data		    "  %)30     .    0!0   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ $&LF@4.    L!,   "
-    "8    (     @         %    \"     $    !     0         %  0 $0    $   \"8 0  9&5F875L=',           !N7VEN<'5T<P    "
-    "       $9&5%-I>F4             :6YP=71?8FET7W=I9'1H  !B:6Y?<'1?:6X          &-O969F7V)I=%]W:61T:   87-Y;F,         "
-    "      !A9&1?;&%T96YC>0       &UU;'1?;&%T96YC>0      8G)A;5]L871E;F-Y      !C;VYV7VQA=&5N8WD      '%U86YT:7IA=&EO;@"
-    "      ;W9E<F9L;W<           !D96QA>7-?8FET7VQI;6ET &-O969F<U]B:71?;&EM:70 8V]E9F9?<VAA<FEN9P    !C;V5F9E]D96-I;6%T"
-    ":6]N &UA>%]F86YO=70         ;75L=%]S<&5C          !B:71G<F]W=&@          &UA>%]B:71S            :&%R9&-O9&5?<VAI9G"
-    "1S  !S:&EF=%]S8VAE9'5L90   &1S<#0X7V%D9&5R<P      #@   \"@,   &    \"     $         !0    @    !    +@    $       "
-    "  #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !N7VEN<'5T<PX    X    !@    @    &  "
-    "        4    (     0    $    !          D    (            \\#\\.    .     8    (    !          %    \"     $    ' "
-    "    0         0    !P   $9&5%-I>F4 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @      "
-    "       0 X   !     !@    @    $          4    (     0    \\    !         !     /    :6YP=71?8FET7W=I9'1H  X    X  "
-    "  !@    @    &          4    (     0    $    !          D    (            ,D .    0     8    (    !          %    "
-    "\"     $    )     0         0    \"0   &)I;E]P=%]I;@         .    .     8    (    !@         %    \"     $    !   "
-    "  0         )    \"            #% #@   $     &    \"     0         !0    @    !    #P    $         $     \\   !C;V"
-    "5F9E]B:71?=VED=&@ #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            R0 X    X  "
-    "  !@    @    $          4    (     0    4    !         !     %    87-Y;F,    .    ,     8    (    !          %    "
-    "\"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (     0    L    !         !     +    8"
-    "61D7VQA=&5N8WD       X    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0"
-    "     8    (    !          %    \"     $    ,     0         0    #    &UU;'1?;&%T96YC>0     .    .     8    (    !@"
-    "         %    \"     $    !     0         )    \"             ! #@   $     &    \"     0         !0    @    !    #"
-    "     $         $     P   !B<F%M7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0    $         \""
-    "0    @             0 X   !     !@    @    $          4    (     0    P    !         !     ,    8V]N=E]L871E;F-Y   "
-    "   X    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0     8    (    !  "
-    "        %    \"     $    ,     0         0    #    '%U86YT:7IA=&EO;@     .    4     8    (    !          %    \"  "
-    "   $    :     0         0    &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I        #@   #@    &    \"     0         !0"
-    "    @    !    \"     $         $     @   !O=F5R9FQO=PX    X    !@    @    $          4    (     0    @    !       "
-    "  !     (    4V%T=7)A=&4.    0     8    (    !          %    \"     $    0     0         0    $    &1E;&%Y<U]B:71?"
-    ";&EM:70.    .     8    (    !@         %    \"     $    !     0         )    \"            \"! #@   $     &    \" "
-    "    0         !0    @    !    $     $         $    !    !C;V5F9G-?8FET7VQI;6ET#@   #@    &    \"     8         !0 "
-    "   @    !     0    $         \"0    @            @0 X   !     !@    @    $          4    (     0    T    !        "
-    " !     -    8V]E9F9?<VAA<FEN9P    X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   $"
-    "     &    \"     0         !0    @    !    $     $         $    !    !C;V5F9E]D96-I;6%T:6]N#@   #     &    \"     "
-    "0         !0    @    !     @    $         $  \" &]N   .    0     8    (    !          %    \"     $    *     0    "
-    "     0    \"@   &UA>%]F86YO=70        .    .     8    (    !@         %    \"     $    !     0         )    \"    "
-    "        !! #@   $     &    \"     0         !0    @    !    \"0    $         $     D   !M=6QT7W-P96,         #@   "
-    "#@    &    \"     8         !0    @    !     0    $         \"0    @             0 X   !     !@    @    $         "
-    " 4    (     0    D    !         !     )    8FET9W)O=W1H          X    P    !@    @    $          4    (     0    ,"
-    "    !         !   P!O9F8 #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !M87A?8FET<PX"
-    "    X    !@    @    &          4    (     0    $    !          D    (            ,T .    0     8    (    !        "
-    "  %    \"     $    /     0         0    #P   &AA<F1C;V1E7W-H:69T<P .    ,     8    (    !          %    \"     $  "
-    "  #     0         0  , ;V9F  X   !     !@    @    $          4    (     0    X    !         !     .    <VAI9G1?<V-"
-    "H961U;&4   X   !     !@    @    &          4    (     0    (    !          D    0            \\#\\       #P/PX   !"
-    "     !@    @    $          4    (     0    P    !         !     ,    9'-P-#A?861D97)S      X    P    !@    @    $ "
-    "         4    (     0    ,    !         !   P!O9F8 #@   #@    &    \"     8         !0    @    !     0    $       "
+    Data		    "  %)30     .    0!@   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ )&04 <.    L!<   "
+    "8    (     @         %    \"     $    !     0         %  0 %@    $   !H @  9&5F875L=',                  &Y?:6YP=71"
+    "S                  !&1E13:7IE                    :6YP=71?8FET7W=I9'1H         &)I;E]P=%]I;@                !C;V5F9"
+    "E]B:71?=VED=&@         87-Y;F,                      &%D9%]L871E;F-Y              !A9&1?;&%T96YC>5]T=VED9&QE<P  ;75"
+    "L=%]L871E;F-Y             &)R86U?;&%T96YC>0            !C;VYV7VQA=&5N8WD             8V]N=E]L871E;F-Y7W1W:61D;&5S "
+    "'%U86YT:7IA=&EO;@            !O=F5R9FQO=P                  9&5L87ES7V)I=%]L:6UI=        &-O969F<U]B:71?;&EM:70    "
+    "   !C;V5F9E]S:&%R:6YG            8V]E9F9?9&5C:6UA=&EO;@       &UA>%]F86YO=70               !M=6QT7W-P96,          "
+    "       8FET9W)O=W1H                 &UA>%]B:71S                  !H87)D8V]D95]S:&EF=',         <VAI9G1?<V-H961U;&4"
+    "          &1S<#0X7V%D9&5R<P            !C;VYV7VEM<%]T=VED9&QE<P      8V]N=E]I;7                    X   !8#@  !@   "
+    " @    !          4    (     0   #8    !          X    X    !@    @    $          4    (     0    @    !         ! "
+    "    (    ;E]I;G!U=',.    .     8    (    !@         %    \"     $    !     0         )    \"            / _#@   #@"
+    "    &    \"     0         !0    @    !    !P    $         $     <   !&1E13:7IE  X    X    !@    @    &          4 "
+    "   (     0    $    !          D    (             $ .    0     8    (    !          %    \"     $    /     0       "
+    "  0    #P   &EN<'5T7V)I=%]W:61T:  .    .     8    (    !@         %    \"     $    !     0         )    \"        "
+    "    #) #@   $     &    \"     0         !0    @    !    \"0    $         $     D   !B:6Y?<'1?:6X         #@   #@  "
+    "  &    \"     8         !0    @    !     0    $         \"0    @            Q0 X   !     !@    @    $          4  "
+    "  (     0    \\    !         !     /    8V]E9F9?8FET7W=I9'1H  X    X    !@    @    &          4    (     0    $   "
+    " !          D    (            ,D .    .     8    (    !          %    \"     $    %     0         0    !0   &%S>6Y"
+    "C    #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    0     8    (    !          %"
+    "    \"     $    +     0         0    \"P   &%D9%]L871E;F-Y       .    .     8    (    !@         %    \"     $    "
+    "!     0         )    \"            / _#@   $@    &    \"     0         !0    @    !    %     $         $    !0   !"
+    "A9&1?;&%T96YC>5]T=VED9&QE<P     .    .     8    (    !@         %    \"     $    !     0         )    \"          "
+    "  / _#@   $     &    \"     0         !0    @    !    #     $         $     P   !M=6QT7VQA=&5N8WD     #@   #@    &"
+    "    \"     8         !0    @    !     0    $         \"0    @             0 X   !     !@    @    $          4    ("
+    "     0    P    !         !     ,    8G)A;5]L871E;F-Y      X    X    !@    @    &          4    (     0    $    !  "
+    "        D    (             $ .    0     8    (    !          %    \"     $    ,     0         0    #    &-O;G9?;&%"
+    "T96YC>0     .    .     8    (    !@         %    \"     $    !     0         )    \"            / _#@   $@    &   "
+    " \"     0         !0    @    !    %0    $         $    !4   !C;VYV7VQA=&5N8WE?='=I9&1L97,    .    .     8    (    "
+    "!@         %    \"     $    !     0         )    \"            / _#@   $     &    \"     0         !0    @    !   "
+    " #     $         $     P   !Q=6%N=&EZ871I;VX     #@   %     &    \"     0         !0    @    !    &@    $         "
+    "$    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*0        X    X    !@    @    $          4    (     0    @    !     "
+    "    !     (    ;W9E<F9L;W<.    .     8    (    !          %    \"     $    (     0         0    \"    %-A='5R871E#"
+    "@   $     &    \"     0         !0    @    !    $     $         $    !    !D96QA>7-?8FET7VQI;6ET#@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @            @0 X   !     !@    @    $          4    (     0"
+    "   !     !         !     0    8V]E9F9S7V)I=%]L:6UI= X    X    !@    @    &          4    (     0    $    !        "
+    "  D    (            ($ .    0     8    (    !          %    \"     $    -     0         0    #0   &-O969F7W-H87)I;"
+    "F<    .    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X   !     !@    @    $         "
+    " 4    (     0   !     !         !     0    8V]E9F9?9&5C:6UA=&EO;@X    P    !@    @    $          4    (     0    ("
+    "    !         !   @!O;@  #@   $     &    \"     0         !0    @    !    \"@    $         $     H   !M87A?9F%N;W5"
+    "T        #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            00 X   !     !@    @"
+    "    $          4    (     0    D    !         !     )    ;75L=%]S<&5C          X    X    !@    @    &          4  "
+    "  (     0    $    !          D    (             $ .    0     8    (    !          %    \"     $    )     0        "
+    " 0    \"0   &)I=&=R;W=T:          .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X   "
+    " X    !@    @    $          4    (     0    @    !         !     (    ;6%X7V)I=',.    .     8    (    !@         %"
+    "    \"     $    !     0         )    \"            #- #@   $     &    \"     0         !0    @    !    #P    $    "
+    "     $     \\   !H87)D8V]D95]S:&EF=', #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ "
+    ".    0     8    (    !          %    \"     $    .     0         0    #@   '-H:69T7W-C:&5D=6QE   .    0     8    ("
+    "    !@         %    \"     $    \"     0         )    $            / _        \\#\\.    0     8    (    !         "
+    " %    \"     $    ,     0         0    #    &1S<#0X7V%D9&5R<P     .    ,     8    (    !          %    \"     $   "
+    " #     0         0  , ;V9F  X    X    !@    @    $          4    (     0    @    !         !     (    8V]N=E]I;7 ."
+    "    .     8    (    !          %    \"     $    &     0         0    !@   $9A8G)I8P  #@   $@    &    \"     0     "
+    "    !0    @    !    $0    $         $    !$   !C;VYV7VEM<%]T=VED9&QE<P         .    .     8    (    !          %  "
+    "  \"     $    &     0         0    !@   $9A8G)I8P  #@   #@    &    \"     8         !0    @    !     0    $       "
     "  \"0    @               X    X    !@    @    &          4    (     0    $    !          D    (             $ .   "
     " .     8    (    !@         %    \"     $    !     0         )    \"            #) #@   #@    &    \"     8       "
     "  !0    @    !     0    $         \"0    @           #POPX    X    !@    @    &          4    (     0    $    !   "
     "       D    (            ,D .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    X    "
     "!@    @    &          4    (     0    $    !          D    (            \\#\\.    .     8    (    !@         %    "
-    "\"     $    !     0         )    \"             ! #@   #@    &    \"     8         !0    @    !     0    $        "
-    " \"0    @             0 X    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.  "
-    "  4     8    (    !          %    \"     $    :     0         0    &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I     "
-    "   #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !3871U<F%T90X    X    !@    @    & "
-    "         4    (     0    $    !          D    (            ($ .    .     8    (    !@         %    \"     $    !  "
-    "   0         )    \"            \"! #@   #     &    \"     0         !0    @    !     @    $         $  \" &]N   ."
-    "    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X    X    !@    @    &          4    ("
-    "     0    $    !          D    (            $$ .    .     8    (    !@         %    \"     $    !     0         ) "
-    "   \"             ! #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    ( "
-    "   !@         %    \"     $    !     0         )    \"            #- #@   #     &    \"     0         !0    @    !"
-    "     P    $         $  # &]F9@ .    0     8    (    !@         %    \"     $    \"     0         )    $           "
-    " / _        \\#\\.    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  "
+    "\"     $    !     0         )    \"               #@   #@    &    \"     8         !0    @    !     0    $        "
+    " \"0    @             0 X    X    !@    @    &          4    (     0    $    !          D    (             $ .    "
+    ".     8    (    !@         %    \"     $    !     0         )    \"            / _#@   #@    &    \"     8        "
+    " !0    @    !     0    $         \"0    @               X   !0    !@    @    $          4    (     0   !H    !    "
+    "     !     :    4F]U;F0@(\"AU;F)I87-E9#H@*R\\M($EN9BD        .    .     8    (    !          %    \"     $    (   "
+    "  0         0    \"    %-A='5R871E#@   #@    &    \"     8         !0    @    !     0    $         \"0    @       "
+    "     @0 X    X    !@    @    &          4    (     0    $    !          D    (            ($ .    ,     8    (    "
+    "!          %    \"     $    \"     0         0  ( ;VX   X    P    !@    @    $          4    (     0    (    !    "
+    "     !   @!O;@  #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            00 X    X    "
+    "!@    @    &          4    (     0    $    !          D    (             $ .    ,     8    (    !          %    \""
+    "     $    #     0         0  , ;V9F  X    X    !@    @    &          4    (     0    $    !          D    (       "
+    "     ,T .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    &        "
+    "  4    (     0    (    !          D    0            \\#\\       #P/PX    P    !@    @    $          4    (     0  "
+    "  ,    !         !   P!O9F8 #@   #@    &    \"     0         !0    @    !    !@    $         $     8   !&86)R:6,  "
+    " X    X    !@    @    $          4    (     0    8    !         !     &    1F%B<FEC   "
   }
   DataRecord {
     Tag			    DataTag6
@@ -4034,70 +4555,75 @@ MatData {
   }
   DataRecord {
     Tag			    DataTag7
-    Data		    "  %)30     .    N!0   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ \".6NP<.    *!0  "
-    " 8    (     @         %    \"     $    !     0         %  0 $0    $   \"I 0  9&5F875L=',           !N7VEN<'5T<P   "
-    "        $9&5%-I>F4             1D944W1A9V4           !I;G!U=%]B:71?=VED=&@  &)I;E]P=%]I;@          8V]E9F9?8FET7W="
-    "I9'1H  !B:71G<F]W=&@          &1O=VYS:&EF=           87-Y;F,               !A9&1?;&%T96YC>0       &UU;'1?;&%T96YC>"
-    "0      8G)A;5]L871E;F-Y      !C;VYV7VQA=&5N8WD      '%U86YT:7IA=&EO;@      ;W9E<F9L;W<           !D96QA>7-?8G)A;0 "
-    "      &-O969F<U]B:71?;&EM:70 8V]E9F9?<VAA<FEN9P    !C;V5F9E]D96-I;6%T:6]N &UA>%]F86YO=70         =7-E7VAD;        "
-    "     !U<V5?96UB961D960      &AA<F1C;V1E7W-H:69T<P  9'-P-#A?861D97)S                #@   '@,   &    \"     $       "
-    "  !0    @    !    ,     $         #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !N7V"
-    "EN<'5T<PX    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    .     8    (  "
-    "  !          %    \"     $    '     0         0    !P   $9&5%-I>F4 #@   #@    &    \"     8         !0    @    !  "
-    "   0    $         \"0    @            00 X    X    !@    @    $          4    (     0    @    !         !     (   "
-    " 1D944W1A9V4.    .     8    (    !@         %    \"     $    !     0         )    \"            !! #@   $     &   "
-    " \"     0         !0    @    !    #P    $         $     \\   !I;G!U=%]B:71?=VED=&@ #@   #@    &    \"     8       "
-    "  !0    @    !     0    $         \"0    @            R0 X   !     !@    @    $          4    (     0    D    !   "
-    "      !     )    8FEN7W!T7VEN          X    X    !@    @    &          4    (     0    $    !          D    (     "
-    "       ,4 .    0     8    (    !          %    \"     $    /     0         0    #P   &-O969F7V)I=%]W:61T:  .    . "
-    "    8    (    !@         %    \"     $    !     0         )    \"            #) #@   $     &    \"     0         !"
-    "0    @    !    \"0    $         $     D   !B:71G<F]W=&@         #@   #     &    \"     0         !0    @    !     "
-    "P    $         $  # &]F9@ .    0     8    (    !          %    \"     $    )     0         0    \"0   &1O=VYS:&EF="
-    "          .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    X    !@    @    $      "
-    "    4    (     0    4    !         !     %    87-Y;F,    .    ,     8    (    !          %    \"     $    #     0 "
-    "        0  , ;V9F  X   !     !@    @    $          4    (     0    L    !         !     +    861D7VQA=&5N8WD      "
-    " X    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0     8    (    !    "
-    "      %    \"     $    ,     0         0    #    &UU;'1?;&%T96YC>0     .    .     8    (    !@         %    \"    "
-    " $    !     0         )    \"             ! #@   $     &    \"     0         !0    @    !    #     $         $    "
-    " P   !B<F%M7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0    $         \"0    @             0"
-    " X   !     !@    @    $          4    (     0    P    !         !     ,    8V]N=E]L871E;F-Y      X    X    !@    @"
-    "    &          4    (     0    $    !          D    (            \\#\\.    0     8    (    !          %    \"     "
-    "$    ,     0         0    #    '%U86YT:7IA=&EO;@     .    4     8    (    !          %    \"     $    :     0     "
-    "    0    &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I        #@   #@    &    \"     0         !0    @    !    \"    "
-    " $         $     @   !O=F5R9FQO=PX    P    !@    @    $          4    (     0    0    !         !  ! !7<F%P#@   $ "
-    "    &    \"     0         !0    @    !    \"P    $         $     L   !D96QA>7-?8G)A;0      #@   #     &    \"     "
-    "0         !0    @    !     P    $         $  # &]F9@ .    0     8    (    !          %    \"     $    0     0     "
-    "    0    $    &-O969F<U]B:71?;&EM:70.    .     8    (    !@         %    \"     $    !     0         )    \"      "
-    "      \"! #@   $     &    \"     0         !0    @    !    #0    $         $     T   !C;V5F9E]S:&%R:6YG    #@   # "
-    "    &    \"     0         !0    @    !     @    $         $  \" &]N   .    0     8    (    !          %    \"     "
-    "$    0     0         0    $    &-O969F7V1E8VEM871I;VX.    ,     8    (    !          %    \"     $    \"     0    "
-    "     0  ( ;VX   X   !     !@    @    $          4    (     0    H    !         !     *    ;6%X7V9A;F]U=         X "
-    "   X    !@    @    &          4    (     0    $    !          D    (            $$ .    .     8    (    !         "
-    " %    \"     $    '     0         0    !P   '5S95]H9&P #@   #     &    \"     0         !0    @    !     P    $   "
-    "      $  # &]F9@ .    0     8    (    !          %    \"     $    ,     0         0    #    '5S95]E;6)E9&1E9      "
-    ".    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    ("
-    "     0    \\    !         !     /    :&%R9&-O9&5?<VAI9G1S  X    P    !@    @    $          4    (     0    ,    ! "
-    "        !   P!O9F8 #@   $     &    \"     0         !0    @    !    #     $         $     P   !D<W T.%]A9&1E<G,   "
-    "  #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    (    !@         %   "
-    " \"     $    !     0         )    \"               #@   #@    &    \"     8         !0    @    !     0    $       "
-    "  \"0    @            00 X    X    !@    @    &          4    (     0    $    !          D    (            $$ .   "
-    " .     8    (    !@         %    \"     $    !     0         )    \"            #) #@   #@    &    \"     8       "
-    "  !0    @    !     0    $         \"0    @            Q0 X    X    !@    @    &          4    (     0    $    !   "
-    "       D    (            ,D .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    P    "
-    "!@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #     &    \"     0         !0    @    !     "
-    "P    $         $  # &]F9@ .    .     8    (    !@         %    \"     $    !     0         )    \"            / _#"
-    "@   #@    &    \"     8         !0    @    !     0    $         \"0    @             0 X    X    !@    @    &     "
-    "     4    (     0    $    !          D    (             $ .    .     8    (    !@         %    \"     $    !     0"
-    "         )    \"            / _#@   %     &    \"     0         !0    @    !    &@    $         $    !H   !2;W5N9\""
-    " @*'5N8FEA<V5D.B K+RT@26YF*0        X    P    !@    @    $          4    (     0    0    !         !  ! !7<F%P#@  "
-    " #     &    \"     0         !0    @    !     P    $         $  # &]F9@ .    .     8    (    !@         %    \"   "
-    "  $    !     0         )    \"            \"! #@   #     &    \"     0         !0    @    !     @    $         $  "
-    "\" &]N   .    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X    X    !@    @    &      "
-    "    4    (     0    $    !          D    (            $$ .    ,     8    (    !          %    \"     $    #     0 "
-    "        0  , ;V9F  X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #     &    \"   "
-    "  0         !0    @    !     P    $         $  # &]F9@ .    ,     8    (    !          %    \"     $    #     0   "
-    "      0  , ;V9F  "
+    Data		    "  %)30     .    B!8   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ &%_EP .    ^!4   "
+    "8    (     @         %    \"     $    !     0         %  0 %@    $   !^ @  9&5F875L=',                  &Y?:6YP=71"
+    "S                  !&1E13:7IE                    1D944W1A9V4                  &EN<'5T7V)I=%]W:61T:         !B:6Y?<"
+    "'1?:6X                 8V]E9F9?8FET7W=I9'1H         &)I=&=R;W=T:                 !D;W=N<VAI9G0                 87-"
+    "Y;F,                      &%D9%]L871E;F-Y              !A9&1?;&%T96YC>5]T=VED9&QE<P  ;75L=%]L871E;F-Y             "
+    "&)R86U?;&%T96YC>0            !C;VYV7VQA=&5N8WD             8V]N=E]L871E;F-Y7W1W:61D;&5S '%U86YT:7IA=&EO;@         "
+    "   !O=F5R9FQO=P                  9&5L87ES7V)R86T              &-O969F<U]B:71?;&EM:70       !C;V5F9E]S:&%R:6YG     "
+    "       8V]E9F9?9&5C:6UA=&EO;@       &UA>%]F86YO=70               !U<V5?:&1L                    =7-E7V5M8F5D9&5D   "
+    "          &AA<F1C;V1E7W-H:69T<P        !D<W T.%]A9&1E<G,             8V]N=E]I;7!?='=I9&1L97,      &-O;G9?:6UP     "
+    "                 X   !X#   !@    @    !          4    (     0   #     !          X    X    !@    @    $          4"
+    "    (     0    @    !         !     (    ;E]I;G!U=',.    .     8    (    !@         %    \"     $    !     0      "
+    "   )    \"            / _#@   #@    &    \"     0         !0    @    !    !P    $         $     <   !&1E13:7IE  X "
+    "   X    !@    @    &          4    (     0    $    !          D    (            %$ .    .     8    (    !         "
+    " %    \"     $    (     0         0    \"    $9&5%-T86=E#@   #@    &    \"     8         !0    @    !     0    $  "
+    "       \"0    @            00 X   !     !@    @    $          4    (     0    \\    !         !     /    :6YP=71?8"
+    "FET7W=I9'1H  X    X    !@    @    &          4    (     0    $    !          D    (            ,D .    0     8    "
+    "(    !          %    \"     $    )     0         0    \"0   &)I;E]P=%]I;@         .    .     8    (    !@         "
+    "%    \"     $    !     0         )    \"            #% #@   $     &    \"     0         !0    @    !    #P    $   "
+    "      $     \\   !C;V5F9E]B:71?=VED=&@ #@   #@    &    \"     8         !0    @    !     0    $         \"0    @  "
+    "          R0 X   !     !@    @    $          4    (     0    D    !         !     )    8FET9W)O=W1H          X    "
+    "P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    !"
+    "    \"0    $         $     D   !D;W=N<VAI9G0         #@   #     &    \"     0         !0    @    !     P    $     "
+    "    $  # &]F9@ .    .     8    (    !          %    \"     $    %     0         0    !0   &%S>6YC    #@   #     & "
+    "   \"     0         !0    @    !     P    $         $  # &]F9@ .    0     8    (    !          %    \"     $    + "
+    "    0         0    \"P   &%D9%]L871E;F-Y       .    .     8    (    !@         %    \"     $    !     0         ) "
+    "   \"            / _#@   $     &    \"     0         !0    @    !    #     $         $     P   !M=6QT7VQA=&5N8WD  "
+    "   #@   #@    &    \"     8         !0    @    !     0    $         \"0    @             0 X   !     !@    @    $ "
+    "         4    (     0    P    !         !     ,    8G)A;5]L871E;F-Y      X    X    !@    @    &          4    (   "
+    "  0    $    !          D    (            \\#\\.    0     8    (    !          %    \"     $    ,     0         0  "
+    "  #    &-O;G9?;&%T96YC>0     .    .     8    (    !@         %    \"     $    !     0         )    \"            /"
+    " _#@   $     &    \"     0         !0    @    !    #     $         $     P   !Q=6%N=&EZ871I;VX     #@   %     &   "
+    " \"     0         !0    @    !    &@    $         $    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*0        X    X   "
+    " !@    @    $          4    (     0    @    !         !     (    ;W9E<F9L;W<.    ,     8    (    !          %    \""
+    "     $    $     0         0  0 5W)A< X   !     !@    @    $          4    (     0    L    !         !     +    9&5"
+    "L87ES7V)R86T       X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"   "
+    "  0         !0    @    !    $     $         $    !    !C;V5F9G-?8FET7VQI;6ET#@   #@    &    \"     8         !0   "
+    " @    !     0    $         \"0    @            @0 X   !     !@    @    $          4    (     0    T    !         !"
+    "     -    8V]E9F9?<VAA<FEN9P    X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   $  "
+    "   &    \"     0         !0    @    !    $     $         $    !    !C;V5F9E]D96-I;6%T:6]N#@   #     &    \"     0 "
+    "        !0    @    !     @    $         $  \" &]N   .    0     8    (    !          %    \"     $    *     0      "
+    "   0    \"@   &UA>%]F86YO=70        .    .     8    (    !@         %    \"     $    !     0         )    \"      "
+    "      !! #@   #@    &    \"     0         !0    @    !    !P    $         $     <   !U<V5?:&1L  X    P    !@    @ "
+    "   $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    !    #     $  "
+    "       $     P   !U<V5?96UB961D960     #@   #     &    \"     0         !0    @    !     P    $         $  # &]F9@"
+    " .    0     8    (    !          %    \"     $    /     0         0    #P   &AA<F1C;V1E7W-H:69T<P .    ,     8    "
+    "(    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (     0    P    !"
+    "         !     ,    9'-P-#A?861D97)S      X    P    !@    @    $          4    (     0    ,    !         !   P!O9F"
+    "8 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @               X    X    !@    @    &  "
+    "        4    (     0    $    !          D    (            $$ .    .     8    (    !@         %    \"     $    !   "
+    "  0         )    \"            !! #@   #@    &    \"     8         !0    @    !     0    $         \"0    @       "
+    "     R0 X    X    !@    @    &          4    (     0    $    !          D    (            ,4 .    .     8    (    "
+    "!@         %    \"     $    !     0         )    \"            #) #@   #     &    \"     0         !0    @    !   "
+    "  P    $         $  # &]F9@ .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    P    "
+    "!@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #@    &    \"     8         !0    @    !     "
+    "0    $         \"0    @           #P/PX    X    !@    @    &          4    (     0    $    !          D    (      "
+    "         .    .     8    (    !@         %    \"     $    !     0         )    \"             ! #@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @             0 X    X    !@    @    &          4    (     0"
+    "    $    !          D    (            \\#\\.    .     8    (    !@         %    \"     $    !     0         )    \""
+    "               #@   %     &    \"     0         !0    @    !    &@    $         $    !H   !2;W5N9\" @*'5N8FEA<V5D."
+    "B K+RT@26YF*0        X    P    !@    @    $          4    (     0    0    !         !  ! !7<F%P#@   #     &    \" "
+    "    0         !0    @    !     P    $         $  # &]F9@ .    .     8    (    !@         %    \"     $    !     0 "
+    "        )    \"            \"! #@   #     &    \"     0         !0    @    !     @    $         $  \" &]N   .    ,"
+    "     8    (    !          %    \"     $    \"     0         0  ( ;VX   X    X    !@    @    &          4    (     "
+    "0    $    !          D    (            $$ .    ,     8    (    !          %    \"     $    #     0         0  , ;V"
+    "9F  X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #     &    \"     0         !0 "
+    "   @    !     P    $         $  # &]F9@ .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F"
+    "  X    X    !@    @    $          4    (     0    8    !         !     &    1F%B<FEC   .    .     8    (    !     "
+    "     %    \"     $    &     0         0    !@   $9A8G)I8P  "
   }
   DataRecord {
     Tag			    DataTag8

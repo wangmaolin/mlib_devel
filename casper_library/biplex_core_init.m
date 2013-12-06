@@ -12,9 +12,14 @@ function biplex_core_init(blk, varargin)
 % coeff_bit_width = Coefficient bit width
 % quantization = Quantization behavior.
 % overflow = Overflow behavior.
-% add_latency = The latency of adders in the system.
+% add_latency = The latency of adders in the system (except twiddles).
+% add_latency_twiddles = The latency of adders in the twiddle system.
 % mult_latency = The latency of multipliers in the system.
 % bram_latency = The latency of BRAM in the system.
+% conv_latency = Convert latency in the system (other than twiddles)
+% conv_latency_twiddles = Convert latency in the twiddles
+% conv_imp = Implementation of (CASPER) convert blocks -- Fabric or DSP48
+% conv_imp_twiddle = Implementation of convert blocks in twiddles
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -53,9 +58,11 @@ function biplex_core_init(blk, varargin)
       'coeff_bit_width', 18, ...
       'async', 'off', ...
       'add_latency', 1, ...
+      'add_latency_twiddles', 1, ...
       'mult_latency', 2, ...
       'bram_latency', 2, ...
       'conv_latency', 1, ...
+      'conv_latency_twiddles', 1, ...
       'quantization', 'Round  (unbiased: +/- Inf)', ...
       'overflow', 'Saturate', ...
       'delays_bit_limit', 8, ...
@@ -69,6 +76,8 @@ function biplex_core_init(blk, varargin)
       'hardcode_shifts', 'off', ...
       'shift_schedule', [1 1], ...
       'dsp48_adders', 'off', ...
+      'conv_imp', 'Fabric', ...
+      'conv_imp_twiddles', 'Fabric', ...
   };
 
   if same_state(blk, 'defaults', defaults, varargin{:}), return, end
@@ -77,29 +86,33 @@ function biplex_core_init(blk, varargin)
   munge_block(blk, varargin{:});
 
   % Retrieve values from mask fields.
-  n_inputs          = get_var('n_inputs', 'defaults', defaults, varargin{:});
-  FFTSize           = get_var('FFTSize', 'defaults', defaults, varargin{:});
-  input_bit_width   = get_var('input_bit_width', 'defaults', defaults, varargin{:});
-  bin_pt_in         = get_var('bin_pt_in', 'defaults', defaults, varargin{:});
-  coeff_bit_width   = get_var('coeff_bit_width', 'defaults', defaults, varargin{:});
-  async             = get_var('async', 'defaults', defaults, varargin{:});
-  add_latency       = get_var('add_latency', 'defaults', defaults, varargin{:});
-  mult_latency      = get_var('mult_latency', 'defaults', defaults, varargin{:});
-  bram_latency      = get_var('bram_latency', 'defaults', defaults, varargin{:});
-  conv_latency      = get_var('conv_latency', 'defaults', defaults, varargin{:});
-  quantization      = get_var('quantization', 'defaults', defaults, varargin{:});
-  overflow          = get_var('overflow', 'defaults', defaults, varargin{:});
-  delays_bit_limit  = get_var('delays_bit_limit', 'defaults', defaults, varargin{:});
-  coeffs_bit_limit  = get_var('coeffs_bit_limit', 'defaults', defaults, varargin{:});
-  coeff_sharing     = get_var('coeff_sharing', 'defaults', defaults, varargin{:});
-  coeff_decimation  = get_var('coeff_decimation', 'defaults', defaults, varargin{:});
-  max_fanout        = get_var('max_fanout', 'defaults', defaults, varargin{:});
-  mult_spec         = get_var('mult_spec', 'defaults', defaults, varargin{:});
-  bitgrowth         = get_var('bitgrowth', 'defaults', defaults, varargin{:});
-  max_bits          = get_var('max_bits', 'defaults', defaults, varargin{:});
-  hardcode_shifts   = get_var('hardcode_shifts', 'defaults', defaults, varargin{:});
-  shift_schedule    = get_var('shift_schedule', 'defaults', defaults, varargin{:});
-  dsp48_adders      = get_var('dsp48_adders', 'defaults', defaults, varargin{:});
+  n_inputs              = get_var('n_inputs', 'defaults', defaults, varargin{:});
+  FFTSize               = get_var('FFTSize', 'defaults', defaults, varargin{:});
+  input_bit_width       = get_var('input_bit_width', 'defaults', defaults, varargin{:});
+  bin_pt_in             = get_var('bin_pt_in', 'defaults', defaults, varargin{:});
+  coeff_bit_width       = get_var('coeff_bit_width', 'defaults', defaults, varargin{:});
+  async                 = get_var('async', 'defaults', defaults, varargin{:});
+  add_latency           = get_var('add_latency', 'defaults', defaults, varargin{:});
+  add_latency_twiddles  = get_var('add_latency_twiddles', 'defaults', defaults, varargin{:});
+  mult_latency          = get_var('mult_latency', 'defaults', defaults, varargin{:});
+  bram_latency          = get_var('bram_latency', 'defaults', defaults, varargin{:});
+  conv_latency          = get_var('conv_latency', 'defaults', defaults, varargin{:});
+  conv_latency_twiddles = get_var('conv_latency_twiddles', 'defaults', defaults, varargin{:});
+  quantization          = get_var('quantization', 'defaults', defaults, varargin{:});
+  overflow              = get_var('overflow', 'defaults', defaults, varargin{:});
+  delays_bit_limit      = get_var('delays_bit_limit', 'defaults', defaults, varargin{:});
+  coeffs_bit_limit      = get_var('coeffs_bit_limit', 'defaults', defaults, varargin{:});
+  coeff_sharing         = get_var('coeff_sharing', 'defaults', defaults, varargin{:});
+  coeff_decimation      = get_var('coeff_decimation', 'defaults', defaults, varargin{:});
+  max_fanout            = get_var('max_fanout', 'defaults', defaults, varargin{:});
+  mult_spec             = get_var('mult_spec', 'defaults', defaults, varargin{:});
+  bitgrowth             = get_var('bitgrowth', 'defaults', defaults, varargin{:});
+  max_bits              = get_var('max_bits', 'defaults', defaults, varargin{:});
+  hardcode_shifts       = get_var('hardcode_shifts', 'defaults', defaults, varargin{:});
+  shift_schedule        = get_var('shift_schedule', 'defaults', defaults, varargin{:});
+  dsp48_adders          = get_var('dsp48_adders', 'defaults', defaults, varargin{:});
+  conv_imp_twiddles     = get_var('conv_imp_twiddles', 'defaults', defaults, varargin{:});
+  conv_imp              = get_var('conv_imp', 'defaults', defaults, varargin{:});
 
   delete_lines(blk);
 
@@ -181,9 +194,11 @@ function biplex_core_init(blk, varargin)
           'async', async, ...
           'downshift', downshift, ...
           'add_latency', num2str(add_latency), ...
+          'add_latency_twiddles', num2str(add_latency_twiddles), ...
           'mult_latency', num2str(mult_latency), ...
           'bram_latency', num2str(bram_latency), ...
           'conv_latency', num2str(conv_latency), ...
+          'conv_latency_twiddles', num2str(conv_latency_twiddles), ...
           'quantization', quantization, ...
           'overflow', overflow, ...
           'delays_bram', delays_bram, ...
@@ -195,7 +210,9 @@ function biplex_core_init(blk, varargin)
           'use_embedded', stage_mult_spec(stage).use_embedded, ...
           'bitgrowth', bitgrowth_stage, ...
           'hardcode_shifts', hardcode_shifts, ...
-          'dsp48_adders', dsp48_adders);
+          'dsp48_adders', dsp48_adders, ...
+          'conv_imp', conv_imp, ...
+          'conv_imp_twiddles', conv_imp_twiddles);
 
       prev_stage_name = ['fft_stage_', num2str(stage-1)];
 

@@ -1,6 +1,6 @@
 Library {
   Name			  "casper_library_ffts_twiddle"
-  Version		  7.2
+  Version		  8.0
   MdlSubVersion		  0
   SavedCharacterEncoding  "UTF-8"
   LibraryType		  "BlockLibrary"
@@ -8,15 +8,56 @@ Library {
   ScopeRefreshTime	  0.035000
   OverrideScopeRefreshTime on
   DisableAllScopes	  off
+  FPTRunName		  "Run 1"
+  MaxMDLFileLineLength	  120
+  Object {
+    $PropName		    "BdWindowsInfo"
+    $ObjectID		    1
+    $ClassName		    "Simulink.BDWindowsInfo"
+    Object {
+      $PropName		      "WindowsInfo"
+      $ObjectID		      2
+      $ClassName	      "Simulink.WindowInfo"
+      IsActive		      [1]
+      Location		      [19.0, 45.0, 701.0, 927.0]
+      Object {
+	$PropName		"ModelBrowserInfo"
+	$ObjectID		3
+	$ClassName		"Simulink.ModelBrowserInfo"
+	Visible			[0]
+	DockPosition		"Left"
+	Width			[50]
+	Height			[50]
+	Filter			[9]
+      }
+      Object {
+	$PropName		"ExplorerBarInfo"
+	$ObjectID		4
+	$ClassName		"Simulink.ExplorerBarInfo"
+	Visible			[1]
+      }
+      Object {
+	$PropName		"EditorsInfo"
+	$ObjectID		5
+	$ClassName		"Simulink.EditorInfo"
+	IsActive		[1]
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
+	Extents			[663.0, 757.0]
+	ZoomFactor		[1.0]
+	Offset			[0.0, 0.0]
+      }
+    }
+  }
   Created		  "Thu Sep 02 12:37:18 2010"
   Creator		  "mdexter"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "andrew"
+  LastModifiedBy	  "jack"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jul 05 17:03:41 2013"
-  RTWModifiedTimeStamp	  294944206
-  ModelVersionFormat	  "1.%<AutoIncrement:27>"
+  LastModifiedDate	  "Mon Dec 02 15:59:52 2013"
+  RTWModifiedTimeStamp	  307900786
+  ModelVersionFormat	  "1.%<AutoIncrement:28>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -24,6 +65,7 @@ Library {
   WideLines		  off
   ShowLineDimensions	  off
   ShowPortDataTypes	  off
+  ShowDesignRanges	  off
   ShowLoopsOnError	  on
   IgnoreBidirectionalLines off
   ShowStorageClass	  off
@@ -49,11 +91,13 @@ Library {
   CovMetricSettings	  "dw"
   CovNameIncrementing	  off
   CovHtmlReporting	  on
+  CovForceBlockReductionOff on
   covSaveCumulativeToWorkspaceVar on
   CovSaveSingleToWorkspaceVar on
   CovCumulativeReport	  off
   CovReportOnPause	  on
   CovModelRefEnable	  "Off"
+  CovExternalEMLEnable	  off
   ExtModeBatchMode	  off
   ExtModeEnableFloating	  on
   ExtModeTrigType	  "manual"
@@ -82,13 +126,13 @@ Library {
     Dimension		    1
     Simulink.ConfigSet {
       $ObjectID		      6
-      Version		      "1.5.1"
+      Version		      "1.12.1"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
 	  $ObjectID		  7
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  StartTime		  "0.0"
 	  StopTime		  "10.0"
 	  AbsTol		  "auto"
@@ -106,8 +150,11 @@ Library {
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
 	  SolverMode		  "SingleTasking"
+	  EnableConcurrentExecution off
+	  ConcurrentTasks	  off
 	  Solver		  "ode45"
 	  SolverName		  "ode45"
+	  SolverJacobianMethodControl "auto"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
 	  ZeroCrossAlgorithm	  "Nonadaptive"
@@ -120,7 +167,7 @@ Library {
 	}
 	Simulink.DataIOCC {
 	  $ObjectID		  8
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -130,23 +177,29 @@ Library {
 	  LoadExternalInput	  off
 	  LoadInitialState	  off
 	  SaveFinalState	  off
+	  SaveCompleteFinalSimState off
 	  SaveFormat		  "Array"
+	  SignalLoggingSaveFormat "ModelDataLogs"
 	  SaveOutput		  on
 	  SaveState		  off
 	  SignalLogging		  on
+	  DSMLogging		  on
 	  InspectSignalLogs	  off
 	  SaveTime		  on
+	  ReturnWorkspaceOutputs  off
 	  StateSaveName		  "xout"
 	  TimeSaveName		  "tout"
 	  OutputSaveName	  "yout"
 	  SignalLoggingName	  "logsout"
+	  DSMLoggingName	  "dsmout"
 	  OutputOption		  "RefineOutputTimes"
 	  OutputTimes		  "[]"
+	  ReturnWorkspaceOutputsName "out"
 	  Refine		  "1"
 	}
 	Simulink.OptimizationCC {
 	  $ObjectID		  9
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    7
@@ -163,13 +216,20 @@ Library {
 	  BooleanDataType	  off
 	  ConditionallyExecuteInputs on
 	  InlineParams		  off
+	  UseIntDivNetSlope	  off
+	  UseFloatMulNetSlope	  off
+	  UseSpecifiedMinMax	  off
 	  InlineInvariantSignals  off
 	  OptimizeBlockIOStorage  on
 	  BufferReuse		  on
 	  EnhancedBackFolding	  off
+	  StrengthReduction	  off
 	  ExpressionFolding	  on
+	  BooleansAsBitfields	  off
+	  BitfieldContainerType	  "uint_T"
 	  EnableMemcpy		  on
 	  MemcpyThreshold	  64
+	  PassReuseOutputArgsAs	  "Structure reference"
 	  ExpressionDepthLimit	  2147483647
 	  FoldNonRolledExpr	  on
 	  LocalBlockOutputs	  on
@@ -186,14 +246,15 @@ Library {
 	  EfficientMapNaN2IntZero on
 	  OptimizeModelRefInitCode off
 	  LifeSpan		  "inf"
+	  MaxStackSize		  "Inherit from target"
 	  BufferReusableBoundary  on
 	  SimCompilerOptimization "Off"
 	  AccelVerboseBuild	  off
-  EnforceIntegerDowncast   on
+	  ParallelExecutionInRapidAccelerator on
 	}
 	Simulink.DebuggingCC {
 	  $ObjectID		  10
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -216,6 +277,8 @@ Library {
 	  MinStepSizeMsg	  "warning"
 	  TimeAdjustmentMsg	  "none"
 	  MaxConsecutiveZCsMsg	  "error"
+	  MaskedZcDiagnostic	  "warning"
+	  IgnoredZcDiagnostic	  "warning"
 	  SolverPrmCheckMsg	  "none"
 	  InheritedTsInSrcMsg	  "warning"
 	  DiscreteInheritContinuousMsg "warning"
@@ -233,22 +296,27 @@ Library {
 	  ParameterUnderflowMsg	  "none"
 	  ParameterPrecisionLossMsg "warning"
 	  ParameterTunabilityLossMsg "warning"
+	  FixptConstUnderflowMsg  "none"
+	  FixptConstOverflowMsg	  "none"
+	  FixptConstPrecisionLossMsg "none"
 	  UnderSpecifiedDataTypeMsg "none"
 	  UnnecessaryDatatypeConvMsg "none"
 	  VectorMatrixConversionMsg "none"
 	  InvalidFcnCallConnMsg	  "error"
-	  FcnCallInpInsideContextMsg "Use local settings"
+	  FcnCallInpInsideContextMsg "UseLocalSettings"
 	  SignalLabelMismatchMsg  "none"
 	  UnconnectedInputMsg	  "warning"
 	  UnconnectedOutputMsg	  "warning"
 	  UnconnectedLineMsg	  "warning"
 	  SFcnCompatibilityMsg	  "none"
+	  FrameProcessingCompatibilityMsg "warning"
 	  UniqueDataStoreMsg	  "none"
 	  BusObjectLabelMismatch  "warning"
 	  RootOutportRequireBusObject "warning"
 	  AssertControl		  "UseLocalSettings"
 	  EnableOverflowDetection off
 	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceMultiInstanceNormalModeStructChecksumCheck "error"
 	  ModelReferenceVersionMismatchMessage "none"
 	  ModelReferenceIOMismatchMessage "none"
 	  ModelReferenceCSMismatchMessage "none"
@@ -257,17 +325,35 @@ Library {
 	  ModelReferenceSymbolNameMessage "warning"
 	  ModelReferenceExtraNoncontSigs "error"
 	  StateNameClashWarn	  "warning"
+	  SimStateInterfaceChecksumMismatchMsg "warning"
+	  SimStateOlderReleaseMsg "error"
+	  InitInArrayFormatMsg	  "warning"
 	  StrictBusMsg		  "Warning"
+	  BusNameAdapt		  "WarnAndRepair"
+	  NonBusSignalsTreatedAsBus "none"
 	  LoggingUnavailableSignals "error"
 	  BlockIODiagnostic	  "none"
+	  SFUnusedDataAndEventsDiag "warning"
+	  SFUnexpectedBacktrackingDiag "warning"
+	  SFInvalidInputDataAccessInChartInitDiag "warning"
+	  SFNoUnconditionalDefaultTransitionDiag "warning"
+	  SFTransitionOutsideNaturalParentDiag "warning"
+	  SFUnconditionalTransitionShadowingDiag "warning"
+	  SFUndirectedBroadcastEventsDiag "warning"
+	  SFTransitionActionBeforeConditionDiag	"warning"
 	}
 	Simulink.HardwareCC {
 	  $ObjectID		  11
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
 	  ProdBitPerLong	  32
+	  ProdBitPerFloat	  32
+	  ProdBitPerDouble	  64
+	  ProdBitPerPointer	  32
+	  ProdLargestAtomicInteger "Char"
+	  ProdLargestAtomicFloat  "None"
 	  ProdIntDivRoundTo	  "Undefined"
 	  ProdEndianess		  "Unspecified"
 	  ProdWordSize		  32
@@ -277,6 +363,11 @@ Library {
 	  TargetBitPerShort	  16
 	  TargetBitPerInt	  32
 	  TargetBitPerLong	  32
+	  TargetBitPerFloat	  32
+	  TargetBitPerDouble	  64
+	  TargetBitPerPointer	  32
+	  TargetLargestAtomicInteger "Char"
+	  TargetLargestAtomicFloat "None"
 	  TargetShiftRightIntArith on
 	  TargetIntDivRoundTo	  "Undefined"
 	  TargetEndianess	  "Unspecified"
@@ -290,26 +381,37 @@ Library {
 	}
 	Simulink.ModelReferenceCC {
 	  $ObjectID		  12
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
+	  EnableParallelModelReferenceBuilds off
+	  ParallelModelReferenceErrorOnInvalidPool on
+	  ParallelModelReferenceMATLABWorkerInit "None"
 	  ModelReferenceNumInstancesAllowed "Multi"
+	  PropagateVarSize	  "Infer from blocks in model"
 	  ModelReferencePassRootInputsByReference on
 	  ModelReferenceMinAlgLoopOccurrences off
+	  PropagateSignalLabelsOutOfModel off
+	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
 	  $ObjectID		  13
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
 	  SFSimEcho		  on
+	  SimBlas		  on
+	  SimCtrlC		  on
+	  SimExtrinsic		  on
+	  SimIntegrity		  on
 	  SimUseLocalCustomCode	  off
+	  SimParseCustomCode	  on
 	  SimBuildMode		  "sf_incremental_build"
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
 	  $ObjectID		  14
-	  Version		  "1.5.1"
+	  Version		  "1.12.1"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    6
@@ -325,6 +427,7 @@ Library {
 	  GenCodeOnly		  off
 	  MakeCommand		  "make_rtw"
 	  GenerateMakefile	  on
+	  PackageGeneratedCodeAndArtifacts off
 	  TemplateMakefile	  "grt_default_tmf"
 	  GenerateReport	  off
 	  SaveLog		  off
@@ -341,6 +444,13 @@ Library {
 	  RTWUseSimCustomCode	  off
 	  IncludeHyperlinkInReport off
 	  LaunchReport		  off
+	  PortableWordSizes	  off
+	  GenerateErtSFunction	  off
+	  CreateSILPILBlock	  "None"
+	  CodeExecutionProfiling  off
+	  CodeExecutionProfileVariable "executionProfile"
+	  CodeProfilingSaveOptions "SummaryOnly"
+	  CodeProfilingInstrumentation off
 	  TargetLang		  "C"
 	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
 	  IncludeERTFirstTime	  off
@@ -350,13 +460,18 @@ Library {
 	  GenerateTraceReportSf	  off
 	  GenerateTraceReportEml  off
 	  GenerateCodeInfo	  off
+	  GenerateWebview	  off
+	  GenerateCodeMetricsReport off
+	  GenerateCodeReplacementReport	off
 	  RTWCompilerOptimization "Off"
+	  CheckMdlBeforeBuild	  "Off"
+	  CustomRebuildMode	  "OnUpdate"
 	  Array {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
 	      $ObjectID		      15
-	      Version		      "1.5.1"
+	      Version		      "1.12.1"
 	      Array {
 		Type			"Cell"
 		Dimension		19
@@ -390,15 +505,18 @@ Library {
 	      PreserveName	      off
 	      PreserveNameWithParent  off
 	      ShowEliminatedStatement off
+	      OperatorAnnotations     off
 	      IncAutoGenComments      off
 	      SimulinkDataObjDesc     off
 	      SFDataObjDesc	      off
+	      MATLABFcnDesc	      off
 	      IncDataTypeInIds	      off
 	      MangleLength	      1
 	      CustomSymbolStrGlobalVar "$R$N$M"
 	      CustomSymbolStrType     "$N$R$M"
 	      CustomSymbolStrField    "$N$M"
 	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrFcnArg   "rt$I$N$M"
 	      CustomSymbolStrBlkIO    "rtb_$N$M"
 	      CustomSymbolStrTmpVar   "$N$M"
 	      CustomSymbolStrMacro    "$R$N$M"
@@ -406,8 +524,11 @@ Library {
 	      ParamNamingRule	      "None"
 	      SignalNamingRule	      "None"
 	      InsertBlockDesc	      off
+	      InsertPolySpaceComments off
 	      SimulinkBlockComments   on
+	      MATLABSourceComments    off
 	      EnableCustomComments    off
+	      InternalIdentifier      "Classic"
 	      InlinedPrmAccess	      "Literals"
 	      ReqsInCode	      off
 	      UseSimReservedNames     off
@@ -415,7 +536,7 @@ Library {
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
 	      $ObjectID		      16
-	      Version		      "1.5.1"
+	      Version		      "1.12.1"
 	      Array {
 		Type			"Cell"
 		Dimension		16
@@ -440,7 +561,7 @@ Library {
 	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
 	      TargetLibSuffix	      ""
 	      TargetPreCompLibLocation ""
-	      TargetFunctionLibrary  "ANSI_C"
+	      CodeReplacementLibrary  "ANSI_C"
 	      UtilityFuncGeneration   "Auto"
 	      ERTMultiwordTypeDef     "System defined"
 	      ERTMultiwordLength      256
@@ -450,9 +571,13 @@ Library {
 	      GenerateTestInterfaces  off
 	      IsPILTarget	      off
 	      ModelReferenceCompliant on
+	      ParMdlRefBuildCompliant on
 	      CompOptLevelCompliant   on
+	      ConcurrentExecutionCompliant on
 	      IncludeMdlTerminateFcn  on
+	      GeneratePreprocessorConditionals "Disable all"
 	      CombineOutputUpdateFcns off
+	      CombineSignalStateStructs	off
 	      SuppressErrorStatus     off
 	      ERTFirstTimeCompliant   off
 	      IncludeFileDelimiter    "Auto"
@@ -466,11 +591,13 @@ Library {
 	      PurelyIntegerCode	      off
 	      SupportContinuousTime   on
 	      SupportNonInlinedSFcns  on
+	      SupportVariableSizeSignals off
 	      EnableShiftOperators    on
 	      ParenthesesLevel	      "Nominal"
 	      ModelStepFunctionPrototypeControlCompliant off
 	      CPPClassGenCompliant    off
 	      AutosarCompliant	      off
+	      GRTInterface	      on
 	      UseMalloc		      off
 	      ExtMode		      off
 	      ExtModeStaticAlloc      off
@@ -482,6 +609,7 @@ Library {
 	      RTWCAPISignals	      off
 	      RTWCAPIParams	      off
 	      RTWCAPIStates	      off
+	      RTWCAPIRootIO	      off
 	      GenerateASAP2	      off
 	    }
 	    PropName		    "Components"
@@ -495,6 +623,7 @@ Library {
     }
     PropName		    "ConfigurationSets"
   }
+  ExplicitPartitioning	  off
   BlockDefaults {
     ForegroundColor	    "black"
     BackgroundColor	    "white"
@@ -505,7 +634,8 @@ Library {
     FontWeight		    "normal"
     FontAngle		    "normal"
     ShowName		    on
-    Orientation		    "right"
+    BlockRotation	    0
+    BlockMirror		    off
   }
   AnnotationDefaults {
     HorizontalAlignment	    "center"
@@ -525,6 +655,25 @@ Library {
     FontWeight		    "normal"
     FontAngle		    "normal"
   }
+  MaskDefaults {
+    SelfModifiable	    "off"
+    IconFrame		    "on"
+    IconOpaque		    "on"
+    RunInitForIconRedraw    "off"
+    IconRotate		    "none"
+    PortRotate		    "default"
+    IconUnits		    "autoscale"
+  }
+  MaskParameterDefaults {
+    Evaluate		    "on"
+    Tunable		    "on"
+    NeverSave		    "off"
+    Internal		    "off"
+    ReadOnly		    "off"
+    Enabled		    "on"
+    Visible		    "on"
+    ToolTip		    "on"
+  }
   BlockParameterDefaults {
     Block {
       BlockType		      SubSystem
@@ -543,13 +692,17 @@ Library {
       RTWMemSecDataParameters "Inherit from model"
       SimViewingDevice	      off
       DataTypeOverride	      "UseLocalSettings"
+      DataTypeOverrideAppliesTo	"AllNumericTypes"
       MinMaxOverflowLogging   "UseLocalSettings"
+      SFBlockType	      "NONE"
+      Variant		      off
+      GeneratePreprocessorConditionals off
     }
   }
   System {
     Name		    "casper_library_ffts_twiddle"
-    Location		    [30, 45, 697, 744]
-    Open		    off
+    Location		    [19, 45, 720, 972]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -562,26 +715,31 @@ Library {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
+    SIDHighWatermark	    "6"
     Block {
       BlockType		      SubSystem
       Name		      "coeff_gen"
+      SID		      "1"
       Ports		      []
       Position		      [405, 45, 455, 95]
+      ZOrder		      -1
       OpenFcn		      "casper_library_ffts_twiddle_coeff_gen"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
+      RequestExecContextInheritance off
       MaskHideContents	      off
-      MaskDisplay	      "disp('');"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		17
+	$ClassName		"Simulink.Mask"
+	Display			"disp('');"
+      }
       System {
 	Name			"coeff_gen"
-	Location		[106, 45, 1170, 2931]
+	Location		[72, 45, 1184, 3166]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -599,8 +757,10 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "twiddle_coeff_0"
+      SID		      "2"
       Ports		      []
       Position		      [20, 17, 110, 123]
+      ZOrder		      -2
       BackgroundColor	      "gray"
       UserDataPersistent      on
       UserData		      "DataTag0"
@@ -609,31 +769,71 @@ Library {
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
+      RequestExecContextInheritance off
       MaskHideContents	      off
-      MaskType		      "twiddle_coeff_0"
-      MaskDescription	      "Used in FFT library. Used when coefficients \nare 2^0 (just pass data through) but latenc"
-      "y\nmust be the same as for a full twiddle."
-      MaskPromptString	      "number inputs|Add Latency|Mult Latency|BRAM Latency|Convert latency|asynchronous operati"
-      "on"
-      MaskStyleString	      "edit,edit,edit,edit,edit,checkbox"
-      MaskVariables	      "n_inputs=@1;add_latency=@2;mult_latency=@3;bram_latency=@4;conv_latency=@5;async=&6;"
-      MaskTunableValueString  "on,on,on,on,on,on"
-      MaskCallbackString      "|||||"
-      MaskEnableString	      "on,on,on,on,on,on"
-      MaskVisibilityString    "on,on,on,on,on,on"
-      MaskToolTipString	      "on,on,on,on,on,on"
-      MaskInitialization      "twiddle_coeff_0_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'add_latency', add_la"
-      "tency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', co"
-      "nv_latency, ...\n    'async', async);"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "0|1|2|2|2|off"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		18
+	$ClassName		"Simulink.Mask"
+	Type			"twiddle_coeff_0"
+	Description		"Used in FFT library. Used when coefficients \nare 2^0 (just pass data through) but latency\nmust be the"
+	" same as for a full twiddle."
+	Initialization		"twiddle_coeff_0_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'add_latency', add_latency, ...\n "
+	"   'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n "
+	"   'async', async);"
+	SelfModifiable		"on"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  6
+	  Object {
+	    $ObjectID		    19
+	    Type		    "edit"
+	    Name		    "n_inputs"
+	    Prompt		    "number inputs"
+	    Value		    "0"
+	  }
+	  Object {
+	    $ObjectID		    20
+	    Type		    "edit"
+	    Name		    "add_latency"
+	    Prompt		    "Add Latency"
+	    Value		    "1"
+	  }
+	  Object {
+	    $ObjectID		    21
+	    Type		    "edit"
+	    Name		    "mult_latency"
+	    Prompt		    "Mult Latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    22
+	    Type		    "edit"
+	    Name		    "bram_latency"
+	    Prompt		    "BRAM Latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    23
+	    Type		    "edit"
+	    Name		    "conv_latency"
+	    Prompt		    "Convert latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    24
+	    Type		    "checkbox"
+	    Name		    "async"
+	    Prompt		    "asynchronous operation"
+	    Value		    "off"
+	    Evaluate		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
       System {
 	Name			"twiddle_coeff_0"
-	Location		[376, 45, 1335, 1952]
+	Location		[342, 45, 1349, 2187]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -651,8 +851,10 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "twiddle_coeff_1"
+      SID		      "3"
       Ports		      []
       Position		      [130, 17, 220, 123]
+      ZOrder		      -3
       BackgroundColor	      "gray"
       UserDataPersistent      on
       UserData		      "DataTag1"
@@ -661,32 +863,84 @@ Library {
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
+      RequestExecContextInheritance off
       MaskHideContents	      off
-      MaskType		      "twiddle_coeff_1"
-      MaskDescription	      "Used in FFT library. Used when result of \ncoeff*(a+jb)=b-ja"
-      MaskPromptString	      "number inputs|Input Bit Width|Input Binary POint|Add Latency|Mult Latency|BRAM Latency|C"
-      "onvert latency|asynchronous operation"
-      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,checkbox"
-      MaskVariables	      "n_inputs=@1;input_bit_width=@2;bin_pt_in=@3;add_latency=@4;mult_latency=@5;bram_latency=@6;"
-      "conv_latency=@7;async=&8;"
-      MaskTunableValueString  "on,on,on,on,on,on,on,on"
-      MaskCallbackString      "|||||||"
-      MaskEnableString	      "on,on,on,on,on,on,on,on"
-      MaskVisibilityString    "on,on,on,on,on,on,on,on"
-      MaskToolTipString	      "on,on,on,on,on,on,on,on"
-      MaskInitialization      "twiddle_coeff_1_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'input_bit_width', in"
-      "put_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mu"
-      "lt_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'async', asyn"
-      "c);"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "0|18|17|1|2|2|2|off"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		25
+	$ClassName		"Simulink.Mask"
+	Type			"twiddle_coeff_1"
+	Description		"Used in FFT library. Used when result of \ncoeff*(a+jb)=b-ja"
+	Initialization		"twiddle_coeff_1_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'input_bit_width', input_bit_width"
+	", ...\n    'bin_pt_in', bin_pt_in, ...\n    'add_latency', add_latency, ...\n    'mult_latency', mult_latency, ...\n "
+	"   'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'async', async);"
+	SelfModifiable		"on"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  8
+	  Object {
+	    $ObjectID		    26
+	    Type		    "edit"
+	    Name		    "n_inputs"
+	    Prompt		    "number inputs"
+	    Value		    "0"
+	  }
+	  Object {
+	    $ObjectID		    27
+	    Type		    "edit"
+	    Name		    "input_bit_width"
+	    Prompt		    "Input Bit Width"
+	    Value		    "18"
+	  }
+	  Object {
+	    $ObjectID		    28
+	    Type		    "edit"
+	    Name		    "bin_pt_in"
+	    Prompt		    "Input Binary POint"
+	    Value		    "17"
+	  }
+	  Object {
+	    $ObjectID		    29
+	    Type		    "edit"
+	    Name		    "add_latency"
+	    Prompt		    "Add Latency"
+	    Value		    "1"
+	  }
+	  Object {
+	    $ObjectID		    30
+	    Type		    "edit"
+	    Name		    "mult_latency"
+	    Prompt		    "Mult Latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    31
+	    Type		    "edit"
+	    Name		    "bram_latency"
+	    Prompt		    "BRAM Latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    32
+	    Type		    "edit"
+	    Name		    "conv_latency"
+	    Prompt		    "Convert latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    33
+	    Type		    "checkbox"
+	    Name		    "async"
+	    Prompt		    "asynchronous operation"
+	    Value		    "off"
+	    Evaluate		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
       System {
 	Name			"twiddle_coeff_1"
-	Location		[409, 45, 1523, 1925]
+	Location		[375, 45, 1537, 2160]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -704,8 +958,10 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "twiddle_general"
+      SID		      "4"
       Ports		      []
       Position		      [130, 151, 220, 259]
+      ZOrder		      -4
       BackgroundColor	      "[0.501961, 0.501961, 0.501961]"
       UserDataPersistent      on
       UserData		      "DataTag2"
@@ -714,49 +970,259 @@ Library {
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
+      RequestExecContextInheritance off
       MaskHideContents	      off
-      MaskType		      "twiddle_general"
-      MaskDescription	      "Used in biplex pipelined FFT."
-      MaskPromptString	      "Number inputs|FFT Size (2^?)|Coefficients:|Coefficient Step Period (2^?)|Coefficient Bit"
-      " Width|Input Bit Width|Input binary point|Asynchronous operation|Add Latency|Mult Latency|BRAM Latency|Convert L"
-      "atency|Number bits above which to store stage's coefficients in BRAM (2^? bits)|BRAM sharing in coeff storage|St"
-      "ore a fraction of coeff factors where useful|Generate coeffs with multipliers where useful|Number calibration lo"
-      "cations when generating coeffs (2^?)|Feedback rotation vector resolution|Maximum fanout|Use behavioural HDL for "
-      "multipliers|Use embedded multipliers|Quantization Behavior|Overflow Behavior"
-      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,checkbox,edit,edit,edit,edit,edit,checkbox,checkbox,ch"
-      "eckbox,edit,edit,edit,checkbox,checkbox,popup(Truncate|Round  (unbiased: +/- Inf)|Round  (unbiased: Even Values)"
-      "),popup(Wrap|Saturate|Error)"
-      MaskVariables	      "n_inputs=@1;FFTSize=@2;Coeffs=@3;StepPeriod=@4;coeff_bit_width=@5;input_bit_width=@6;bin_pt"
-      "_in=@7;async=&8;add_latency=@9;mult_latency=@10;bram_latency=@11;conv_latency=@12;coeffs_bit_limit=@13;coeff_sha"
-      "ring=&14;coeff_decimation=&15;coeff_generation=&16;cal_bits=@17;n_bits_rotation=@18;max_fanout=@19;use_hdl=&20;u"
-      "se_embedded=&21;quantization=&22;overflow=&23;"
-      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
-      MaskCallbackString      "|||||||||||||||||||twiddle_general_callback(gcb);|||"
-      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
-      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
-      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
-      MaskInitialization      "twiddle_general_init(gcb, ...\n    'FFTSize', FFTSize, ...\n    'async', async, ...\n  "
-      "  'n_inputs', n_inputs, ...\n    'Coeffs', Coeffs, ...\n    'StepPeriod', StepPeriod, ...\n    'coeff_bit_width'"
-      ", coeff_bit_width, ...\n    'input_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'add_l"
-      "atency', add_latency, ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'co"
-      "nv_latency', conv_latency, ...\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharin"
-      "g, ...\n    'coeff_decimation', coeff_decimation, ...\n    'coeff_generation', coeff_generation, ...\n    'cal_b"
-      "its', cal_bits, ...\n    'n_bits_rotation', n_bits_rotation, ...\n    'max_fanout', max_fanout, ...\n    'use_hd"
-      "l', use_hdl, ...\n    'use_embedded', use_embedded, ...\n    'quantization', quantization, ...\n    'overflow', "
-      "overflow)"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "0|2|[0                                      1]|0|18|18|17|off|1|2|2|2|9|on|on|on|1|25|4|o"
-      "ff|on|Round  (unbiased: +/- Inf)|Wrap"
-      MaskTabNameString	      "Basic,Basic,Basic,Basic,Basic,Basic,Basic,Basic,Latency,Latency,Latency,Latency,Impleme"
-      "ntation,Implementation,Implementation,Implementation,Implementation,Implementation,Implementation,Implementation"
-      ",Implementation,Implementation,Implementation"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		34
+	$ClassName		"Simulink.Mask"
+	Type			"twiddle_general"
+	Description		"Used in biplex pipelined FFT."
+	Initialization		"twiddle_general_init(gcb, ...\n    'FFTSize', FFTSize, ...\n    'async', async, ...\n    'n_inputs',"
+	" n_inputs, ...\n    'Coeffs', Coeffs, ...\n    'StepPeriod', StepPeriod, ...\n    'coeff_bit_width', coeff_bit_width,"
+	" ...\n    'input_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'add_latency', add_latency, ."
+	"..\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ."
+	"..\n    'coeffs_bit_limit', coeffs_bit_limit, ...\n    'coeff_sharing', coeff_sharing, ...\n    'coeff_decimation', c"
+	"oeff_decimation, ...\n    'coeff_generation', coeff_generation, ...\n    'cal_bits', cal_bits, ...\n    'n_bits_rotat"
+	"ion', n_bits_rotation, ...\n    'max_fanout', max_fanout, ...\n    'use_hdl', use_hdl, ...\n    'use_embedded', use_e"
+	"mbedded, ...\n    'quantization', quantization, ...\n    'overflow', overflow, ...\n    'conv_imp', conv_imp)"
+	SelfModifiable		"on"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  24
+	  Object {
+	    $ObjectID		    35
+	    Type		    "edit"
+	    Name		    "n_inputs"
+	    Prompt		    "Number inputs"
+	    Value		    "0"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    36
+	    Type		    "edit"
+	    Name		    "FFTSize"
+	    Prompt		    "FFT Size (2^?)"
+	    Value		    "2"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    37
+	    Type		    "edit"
+	    Name		    "Coeffs"
+	    Prompt		    "Coefficients:"
+	    Value		    "[0                                      1]"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    38
+	    Type		    "edit"
+	    Name		    "StepPeriod"
+	    Prompt		    "Coefficient Step Period (2^?)"
+	    Value		    "0"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    39
+	    Type		    "edit"
+	    Name		    "coeff_bit_width"
+	    Prompt		    "Coefficient Bit Width"
+	    Value		    "18"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    40
+	    Type		    "edit"
+	    Name		    "input_bit_width"
+	    Prompt		    "Input Bit Width"
+	    Value		    "18"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    41
+	    Type		    "edit"
+	    Name		    "bin_pt_in"
+	    Prompt		    "Input binary point"
+	    Value		    "17"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    42
+	    Type		    "checkbox"
+	    Name		    "async"
+	    Prompt		    "Asynchronous operation"
+	    Value		    "off"
+	    Evaluate		    "off"
+	    TabName		    "Basic"
+	  }
+	  Object {
+	    $ObjectID		    43
+	    Type		    "edit"
+	    Name		    "add_latency"
+	    Prompt		    "Add Latency"
+	    Value		    "1"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    44
+	    Type		    "edit"
+	    Name		    "mult_latency"
+	    Prompt		    "Mult Latency"
+	    Value		    "2"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    45
+	    Type		    "edit"
+	    Name		    "bram_latency"
+	    Prompt		    "BRAM Latency"
+	    Value		    "2"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    46
+	    Type		    "edit"
+	    Name		    "conv_latency"
+	    Prompt		    "Convert Latency"
+	    Value		    "2"
+	    TabName		    "Latency"
+	  }
+	  Object {
+	    $ObjectID		    47
+	    Type		    "edit"
+	    Name		    "coeffs_bit_limit"
+	    Prompt		    "Number bits above which to store stage's coefficients in BRAM (2^? bits)"
+	    Value		    "9"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    48
+	    Type		    "checkbox"
+	    Name		    "coeff_sharing"
+	    Prompt		    "BRAM sharing in coeff storage"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    49
+	    Type		    "checkbox"
+	    Name		    "coeff_decimation"
+	    Prompt		    "Store a fraction of coeff factors where useful"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    50
+	    Type		    "checkbox"
+	    Name		    "coeff_generation"
+	    Prompt		    "Generate coeffs with multipliers where useful"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    51
+	    Type		    "edit"
+	    Name		    "cal_bits"
+	    Prompt		    "Number calibration locations when generating coeffs (2^?)"
+	    Value		    "1"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    52
+	    Type		    "edit"
+	    Name		    "n_bits_rotation"
+	    Prompt		    "Feedback rotation vector resolution"
+	    Value		    "25"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    53
+	    Type		    "edit"
+	    Name		    "max_fanout"
+	    Prompt		    "Maximum fanout"
+	    Value		    "4"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    54
+	    Type		    "checkbox"
+	    Name		    "use_hdl"
+	    Prompt		    "Use behavioural HDL for multipliers"
+	    Value		    "off"
+	    Evaluate		    "off"
+	    Callback		    "twiddle_general_callback(gcb);"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    55
+	    Type		    "checkbox"
+	    Name		    "use_embedded"
+	    Prompt		    "Use embedded multipliers"
+	    Value		    "on"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    56
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "Truncate"
+	      Cell		      "Round  (unbiased: +/- Inf)"
+	      Cell		      "Round  (unbiased: Even Values)"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "quantization"
+	    Prompt		    "Quantization Behavior"
+	    Value		    "Round  (unbiased: +/- Inf)"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    57
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "Wrap"
+	      Cell		      "Saturate"
+	      Cell		      "Error"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "overflow"
+	    Prompt		    "Overflow Behavior"
+	    Value		    "Wrap"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  Object {
+	    $ObjectID		    58
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      4
+	      Cell		      "Fabric"
+	      Cell		      "DSP48"
+	      Cell		      "Behavioural"
+	      Cell		      "Xilinx Cast Block"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "conv_imp"
+	    Prompt		    "Convert implementation"
+	    Value		    "Fabric"
+	    Evaluate		    "off"
+	    TabName		    "Implementation"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
       System {
 	Name			"twiddle_general"
-	Location		[661, 200, 1467, 727]
+	Location		[627, 81, 1481, 843]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -774,8 +1240,10 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "twiddle_pass_through"
+      SID		      "5"
       Ports		      []
       Position		      [20, 152, 110, 258]
+      ZOrder		      -5
       BackgroundColor	      "gray"
       UserDataPersistent      on
       UserData		      "DataTag3"
@@ -784,28 +1252,40 @@ Library {
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
+      RequestExecContextInheritance off
       MaskHideContents	      off
-      MaskType		      "twiddle_pass_through"
-      MaskDescription	      "Used in FFT library. Used when coefficients \nare 2^0 i.e just pass data through without "
-      "delays"
-      MaskPromptString	      "number inputs|asynchronous operation"
-      MaskStyleString	      "edit,checkbox"
-      MaskVariables	      "n_inputs=@1;async=&2;"
-      MaskTunableValueString  "on,on"
-      MaskCallbackString      "|"
-      MaskEnableString	      "on,on"
-      MaskVisibilityString    "on,on"
-      MaskToolTipString	      "on,on"
-      MaskInitialization      "twiddle_pass_through_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'async', async);"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "0|off"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		59
+	$ClassName		"Simulink.Mask"
+	Type			"twiddle_pass_through"
+	Description		"Used in FFT library. Used when coefficients \nare 2^0 i.e just pass data through without delays"
+	Initialization		"twiddle_pass_through_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'async', async);"
+	SelfModifiable		"on"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  2
+	  Object {
+	    $ObjectID		    60
+	    Type		    "edit"
+	    Name		    "n_inputs"
+	    Prompt		    "number inputs"
+	    Value		    "0"
+	  }
+	  Object {
+	    $ObjectID		    61
+	    Type		    "checkbox"
+	    Name		    "async"
+	    Prompt		    "asynchronous operation"
+	    Value		    "off"
+	    Evaluate		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
       System {
 	Name			"twiddle_pass_through"
-	Location		[376, 45, 1379, 2017]
+	Location		[342, 45, 1393, 2252]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -823,8 +1303,10 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "twiddle_stage_2"
+      SID		      "6"
       Ports		      []
       Position		      [242, 17, 332, 123]
+      ZOrder		      -6
       BackgroundColor	      "gray"
       UserDataPersistent      on
       UserData		      "DataTag4"
@@ -833,32 +1315,92 @@ Library {
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
+      RequestExecContextInheritance off
       MaskHideContents	      off
-      MaskType		      "twiddle_stage_2"
-      MaskDescription	      "Used in FFT library."
-      MaskPromptString	      "number inputs|FFT Size (2^?)|Input Bit Width|Input binary point|Add Latency|Mult Latency"
-      "|BRAM Latency|Convert latency|asynchronous operation"
-      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,checkbox"
-      MaskVariables	      "n_inputs=@1;FFTSize=@2;input_bit_width=@3;bin_pt_in=@4;add_latency=@5;mult_latency=@6;bram_"
-      "latency=@7;conv_latency=@8;async=&9;"
-      MaskTunableValueString  "on,on,on,on,on,on,on,on,on"
-      MaskCallbackString      "||||||||"
-      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
-      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
-      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
-      MaskInitialization      "twiddle_stage_2_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'FFTSize', FFTSize, ."
-      "..\n    'input_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'add_latency', add_latency"
-      ", ...\n    'mult_latency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_la"
-      "tency, ...\n    'async', async);"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "0|5|18|17|1|2|2|2|off"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		62
+	$ClassName		"Simulink.Mask"
+	Type			"twiddle_stage_2"
+	Description		"Used in FFT library."
+	Initialization		"twiddle_stage_2_init(gcb, ...\n    'n_inputs', n_inputs, ...\n    'FFTSize', FFTSize, ...\n    'inpu"
+	"t_bit_width', input_bit_width, ...\n    'bin_pt_in', bin_pt_in, ...\n    'add_latency', add_latency, ...\n    'mult_l"
+	"atency', mult_latency, ...\n    'bram_latency', bram_latency, ...\n    'conv_latency', conv_latency, ...\n    'async'"
+	", async);"
+	SelfModifiable		"on"
+	Array {
+	  Type			  "Simulink.MaskParameter"
+	  Dimension		  9
+	  Object {
+	    $ObjectID		    63
+	    Type		    "edit"
+	    Name		    "n_inputs"
+	    Prompt		    "number inputs"
+	    Value		    "0"
+	  }
+	  Object {
+	    $ObjectID		    64
+	    Type		    "edit"
+	    Name		    "FFTSize"
+	    Prompt		    "FFT Size (2^?)"
+	    Value		    "5"
+	  }
+	  Object {
+	    $ObjectID		    65
+	    Type		    "edit"
+	    Name		    "input_bit_width"
+	    Prompt		    "Input Bit Width"
+	    Value		    "18"
+	  }
+	  Object {
+	    $ObjectID		    66
+	    Type		    "edit"
+	    Name		    "bin_pt_in"
+	    Prompt		    "Input binary point"
+	    Value		    "17"
+	  }
+	  Object {
+	    $ObjectID		    67
+	    Type		    "edit"
+	    Name		    "add_latency"
+	    Prompt		    "Add Latency"
+	    Value		    "1"
+	  }
+	  Object {
+	    $ObjectID		    68
+	    Type		    "edit"
+	    Name		    "mult_latency"
+	    Prompt		    "Mult Latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    69
+	    Type		    "edit"
+	    Name		    "bram_latency"
+	    Prompt		    "BRAM Latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    70
+	    Type		    "edit"
+	    Name		    "conv_latency"
+	    Prompt		    "Convert latency"
+	    Value		    "2"
+	  }
+	  Object {
+	    $ObjectID		    71
+	    Type		    "checkbox"
+	    Name		    "async"
+	    Prompt		    "asynchronous operation"
+	    Value		    "off"
+	    Evaluate		    "off"
+	  }
+	  PropName		  "Parameters"
+	}
+      }
       System {
 	Name			"twiddle_stage_2"
-	Location		[409, 45, 1523, 1925]
+	Location		[375, 45, 1537, 2160]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -928,68 +1470,69 @@ MatData {
   }
   DataRecord {
     Tag			    DataTag2
-    Data		    "  %)30     .    ,!0   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
-    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ /RH,P$.    H!,   "
-    "8    (     @         %    \"     $    !     0         %  0 $0    $   \"8 0  9&5F875L=',           !&1E13:7IE      "
+    Data		    "  %)30     .    >!0   8    (     @         %    \"     $    !     0         %  0 \"P    $    6    <W1A="
+    "&4       !P87)A;65T97)S    #@   #     &    \"     T         !0    @    !     0    $         !@ $ &KR% (.    Z!,   "
+    "8    (     @         %    \"     $    !     0         %  0 $0    $   \"I 0  9&5F875L=',           !&1E13:7IE      "
     "       &%S>6YC                ;E]I;G!U=',           !#;V5F9G,              %-T97!097)I;V0         8V]E9F9?8FET7W=I"
     "9'1H  !I;G!U=%]B:71?=VED=&@  &)I;E]P=%]I;@          861D7VQA=&5N8WD       !M=6QT7VQA=&5N8WD      &)R86U?;&%T96YC>0"
     "      8V]N=E]L871E;F-Y      !C;V5F9G-?8FET7VQI;6ET &-O969F7W-H87)I;F<     8V]E9F9?9&5C:6UA=&EO;@!C;V5F9E]G96YE<F%T"
     ":6]N &-A;%]B:71S            ;E]B:71S7W)O=&%T:6]N  !M87A?9F%N;W5T         '5S95]H9&P             =7-E7V5M8F5D9&5D  "
-    "    !Q=6%N=&EZ871I;VX      &]V97)F;&]W            #@   \" ,   &    \"     $         !0    @    !    +@    $       "
-    "  #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !N7VEN<'5T<PX    X    !@    @    &  "
-    "        4    (     0    $    !          D    (            \\#\\.    .     8    (    !          %    \"     $    ' "
-    "    0         0    !P   $9&5%-I>F4 #@   #@    &    \"     8         !0    @    !     0    $         \"0    @      "
-    "      00 X    X    !@    @    $          4    (     0    4    !         !     %    87-Y;F,    .    ,     8    (   "
-    " !          %    \"     $    #     0         0  , ;V9F  X    X    !@    @    $          4    (     0    8    !    "
-    "     !     &    0V]E9F9S   .    4     8    (    !@         %    \"     $    $     0         )    (                "
-    "       \\#\\         0         A #@   $     &    \"     0         !0    @    !    \"@    $         $     H   !3=&5"
-    "P4&5R:6]D        #@   #@    &    \"     8         !0    @    !     0    $         \"0    @               X   !    "
-    " !@    @    $          4    (     0    \\    !         !     /    :6YP=71?8FET7W=I9'1H  X    X    !@    @    &    "
-    "      4    (     0    $    !          D    (            ,D .    0     8    (    !          %    \"     $    )     "
-    "0         0    \"0   &)I;E]P=%]I;@         .    .     8    (    !@         %    \"     $    !     0         )    \""
-    "            #% #@   $     &    \"     0         !0    @    !    #P    $         $     \\   !C;V5F9E]B:71?=VED=&@ #"
-    "@   #@    &    \"     8         !0    @    !     0    $         \"0    @            R0 X   !     !@    @    $     "
-    "     4    (     0    L    !         !     +    861D7VQA=&5N8WD       X    X    !@    @    &          4    (     0 "
-    "   $    !          D    (            \\#\\.    0     8    (    !          %    \"     $    ,     0         0    # "
-    "   &UU;'1?;&%T96YC>0     .    .     8    (    !@         %    \"     $    !     0         )    \"             ! #@"
-    "   $     &    \"     0         !0    @    !    #     $         $     P   !C;VYV7VQA=&5N8WD     #@   #@    &    \" "
-    "    8         !0    @    !     0    $         \"0    @           #P/PX   !     !@    @    $          4    (     0 "
-    "   P    !         !     ,    8G)A;5]L871E;F-Y      X    X    !@    @    &          4    (     0    $    !         "
-    " D    (             $ .    0     8    (    !          %    \"     $    0     0         0    $    &-O969F<U]B:71?;&"
-    "EM:70.    .     8    (    !@         %    \"     $    !     0         )    \"            \"! #@   $     &    \"   "
-    "  0         !0    @    !    #0    $         $     T   !C;V5F9E]S:&%R:6YG    #@   #     &    \"     0         !0   "
-    " @    !     @    $         $  \" &]N   .    0     8    (    !          %    \"     $    0     0         0    $    "
-    "&-O969F7V1E8VEM871I;VX.    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X   !     !@   "
-    " @    $          4    (     0   !     !         !     0    8V]E9F9?9V5N97)A=&EO;@X    P    !@    @    $          4"
-    "    (     0    (    !         !   @!O;@  #@   #@    &    \"     0         !0    @    !    \"     $         $     @"
-    "   !C86Q?8FET<PX    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    0     8"
-    "    (    !          %    \"     $    /     0         0    #P   &Y?8FET<U]R;W1A=&EO;@ .    .     8    (    !@      "
-    "   %    \"     $    !     0         )    \"            #E #@   $     &    \"     0         !0    @    !    \"@    "
-    "$         $     H   !M87A?9F%N;W5T        #@   #@    &    \"     8         !0    @    !     0    $         \"0    "
-    "@            00 X    X    !@    @    $          4    (     0    <    !         !     '    =7-E7VAD;  .    ,     8 "
-    "   (    !          %    \"     $    #     0         0  , ;V9F  X   !     !@    @    $          4    (     0    P  "
-    "  !         !     ,    =7-E7V5M8F5D9&5D      X    P    !@    @    $          4    (     0    ,    !         !   P!"
-    "O9F8 #@   $     &    \"     0         !0    @    !    #     $         $     P   !Q=6%N=&EZ871I;VX     #@   %     &"
-    "    \"     0         !0    @    !    &@    $         $    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*0        X    X"
-    "    !@    @    $          4    (     0    @    !         !     (    ;W9E<F9L;W<.    ,     8    (    !          %  "
-    "  \"     $    $     0         0  0 5W)A< X    X    !@    @    &          4    (     0    $    !          D    (   "
-    "          $ .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    X    !@    @    &    "
-    "      4    (     0    $    !          D    (               .    0     8    (    !@         %    \"     $    \"    "
-    " 0         )    $                       \\#\\.    .     8    (    !@         %    \"     $    !     0         )   "
-    " \"               #@   #@    &    \"     8         !0    @    !     0    $         \"0    @            R0 X    X  "
-    "  !@    @    &          4    (     0    $    !          D    (            ,D .    .     8    (    !@         %    "
-    "\"     $    !     0         )    \"            #% #@   #@    &    \"     8         !0    @    !     0    $        "
-    " \"0    @           #P/PX    X    !@    @    &          4    (     0    $    !          D    (             $ .    "
-    ".     8    (    !@         %    \"     $    !     0         )    \"             ! #@   #@    &    \"     8        "
-    " !0    @    !     0    $         \"0    @             0 X    X    !@    @    &          4    (     0    $    !    "
-    "      D    (            (D .    ,     8    (    !          %    \"     $    \"     0         0  ( ;VX   X    P    "
-    "!@    @    $          4    (     0    (    !         !   @!O;@  #@   #     &    \"     0         !0    @    !     "
-    "@    $         $  \" &]N   .    .     8    (    !@         %    \"     $    !     0         )    \"            / _"
-    "#@   #@    &    \"     8         !0    @    !     0    $         \"0    @            Y0 X    X    !@    @    &    "
-    "      4    (     0    $    !          D    (            $$ .    ,     8    (    !          %    \"     $    #     "
-    "0         0  , ;V9F  X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   %     &    \" "
-    "    0         !0    @    !    &@    $         $    !H   !2;W5N9\" @*'5N8FEA<V5D.B K+RT@26YF*0        X    P    !@ "
-    "   @    $          4    (     0    0    !         !  ! !7<F%P"
+    "    !Q=6%N=&EZ871I;VX      &]V97)F;&]W            8V]N=E]I;7                      #@   ! ,   &    \"     $        "
+    " !0    @    !    +@    $         #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !N7VE"
+    "N<'5T<PX    X    !@    @    &          4    (     0    $    !          D    (            \\#\\.    .     8    (   "
+    " !          %    \"     $    '     0         0    !P   $9&5%-I>F4 #@   #@    &    \"     8         !0    @    !   "
+    "  0    $         \"0    @             0 X    X    !@    @    $          4    (     0    4    !         !     %    "
+    "87-Y;F,    .    ,     8    (    !          %    \"     $    #     0         0  , ;V9F  X    X    !@    @    $     "
+    "     4    (     0    8    !         !     &    0V]E9F9S   .    0     8    (    !@         %    \"     $    \"     "
+    "0         )    $                       \\#\\.    0     8    (    !          %    \"     $    *     0         0    "
+    "\"@   %-T97!097)I;V0        .    .     8    (    !@         %    \"     $    !     0         )    \"              "
+    " #@   $     &    \"     0         !0    @    !    #P    $         $     \\   !I;G!U=%]B:71?=VED=&@ #@   #@    &   "
+    " \"     8         !0    @    !     0    $         \"0    @            R0 X   !     !@    @    $          4    (   "
+    "  0    D    !         !     )    8FEN7W!T7VEN          X    X    !@    @    &          4    (     0    $    !     "
+    "     D    (            ,4 .    0     8    (    !          %    \"     $    /     0         0    #P   &-O969F7V)I=%"
+    "]W:61T:  .    .     8    (    !@         %    \"     $    !     0         )    \"            #) #@   $     &    \""
+    "     0         !0    @    !    \"P    $         $     L   !A9&1?;&%T96YC>0      #@   #@    &    \"     8         !"
+    "0    @    !     0    $         \"0    @           #P/PX   !     !@    @    $          4    (     0    P    !      "
+    "   !     ,    ;75L=%]L871E;F-Y      X    X    !@    @    &          4    (     0    $    !          D    (        "
+    "     $ .    0     8    (    !          %    \"     $    ,     0         0    #    &-O;G9?;&%T96YC>0     .    .    "
+    " 8    (    !@         %    \"     $    !     0         )    \"            / _#@   $     &    \"     0         !0  "
+    "  @    !    #     $         $     P   !B<F%M7VQA=&5N8WD     #@   #@    &    \"     8         !0    @    !     0   "
+    " $         \"0    @             0 X   !     !@    @    $          4    (     0   !     !         !     0    8V]E9F"
+    "9S7V)I=%]L:6UI= X    X    !@    @    &          4    (     0    $    !          D    (            (D .    0     8 "
+    "   (    !          %    \"     $    -     0         0    #0   &-O969F7W-H87)I;F<    .    ,     8    (    !        "
+    "  %    \"     $    \"     0         0  ( ;VX   X   !     !@    @    $          4    (     0   !     !         !   "
+    "  0    8V]E9F9?9&5C:6UA=&EO;@X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@   $     "
+    "&    \"     0         !0    @    !    $     $         $    !    !C;V5F9E]G96YE<F%T:6]N#@   #     &    \"     0    "
+    "     !0    @    !     @    $         $  \" &]N   .    .     8    (    !          %    \"     $    (     0         "
+    "0    \"    &-A;%]B:71S#@   #@    &    \"     8         !0    @    !     0    $         \"0    @           #P/PX   "
+    "!     !@    @    $          4    (     0    \\    !         !     /    ;E]B:71S7W)O=&%T:6]N  X    X    !@    @    "
+    "&          4    (     0    $    !          D    (            .4 .    0     8    (    !          %    \"     $    *"
+    "     0         0    \"@   &UA>%]F86YO=70        .    .     8    (    !@         %    \"     $    !     0         )"
+    "    \"            !! #@   #@    &    \"     0         !0    @    !    !P    $         $     <   !U<V5?:&1L  X    P"
+    "    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $     &    \"     0         !0    @    ! "
+    "   #     $         $     P   !U<V5?96UB961D960     #@   #     &    \"     0         !0    @    !     P    $       "
+    "  $  # &]F9@ .    0     8    (    !          %    \"     $    ,     0         0    #    '%U86YT:7IA=&EO;@     .   "
+    " 4     8    (    !          %    \"     $    :     0         0    &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I      "
+    "  #@   #@    &    \"     0         !0    @    !    \"     $         $     @   !O=F5R9FQO=PX    P    !@    @    $  "
+    "        4    (     0    0    !         !  ! !7<F%P#@   #@    &    \"     8         !0    @    !     0    $        "
+    " \"0    @             0 X    P    !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   #@    &    "
+    "\"     8         !0    @    !     0    $         \"0    @               X   !     !@    @    &          4    (    "
+    " 0    (    !          D    0                      #P/PX    X    !@    @    &          4    (     0    $    !      "
+    "    D    (               .    .     8    (    !@         %    \"     $    !     0         )    \"            #) #@"
+    "   #@    &    \"     8         !0    @    !     0    $         \"0    @            R0 X    X    !@    @    &      "
+    "    4    (     0    $    !          D    (            ,4 .    .     8    (    !@         %    \"     $    !     0 "
+    "        )    \"            / _#@   #@    &    \"     8         !0    @    !     0    $         \"0    @           "
+    "  0 X    X    !@    @    &          4    (     0    $    !          D    (             $ .    .     8    (    !@  "
+    "       %    \"     $    !     0         )    \"             ! #@   #@    &    \"     8         !0    @    !     0 "
+    "   $         \"0    @            B0 X    P    !@    @    $          4    (     0    (    !         !   @!O;@  #@  "
+    " #     &    \"     0         !0    @    !     @    $         $  \" &]N   .    ,     8    (    !          %    \"  "
+    "   $    \"     0         0  ( ;VX   X    X    !@    @    &          4    (     0    $    !          D    (        "
+    "    \\#\\.    .     8    (    !@         %    \"     $    !     0         )    \"            #E #@   #@    &    \""
+    "     8         !0    @    !     0    $         \"0    @            00 X    P    !@    @    $          4    (     0"
+    "    ,    !         !   P!O9F8 #@   #     &    \"     0         !0    @    !     @    $         $  \" &]N   .    4 "
+    "    8    (    !          %    \"     $    :     0         0    &@   %)O=6YD(\" H=6YB:6%S960Z(\"LO+2!);F8I        #"
+    "@   #     &    \"     0         !0    @    !    !     $         $  $ %=R87 .    .     8    (    !          %    \""
+    "     $    &     0         0    !@   $9A8G)I8P  "
   }
   DataRecord {
     Tag			    DataTag3

@@ -217,7 +217,8 @@ function bus_convert_init(blk, varargin)
         'adder_imp', adder_imp, 'Position', position);
     else,
       %CASPER converts can't increase binary points so use generic Xilinx
-      if pt_out > pt_in,
+      %Also do this if the user manually specifies this implementation
+      if ((pt_out > pt_in) || strcmp(adder_imp,'Xilinx Cast Block')),
         reuse_block(blk, conv_name, 'xbsIndex_r4/Convert', ...
           'arith_type', 'Signed  (2''s comp)', ...
           'n_bits', num2str(bits_out), 'bin_pt', num2str(pt_out), 'latency', num2str(latency), ...

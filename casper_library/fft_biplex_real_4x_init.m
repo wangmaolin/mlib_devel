@@ -10,10 +10,12 @@ function fft_biplex_real_4x_init(blk, varargin)
 % FFTSize = Size of the FFT (2^FFTSize points). 
 % input_bit_width = Bit width of input and output data. 
 % coeff_bit_width = Bit width of coefficients.
-% add_latency = The latency of adders in the system.
+% add_latency = The latency of adders in the system (except twiddles).
+% add_latency_twiddles = The latency of adders in the twiddle system.
 % mult_latency = The latency of multipliers in the system.
 % bram_latency = The latency of BRAM in the system.
-% conv_latency = 
+% conv_latency = Convert latency in the system (other than twiddles)
+% conv_latency_twiddles = Convert latency in the twiddles
 % quantization = Quantization behavior.
 % overflow = Overflow behavior.
 % arch = 
@@ -23,6 +25,8 @@ function fft_biplex_real_4x_init(blk, varargin)
 % hardcode_shifts = 
 % shift_schedule = 
 % dsp48_adders = 
+% conv_imp = Implementation of (CASPER) convert blocks -- Fabric or DSP48
+% conv_imp_twiddle = Implementation of convert blocks in twiddles
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -62,9 +66,11 @@ defaults = { ...
     'coeff_bit_width', 18, ...
     'async', 'off', ...
     'add_latency', 1, ...
+    'add_latency_twiddles', 1, ...
     'mult_latency', 2, ...
     'bram_latency', 2, ...
     'conv_latency', 1, ...
+    'conv_latency_twiddles', 1, ...
     'quantization', 'Round  (unbiased: +/- Inf)', ...
     'overflow', 'Saturate', ...
     'delays_bit_limit', 8, ...
@@ -78,6 +84,8 @@ defaults = { ...
     'hardcode_shifts', 'off', ...
     'shift_schedule', [1 1], ...
     'dsp48_adders', 'off', ...
+    'conv_imp', 'Fabric', ...
+    'conv_imp_twiddles', 'Fabric', ...
 };
 
 % Skip init script if mask state has not changed.
@@ -92,29 +100,33 @@ check_mask_type(blk, 'fft_biplex_real_4x');
 munge_block(blk, varargin{:});
 
 % Retrieve values from mask fields.
-n_inputs            = get_var('n_inputs', 'defaults', defaults, varargin{:});
-FFTSize             = get_var('FFTSize', 'defaults', defaults, varargin{:});
-input_bit_width     = get_var('input_bit_width', 'defaults', defaults, varargin{:});
-bin_pt_in           = get_var('bin_pt_in', 'defaults', defaults, varargin{:});
-coeff_bit_width     = get_var('coeff_bit_width', 'defaults', defaults, varargin{:});
-async               = get_var('async', 'defaults', defaults, varargin{:});
-add_latency         = get_var('add_latency', 'defaults', defaults, varargin{:});
-mult_latency        = get_var('mult_latency', 'defaults', defaults, varargin{:});
-bram_latency        = get_var('bram_latency', 'defaults', defaults, varargin{:});
-conv_latency        = get_var('conv_latency', 'defaults', defaults, varargin{:});
-quantization        = get_var('quantization', 'defaults', defaults, varargin{:});
-overflow            = get_var('overflow', 'defaults', defaults, varargin{:});
-delays_bit_limit    = get_var('delays_bit_limit', 'defaults', defaults, varargin{:});
-coeffs_bit_limit    = get_var('coeffs_bit_limit', 'defaults', defaults, varargin{:});
-coeff_sharing       = get_var('coeff_sharing', 'defaults', defaults, varargin{:});
-coeff_decimation    = get_var('coeff_decimation', 'defaults', defaults, varargin{:});
-max_fanout          = get_var('max_fanout', 'defaults', defaults, varargin{:});
-mult_spec           = get_var('mult_spec', 'defaults', defaults, varargin{:});
-bitgrowth           = get_var('bitgrowth', 'defaults', defaults, varargin{:});
-max_bits            = get_var('max_bits', 'defaults', defaults, varargin{:});
-hardcode_shifts     = get_var('hardcode_shifts', 'defaults', defaults, varargin{:});
-shift_schedule      = get_var('shift_schedule', 'defaults', defaults, varargin{:});
-dsp48_adders        = get_var('dsp48_adders', 'defaults', defaults, varargin{:});
+n_inputs              = get_var('n_inputs', 'defaults', defaults, varargin{:});
+FFTSize               = get_var('FFTSize', 'defaults', defaults, varargin{:});
+input_bit_width       = get_var('input_bit_width', 'defaults', defaults, varargin{:});
+bin_pt_in             = get_var('bin_pt_in', 'defaults', defaults, varargin{:});
+coeff_bit_width       = get_var('coeff_bit_width', 'defaults', defaults, varargin{:});
+async                 = get_var('async', 'defaults', defaults, varargin{:});
+add_latency           = get_var('add_latency', 'defaults', defaults, varargin{:});
+add_latency_twiddles  = get_var('add_latency_twiddles', 'defaults', defaults, varargin{:});
+mult_latency          = get_var('mult_latency', 'defaults', defaults, varargin{:});
+bram_latency          = get_var('bram_latency', 'defaults', defaults, varargin{:});
+conv_latency          = get_var('conv_latency', 'defaults', defaults, varargin{:});
+conv_latency_twiddles = get_var('conv_latency_twiddles', 'defaults', defaults, varargin{:});
+quantization          = get_var('quantization', 'defaults', defaults, varargin{:});
+overflow              = get_var('overflow', 'defaults', defaults, varargin{:});
+delays_bit_limit      = get_var('delays_bit_limit', 'defaults', defaults, varargin{:});
+coeffs_bit_limit      = get_var('coeffs_bit_limit', 'defaults', defaults, varargin{:});
+coeff_sharing         = get_var('coeff_sharing', 'defaults', defaults, varargin{:});
+coeff_decimation      = get_var('coeff_decimation', 'defaults', defaults, varargin{:});
+max_fanout            = get_var('max_fanout', 'defaults', defaults, varargin{:});
+mult_spec             = get_var('mult_spec', 'defaults', defaults, varargin{:});
+bitgrowth             = get_var('bitgrowth', 'defaults', defaults, varargin{:});
+max_bits              = get_var('max_bits', 'defaults', defaults, varargin{:});
+hardcode_shifts       = get_var('hardcode_shifts', 'defaults', defaults, varargin{:});
+shift_schedule        = get_var('shift_schedule', 'defaults', defaults, varargin{:});
+dsp48_adders          = get_var('dsp48_adders', 'defaults', defaults, varargin{:});
+conv_imp_twiddles     = get_var('conv_imp_twiddles', 'defaults', defaults, varargin{:});
+conv_imp              = get_var('conv_imp', 'defaults', defaults, varargin{:});
 
 %default empty for storage in library
 if n_inputs == 0 || FFTSize == 0,
@@ -241,9 +253,11 @@ reuse_block(blk, 'biplex_core', 'casper_library_ffts/biplex_core', ...
     'coeff_bit_width', num2str(coeff_bit_width), ...
     'async', async, ...
     'add_latency', num2str(add_latency), ...
+    'add_latency_twiddles', num2str(add_latency_twiddles), ...
     'mult_latency', num2str(mult_latency), ...
     'bram_latency', num2str(bram_latency), ...
     'conv_latency', num2str(conv_latency), ...
+    'conv_latency_twiddles', num2str(conv_latency_twiddles), ...
     'quantization', quantization, ...
     'overflow', overflow, ...
     'delays_bit_limit', num2str(delays_bit_limit), ...
@@ -256,7 +270,9 @@ reuse_block(blk, 'biplex_core', 'casper_library_ffts/biplex_core', ...
     'max_bits', num2str(max_bits), ...
     'hardcode_shifts', hardcode_shifts, ...
     'shift_schedule', mat2str(shift_schedule), ...
-    'dsp48_adders', dsp48_adders);
+    'dsp48_adders', dsp48_adders, ...
+    'conv_imp', conv_imp, ...
+    'conv_imp_twiddles', conv_imp_twiddles);
 
 add_line(blk, 'sync/1', 'biplex_core/1');
 add_line(blk, 'shift/1', 'biplex_core/2');
