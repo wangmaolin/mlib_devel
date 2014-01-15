@@ -4,6 +4,9 @@ export MATLAB_PATH=/usr/local/MATLAB/R2012b
 PLATFORM=lin64
 export XILINX_PATH=/opt/Xilinx/14.6/ISE_DS
 export MLIB_DEVEL_PATH=/home/jack/github/jack-h/mlib_devel
+export TMP=/home/jack/tmp
+export TEMP=/home/jack/tmp
+export DSP_CACHE_DIR=/home/jack/tmp
 #############################################
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
