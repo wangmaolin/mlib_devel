@@ -85,6 +85,7 @@ switch s.hw_sys
     % to determine the M and D values for the PLL
     % All swictching values are for V5 -1 speed grade
     case 'ROACH'        
+        oversample_factor = 1; %See ROACH2 case below for explanation
         f_pfdmax = 449; % MHz
         f_pfdmin = 19; % MHz
         f_vcomax = 1000; % MHz
@@ -96,9 +97,17 @@ switch s.hw_sys
         o0_allowed = 1:o0_prec:128;
         o1_allowed = 1:128;
     case 'ROACH2'
+        % We use a 2x oversampling SERDES module to allow data to be captured with half clock rate. This allows the MMCM to be configured in
+        % high bandwidth mode with an ADC sampling rate of 5 GHz +/- 200 MHz. Previously, this represented an edge case where there are no
+        % valid MMCM parameters unless bandwidth was set to LOW, which caused glitching on data capture.
+        % Only the ROACH2 demux 1:1 firmware has been altered in this was (I think the other modes should be fine without oversampling...(?))
+        if strcmp(demux, '1:1')
+            oversample_factor = 2;
+        else
+            oversample_factor = 1;
+        end
         f_pfdmax = 450; % MHz, for bandwidth set to HIGH
-        f_pfdmin = 125; % MHz, %A hack to allow 2500MHz operation. pfdmin for high mode is 135.
-        % TODO autoselect high mode if possible, only drop to low mode if no high mode settings can be found
+        f_pfdmin = 135; % MHz, for bandwidth set to HIGH
         f_vcomax = 1200; % MHz
         f_vcomin = 600; % MHz
         r_allowed = 1:8;
@@ -126,7 +135,7 @@ for r=r_allowed
     pfd_freq = pll_freq/d;
     for m=m_min:m_max
         vco_freq = pfd_freq*m;
-        o0 = vco_freq/s.adc_clk_rate;
+        o0 = vco_freq/s.adc_clk_rate * oversample_factor;
         o1 = vco_freq/s.sysclk_rate;
         % disp(sprintf('%d %d %d %f %f %f %f', r, d, m, pfd_freq, vco_freq, o0, o1));
         if ~ismember(m, m_allowed)
