@@ -19,7 +19,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [2092.0, 303.0, 1556.0, 1114.0]
+      Location		      [1920.0, 0.0, 1280.0, 1024.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -43,9 +43,9 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1504.0, 937.0]
+	Extents			[1242.0, 857.0]
 	ZoomFactor		[1.0]
-	Offset			[-17.062137871981577, 110.0]
+	Offset			[160.75, 306.49843307758761]
       }
     }
   }
@@ -53,11 +53,11 @@ Library {
   Creator		  "hchen05"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "jack"
+  LastModifiedBy	  "paulp"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Dec 02 18:08:11 2013"
-  RTWModifiedTimeStamp	  307908470
-  ModelVersionFormat	  "1.%<AutoIncrement:502>"
+  LastModifiedDate	  "Fri Jan 17 14:27:25 2014"
+  RTWModifiedTimeStamp	  311869640
+  ModelVersionFormat	  "1.%<AutoIncrement:506>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -802,7 +802,7 @@ Library {
   }
   System {
     Name		    "xps_library"
-    Location		    [2092, 303, 3648, 1417]
+    Location		    [1920, 0, 3200, 1024]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -54453,7 +54453,7 @@ Library {
       }
       System {
 	Name			"pcore"
-	Location		[2092, 303, 3648, 1417]
+	Location		[54, 45, 792, 1520]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -58215,12 +58215,13 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "software register"
-      SID		      "323"
+      SID		      "332"
       Tag		      "xps:sw_reg"
       Ports		      [1, 1]
-      Position		      [920, 414, 1020, 446]
-      ZOrder		      -20
+      Position		      [920, 434, 1020, 466]
+      ZOrder		      5229
       BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
+      AttributesFormatString  "1input"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -58232,18 +58233,28 @@ Library {
 	$PropName		"MaskObject"
 	$ObjectID		263
 	$ClassName		"Simulink.Mask"
-	Initialization		"swreg_init(gcb);"
+	Type			"swreg"
+	Initialization		"swreg_init(gcb)"
 	SelfModifiable		"on"
 	Array {
 	  Type			  "Simulink.MaskParameter"
-	  Dimension		  8
+	  Dimension		  9
 	  Object {
 	    $ObjectID		    264
-	    Type		    "edit"
-	    Name		    "numios"
-	    Prompt		    "Num I/Os"
-	    Value		    "1"
-	    Callback		    "t = timer('StartDelay', 0.1); t.TimerFcn = {@swreg_cb, gcb}; start(t);"
+	    Type		    "popup"
+	    Array {
+	      Type		      "Cell"
+	      Dimension		      3
+	      Cell		      "one value"
+	      Cell		      "fields of equal size"
+	      Cell		      "fields of arbitrary size"
+	      PropName		      "TypeOptions"
+	    }
+	    Name		    "mode"
+	    Prompt		    "Mode:"
+	    Value		    "one value"
+	    Evaluate		    "off"
+	    Callback		    "swreg_cb(gcb);"
 	    TabName		    "Setup"
 	  }
 	  Object {
@@ -58258,9 +58269,11 @@ Library {
 	    }
 	    Name		    "io_dir"
 	    Prompt		    "I/O direction"
-	    Value		    "To Processor"
-	    Callback		    "a = get_param(gcb, 'MaskEnables');\nif strcmp(get_param(gcb, 'io_dir'), 'To Processor'),\na(4) = {"
-	    "'off'};\nelse\na(4) = {'on'};\nend\nset_param(gcb, 'MaskEnables', a);\n"
+	    Value		    "From Processor"
+	    Callback		    "mask_enables = get_param(gcb, 'MaskEnables');\nmask_names = get_param(gcb, 'MaskNames');\nif strcm"
+	    "p(get_param(gcb, 'io_dir'), 'To Processor'),\n    mask_enables{ismember(mask_names, 'sample_period')} = 'off';\ne"
+	    "lse\n    mask_enables{ismember(mask_names, 'sample_period')} = 'on';\nend\nset_param(gcb, 'MaskEnables', mask_ena"
+	    "bles);"
 	    TabName		    "Setup"
 	  }
 	  Object {
@@ -58277,25 +58290,33 @@ Library {
 	    Name		    "sample_period"
 	    Prompt		    "Sample period"
 	    Value		    "1"
-	    Enabled		    "off"
 	    TabName		    "Setup"
 	  }
 	  Object {
 	    $ObjectID		    268
 	    Type		    "edit"
-	    Name		    "name1"
-	    Prompt		    "Name"
+	    Name		    "names"
+	    Prompt		    "Name:"
 	    Value		    "reg"
 	    Evaluate		    "off"
-	    TabName		    "IO1"
+	    TabName		    "Setup"
 	  }
 	  Object {
 	    $ObjectID		    269
 	    Type		    "edit"
-	    Name		    "bitwidth1"
-	    Prompt		    "Bitwidth"
+	    Name		    "bitwidths"
+	    Prompt		    "Bitwidth:"
 	    Value		    "32"
-	    TabName		    "IO1"
+	    Enabled		    "off"
+	    Callback		    "blk = gcb;\nmode = get_param(blk, 'mode');\ncurrent_widths = eval(get_param(blk, 'bitwidths'));\ni"
+	    "f (strcmp(mode, 'one value') || strcmp(mode, 'fields of equal size')) && (length(current_widths) > 1),\n    error"
+	    "('Only one width may be specified for this mode.');\nelseif strcmp(mode, 'fields of arbitrary size')\n    current"
+	    "_names = textscan(strtrim(strrep(strrep(get_param(blk, 'names'), ']', ''), '[', '')), '%s');\n    current_names ="
+	    " current_names{1};\n    numios = length(current_names);\n    if length(current_widths) ~= numios,\n        error("
+	    "'%d field names specified, but %d widths?', numios, length(current_widths));\n    end\nend\ntotal_width = 0;\nfor"
+	    " ctr = 1 : length(current_widths),\n    total_width = total_width + current_widths(ctr);\nend\nif total_width > 3"
+	    "2,\n    error('Total width must be 32 or less, set to %d.', total_width);\nend"
+	    TabName		    "Setup"
 	  }
 	  Object {
 	    $ObjectID		    270
@@ -62671,60 +62692,6 @@ Library {
 	  DstBlock		  "tx_overflow"
 	  DstPort		  1
 	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "ucf"
-      SID		      "332"
-      Tag		      "xps:ucf"
-      Ports		      []
-      Position		      [27, 467, 73, 510]
-      ZOrder		      2
-      BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
-      AncestorBlock	      "xps_library/pcore"
-      LibraryVersion	      "1.501"
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      Object {
-	$PropName		"MaskObject"
-	$ObjectID		314
-	$ClassName		"Simulink.Mask"
-	Type			"ucf"
-	Description		"Allows insertion of custom constraints into a compile. "
-	SelfModifiable		"on"
-	Display			"fprintf('UCF');"
-	Object {
-	  $PropName		  "Parameters"
-	  $ObjectID		  315
-	  $ClassName		  "Simulink.MaskParameter"
-	  Type			  "edit"
-	  Name			  "ucf_file"
-	  Prompt		  "Path to file containing constraints. (This should adhere to .ucf syntax)"
-	  Value			  "/tmp/testucf.ucf"
-	  Evaluate		  "off"
-	}
-      }
-      System {
-	Name			"ucf"
-	Location		[2092, 303, 3648, 1417]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"A4"
-	PaperUnits		"centimeters"
-	TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
       }
     }
     Annotation {
