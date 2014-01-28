@@ -50,13 +50,15 @@ module baseline_tap(
     parameter ACC_MUX_LATENCY = 2;      //Latency of the mux to place the accumulation result on the xeng shift reg
     parameter FIRST_DSP_REGISTERS = 2;  //number of registers on the input of the first DSP slice in the chain
     parameter DSP_REGISTERS = 2;        //number of registers on the input of all others DSP slices in the chain
-    parameter N_ANTS = 8;               //number of (dual pol) antenna inputs
+    parameter N_ANTS = 8;               //number of antenna inputs
+    parameter N_POLS = 2;	        //number of polarizations per antenna
     parameter TAP_SEPARATION = 1;       //Separationg number of antenna tap
     parameter BRAM_LATENCY = 2;         //Latency of brams in delay chain
     
     localparam P_FACTOR = 1<<P_FACTOR_BITS;                                         //number of parallel cmults
-    localparam INPUT_WIDTH = 2*BITWIDTH*2*(1<<P_FACTOR_BITS);                       //width of complex in/out bus (dual pol)
-    localparam ACC_WIDTH = 4*2*((2*BITWIDTH+1)+P_FACTOR_BITS+SERIAL_ACC_LEN_BITS);  //width of complex acc in/out bus (4 stokes)
+    localparam INPUT_WIDTH = 2*BITWIDTH*N_POLS*(1<<P_FACTOR_BITS);                       //width of complex in/out bus (dual pol)
+    localparam N_STOKES = N_POLS*N_POLS;
+    localparam ACC_WIDTH = N_STOKES*2*((2*BITWIDTH+1)+P_FACTOR_BITS+SERIAL_ACC_LEN_BITS);  //width of complex acc in/out bus (4 stokes)
     localparam SERIAL_ACC_LEN = 1<<SERIAL_ACC_LEN_BITS;
     
     input clk;                                                  //clock input
@@ -142,8 +144,8 @@ module baseline_tap(
     //////TODO -- make sure the latencies are applied to the muxes in the same way latencies are applied in the
     //////parallel mac block.
 
-    reg [(INPUT_WIDTH>>1)-1:0] ant_mux_x = 0; //width of all parallel bits of a single polarisation
-    reg [(INPUT_WIDTH>>1)-1:0] ant_mux_y = 0; //i.e. INPUT_WIDTH/2
+    reg [(INPUT_WIDTH>>(N_POLS-1))-1:0] ant_mux_x = 0; //width of all parallel bits of a single polarisation
+    reg [(INPUT_WIDTH>>(N_POLS-1))-1:0] ant_mux_y = 0;
     
     generate //generate a series of delayed mux ctrl_signals
     genvar p;
@@ -168,38 +170,71 @@ module baseline_tap(
     endgenerate
     
     generate
-    for(p=0; p<P_FACTOR; p=p+1) begin : split_mux_gen
-        always@(posedge(clk)) begin
-            if(mux_ctrl[p]==1'b1) begin
-                ant_mux_x[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_end[(P_FACTOR+p+1)*2*BITWIDTH-1:(P_FACTOR+p)*2*BITWIDTH];
-                ant_mux_y[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_end[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH];
-            end else begin
-                ant_mux_x[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_ndel[(P_FACTOR+p+1)*2*BITWIDTH-1:(P_FACTOR+p)*2*BITWIDTH];
-                ant_mux_y[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_ndel[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH];
-            end
-        end //@posedge(clk)
-    end //split_mux_gen
+    if (N_POLS==1) begin
+        for(p=0; p<P_FACTOR; p=p+1) begin : split_mux_gen
+            always@(posedge(clk)) begin
+                if(mux_ctrl[p]==1'b1) begin
+                    ant_mux_x[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_end[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH];
+                end else begin
+                    ant_mux_x[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_ndel[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH];
+                end
+            end //@posedge(clk)
+        end //split_mux_gen
+    end else if (N_POLS==2) begin
+        for(p=0; p<P_FACTOR; p=p+1) begin : split_mux_gen
+            always@(posedge(clk)) begin
+                if(mux_ctrl[p]==1'b1) begin
+                    ant_mux_x[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_end[(P_FACTOR+p+1)*2*BITWIDTH-1:(P_FACTOR+p)*2*BITWIDTH];
+                    ant_mux_y[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_end[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH];
+                end else begin
+                    ant_mux_x[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_ndel[(P_FACTOR+p+1)*2*BITWIDTH-1:(P_FACTOR+p)*2*BITWIDTH];
+                    ant_mux_y[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH] <= a_ndel[(p+1)*2*BITWIDTH-1:p*2*BITWIDTH];
+                end
+            end //@posedge(clk)
+        end //split_mux_gen
+    end
     endgenerate
       
-    ////// Instantiate the dual_pol_cmac
-    
-    dual_pol_cmac #(
-        .BITWIDTH(BITWIDTH),
-        .P_FACTOR_BITS(P_FACTOR_BITS),
-        .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
-        .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
-        .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
-        .DSP_REGISTERS(DSP_REGISTERS)
-    ) dual_pol_cmac_inst (
-        .clk(clk),
-        .a(a_del_delay_reg),
-        .b({ant_mux_x,ant_mux_y}),
-        .acc_in(acc_in),
-        .valid_in(valid_in),
-        .sync(rst_reg),
-        .acc_out(acc_out),
-        .valid_out(valid_out)
-    );
+    ////// Instantiate the cmac
+    generate
+    if (N_POLS==1) begin :sp_cmac
+        simgle_pol_cmac #(
+            .BITWIDTH(BITWIDTH),
+            .P_FACTOR_BITS(P_FACTOR_BITS),
+            .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
+            .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
+            .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
+            .DSP_REGISTERS(DSP_REGISTERS)
+        ) dual_pol_cmac_inst (
+            .clk(clk),
+            .a(a_del_delay_reg),
+            .b({ant_mux_x,ant_mux_y}),
+            .acc_in(acc_in),
+            .valid_in(valid_in),
+            .sync(rst_reg),
+            .acc_out(acc_out),
+            .valid_out(valid_out)
+        );
+    end else begin : dp_cmac 
+        dual_pol_cmac #(
+            .BITWIDTH(BITWIDTH),
+            .P_FACTOR_BITS(P_FACTOR_BITS),
+            .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
+            .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
+            .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
+            .DSP_REGISTERS(DSP_REGISTERS)
+        ) dual_pol_cmac_inst (
+            .clk(clk),
+            .a(a_del_delay_reg),
+            .b({ant_mux_x,ant_mux_y}),
+            .acc_in(acc_in),
+            .valid_in(valid_in),
+            .sync(rst_reg),
+            .acc_out(acc_out),
+            .valid_out(valid_out)
+        );
+    end
+    endgenerate
 
 
 endmodule

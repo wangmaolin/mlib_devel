@@ -30,12 +30,14 @@ module auto_tap(
     parameter DSP_REGISTERS = 2;        //number of registers on the input of all others DSP slices in the chain
     parameter N_ANTS = 32;              //number of (dual pol) antenna inputs
     parameter BRAM_LATENCY = 2;         //Latency of brams in delay chain
+    parameter N_POLS = 2;		//Number of polarizations
     
     localparam MULT_LATENCY = ((1<<P_FACTOR_BITS)-1 + (FIRST_DSP_REGISTERS+2));      //Multiplier Latency (= latency of first DSP + 1 for every additional DSP)
     localparam ADD_LATENCY = 1;                                                     //Adder latency (currently hardcoded to 1)
     localparam P_FACTOR = 1<<P_FACTOR_BITS;                                         //number of parallel cmults
-    localparam INPUT_WIDTH = 2*BITWIDTH*2*(1<<P_FACTOR_BITS);                       //width of complex in/out bus (dual pol)
-    localparam ACC_WIDTH = 4*2*((2*BITWIDTH+1)+P_FACTOR_BITS+SERIAL_ACC_LEN_BITS);  //width of complex acc in/out bus (4 stokes)
+    localparam INPUT_WIDTH = 2*BITWIDTH*N_POLS*(1<<P_FACTOR_BITS);                       //width of complex in/out bus 
+    localparam N_STOKES = N_POLS*N_POLS;					    //Number of stokes parameters
+    localparam ACC_WIDTH = N_STOKES*2*((2*BITWIDTH+1)+P_FACTOR_BITS+SERIAL_ACC_LEN_BITS);  //width of complex acc in/out bus
     localparam SERIAL_ACC_LEN = 1<<SERIAL_ACC_LEN_BITS;
     
     input clk;                                                  //clock input
@@ -99,24 +101,45 @@ module auto_tap(
     );
 
     
-    //Instantiate the dual pol cmac (could[should] optimize for auto correlations)
-    dual_pol_cmac #(
-        .BITWIDTH(BITWIDTH),
-        .P_FACTOR_BITS(P_FACTOR_BITS),
-        .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
-        .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
-        .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
-        .DSP_REGISTERS(DSP_REGISTERS)
-    ) dual_pol_cmac_inst (
-        .clk(clk),
-        .a(a_del),
-        .b(a_ndel),
-        .acc_in(acc_in),
-        .valid_in(valid_in),
-        .sync(sync_in),
-        .acc_out(acc_out),
-        .valid_out(valid_out)
-    );
+    //Instantiate eith a single or dual-pol cmac depending on the xengine type
+    generate
+    if (N_POLS==1) begin : sp_cmacs
+        single_pol_cmac #(
+            .BITWIDTH(BITWIDTH),
+            .P_FACTOR_BITS(P_FACTOR_BITS),
+            .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
+            .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
+            .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
+            .DSP_REGISTERS(DSP_REGISTERS)
+        ) dual_pol_cmac_inst (
+            .clk(clk),
+            .a(a_del),
+            .b(a_ndel),
+            .acc_in(acc_in),
+            .valid_in(valid_in),
+            .sync(sync_in),
+            .acc_out(acc_out),
+            .valid_out(valid_out)
+        );
+    end else if(N_POLS==2) begin : dp_cmacs
+        dual_pol_cmac #(
+            .BITWIDTH(BITWIDTH),
+            .P_FACTOR_BITS(P_FACTOR_BITS),
+            .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
+            .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
+            .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
+            .DSP_REGISTERS(DSP_REGISTERS)
+        ) dual_pol_cmac_inst (
+            .clk(clk),
+            .a(a_del),
+            .b(a_ndel),
+            .acc_in(acc_in),
+            .valid_in(valid_in),
+            .sync(sync_in),
+            .acc_out(acc_out),
+            .valid_out(valid_out)
+        );
+    endgenerate
 
 
 endmodule
