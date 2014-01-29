@@ -195,7 +195,7 @@ function xeng_top_config(this_block)
   %this_block.addFile('xilinx/glbl.v');
   %this_block.addFile('xilinx/DSP48E.v');
 
-  source_root_path = [getenv('MLIB_ROOT'), '/ox_library/hdl_lib'];
+  source_root_path = [getenv('MLIB_DEVEL_PATH'), '/ox_library/hdl_lib'];
 
   this_block.addFile([source_root_path, '/general_lib/delay.v']);
   this_block.addFile([source_root_path, '/general_lib/posedge.v']);
