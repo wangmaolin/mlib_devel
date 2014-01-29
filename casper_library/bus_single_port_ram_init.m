@@ -36,6 +36,7 @@ function bus_single_port_ram_init(blk, varargin)
     'din_register', 'on', 'din_implementation', 'behavioral', ...
     'we_register', 'on', 'we_implementation', 'behavioral', ...
     'en_register', 'on', 'en_implementation', 'behavioral', ...
+    'force_we_one', 'off', ...
   };  
   
   check_mask_type(blk, 'bus_single_port_ram');
@@ -73,6 +74,7 @@ function bus_single_port_ram_init(blk, varargin)
   we_implementation         = get_var('we_implementation', 'defaults', defaults, varargin{:});
   en_register               = get_var('en_register', 'defaults', defaults, varargin{:});
   en_implementation         = get_var('en_implementation', 'defaults', defaults, varargin{:});
+  force_we_one              = get_var('force_we_one', 'defaults', defaults, varargin{:});
 
   delete_lines(blk);
 
@@ -226,15 +228,20 @@ function bus_single_port_ram_init(blk, varargin)
   ypos_tmp  = ypos_tmp + bus_expand_d*ctiv/2 + yinc;
 
   % replicate we
-  if strcmp(we_register, 'on'), latency = fan_latency;
-  else, latency = 0;
-  end
   ypos_tmp  = ypos_tmp + bus_expand_d*ctiv/2;
-  reuse_block(blk, 'rep_we', 'casper_library_bus/bus_replicate', ...
-    'replication', num2str(replication), 'latency', num2str(latency), 'misc', 'off', ... 
-    'implementation', we_implementation, ... 
-    'Position', [xpos-rep_w/2 ypos_tmp-rep_d/2 xpos+rep_w/2 ypos_tmp+rep_d/2]);
-  add_line(blk, 'we/1', 'rep_we/1'); 
+  if strcmp(force_we_one, 'off')
+    if strcmp(we_register, 'on'), latency = fan_latency;
+    else, latency = 0;
+    end
+    reuse_block(blk, 'rep_we', 'casper_library_bus/bus_replicate', ...
+      'replication', num2str(replication), 'latency', num2str(latency), 'misc', 'off', ... 
+      'implementation', we_implementation, ... 
+      'Position', [xpos-rep_w/2 ypos_tmp-rep_d/2 xpos+rep_w/2 ypos_tmp+rep_d/2]);
+    add_line(blk, 'we/1', 'rep_we/1'); 
+  else
+       reuse_block(blk, 'we_term', 'built-in/Terminator', 'Position', [xpos-rep_w/2 ypos_tmp-rep_d/2 xpos+rep_w/2 ypos_tmp+rep_d/2]);
+       add_line(blk, 'we/1', 'we_term/1');
+  end
   ypos_tmp  = ypos_tmp + bus_expand_d*ctiv/2 + yinc;
 
   if strcmp(async, 'on'),
@@ -292,15 +299,23 @@ function bus_single_port_ram_init(blk, varargin)
 
   % debus we
   ypos_tmp  = ypos_tmp + bus_expand_d*ctiv/2;
-  reuse_block(blk, 'debus_we', 'casper_library_flow_control/bus_expand', ...
-    'mode', 'divisions of equal size', 'outputNum', num2str(replication), ...
-    'outputWidth', mat2str(ones(1, replication)), ...
-    'outputBinaryPt', mat2str(zeros(1, replication)), ...
-    'outputArithmeticType', mat2str(repmat(2,1,replication)), 'show_format', 'on', 'outputToWorkspace', 'off', ...
-    'variablePrefix', '', 'outputToModelAsWell', 'on', ...
-    'Position', [xpos-bus_expand_w/2 ypos_tmp-bus_expand_d*ctiv/2 xpos+bus_expand_w/2 ypos_tmp+bus_expand_d*ctiv/2]);
+  if strcmp(force_we_one, 'off')
+    reuse_block(blk, 'debus_we', 'casper_library_flow_control/bus_expand', ...
+      'mode', 'divisions of equal size', 'outputNum', num2str(replication), ...
+      'outputWidth', mat2str(ones(1, replication)), ...
+      'outputBinaryPt', mat2str(zeros(1, replication)), ...
+      'outputArithmeticType', mat2str(repmat(2,1,replication)), 'show_format', 'on', 'outputToWorkspace', 'off', ...
+      'variablePrefix', '', 'outputToModelAsWell', 'on', ...
+      'Position', [xpos-bus_expand_w/2 ypos_tmp-bus_expand_d*ctiv/2 xpos+bus_expand_w/2 ypos_tmp+bus_expand_d*ctiv/2]);
+    add_line(blk, 'rep_we/1', 'debus_we/1');
+  else
+    reuse_block(blk, 'debus_we', 'xbsIndex_r4/Constant', ...
+      'arith_type', 'Boolean', 'const', '1', ...
+      'n_bits', '1', 'bin_pt', '0', ...
+      'explicit_period', 'on', 'period', '1', ...
+      'Position', [xpos-bus_expand_w/2 ypos_tmp-bus_expand_d*ctiv/2 xpos+bus_expand_w/2 ypos_tmp+bus_expand_d*ctiv/2]);
+  end
   ypos_tmp  = ypos_tmp + bus_expand_d*ctiv/2 + yinc;
-  add_line(blk, 'rep_we/1', 'debus_we/1');
 
   if strcmp(async, 'on'),
     % debus ena 
@@ -364,9 +379,14 @@ function bus_single_port_ram_init(blk, varargin)
    
     % bram connections to replication and debus blocks
     rep_index = mod(bram_index-1, replication) + 1; %replicated index to use
+    if strcmp(force_we_one,'on')
+        we_rep_index = 1;
+    else
+        we_rep_index = rep_index;
+    end
     add_line(blk, ['debus_addr/', num2str(rep_index)], [bram_name, '/1']);
     add_line(blk, ['debus_din/', num2str(bram_index)], [bram_name, '/2']);
-    add_line(blk, ['debus_we/', num2str(rep_index)], [bram_name, '/3']);
+    add_line(blk, ['debus_we/', num2str(we_rep_index)], [bram_name, '/3']);
 
     if strcmp(async, 'on'), 
       add_line(blk, ['debus_en/', num2str(rep_index)], [bram_name, '/4']);
