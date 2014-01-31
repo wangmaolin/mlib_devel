@@ -111,7 +111,7 @@ module auto_tap(
             .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
             .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
             .DSP_REGISTERS(DSP_REGISTERS)
-        ) dual_pol_cmac_inst (
+        ) single_pol_cmac_inst (
             .clk(clk),
             .a(a_del),
             .b(a_ndel),
@@ -139,6 +139,7 @@ module auto_tap(
             .acc_out(acc_out),
             .valid_out(valid_out)
         );
+	 end
     endgenerate
 
 

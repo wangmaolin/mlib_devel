@@ -2,7 +2,7 @@
 `ifndef xeng_top_sp
 `define xeng_top_sp
 
-module xeng_top_sp(
+module xeng_sp_top(
     clk,
     ce,
     sync_in,
@@ -108,7 +108,8 @@ module xeng_top_sp(
         .BITWIDTH(BITWIDTH),
         .BRAM_LATENCY(BRAM_LATENCY),
         .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
-        .DSP_REGISTERS(DSP_REGISTERS)
+        .DSP_REGISTERS(DSP_REGISTERS),
+		  .N_POLS(N_POLS)
     ) xeng_preproc_inst (
         .clk(clk),
         .ce(ce),
@@ -229,13 +230,13 @@ module xeng_top_sp(
     // Slice out the correlator accumulation values
     wire [ACC_WIDTH-1:0] acc_out_uint = acc_out_int[N_TAPS*ACC_WIDTH-1:(N_TAPS-1)*ACC_WIDTH];
     
-    wire [ACC_WIDTH/8 -1 : 0] acc_out_xx_r = acc_out_uint[8*(ACC_WIDTH/8)-1:7*(ACC_WIDTH/8)];
-    wire [ACC_WIDTH/8 -1 : 0] acc_out_xx_i = acc_out_uint[7*(ACC_WIDTH/8)-1:6*(ACC_WIDTH/8)];
+    wire [ACC_WIDTH/2 -1 : 0] acc_out_xx_r = acc_out_uint[2*(ACC_WIDTH/2)-1:1*(ACC_WIDTH/2)];
+    wire [ACC_WIDTH/2 -1 : 0] acc_out_xx_i = acc_out_uint[1*(ACC_WIDTH/2)-1:0*(ACC_WIDTH/2)];
     
-    wire [ACC_WIDTH/8+2-1:0] dout_corr_xx_r;
-    wire [ACC_WIDTH/8+2-1:0] dout_corr_xx_i;
+    wire [ACC_WIDTH/2+2-1:0] dout_corr_xx_r;
+    wire [ACC_WIDTH/2+2-1:0] dout_corr_xx_i;
     subtractor #(
-        .A_WIDTH(ACC_WIDTH/8),
+        .A_WIDTH(ACC_WIDTH/2),
         .B_WIDTH(CORRECTION_ACC_WIDTH+BITWIDTH-1),
         .REGISTER_OUTPUT("FALSE")
     ) re_im_sub_inst [1:0] (
@@ -247,12 +248,12 @@ module xeng_top_sp(
 
     // The bitwidth out of the subtractor is greater than it needs to be.
     // Slice off the useful bits
-    assign dout = {dout_corr_xx_r[ACC_WIDTH/8 - 1:0],
-                   dout_corr_xx_i[ACC_WIDTH/8 - 1:0]};
+    assign dout = {dout_corr_xx_r[ACC_WIDTH/2 - 1:0],
+                   dout_corr_xx_i[ACC_WIDTH/2 - 1:0]};
     
     
-    assign dout_uncorr = {acc_out_xx_r[ACC_WIDTH/8 - 1:0],
-                          acc_out_xx_i[ACC_WIDTH/8 - 1:0]};
+    assign dout_uncorr = {acc_out_xx_r[ACC_WIDTH/2 - 1:0],
+                          acc_out_xx_i[ACC_WIDTH/2 - 1:0]};
     
 endmodule
 

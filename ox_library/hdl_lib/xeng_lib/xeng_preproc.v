@@ -20,10 +20,11 @@ module xeng_preproc(
     parameter BRAM_LATENCY = 2;         //Latency of brams in delay chain
     parameter FIRST_DSP_REGISTERS = 2;  //number of registers on the input of the first DSP slice in the chain
     parameter DSP_REGISTERS = 2;        //number of registers on the input of all others DSP slices in the chain
+	 parameter N_POLS = 2;					 //number of polarisations
     
-    localparam P_FACTOR = 1<<P_FACTOR_BITS;                     //number of parallel cmults
-    localparam INPUT_WIDTH = 2*BITWIDTH*2*(1<<P_FACTOR_BITS);   //width of complex in/out bus (dual pol)
-    localparam N_COMPONENTS = P_FACTOR*2*2;                     //number of components to accumulate
+    localparam P_FACTOR = 1<<P_FACTOR_BITS;                          //number of parallel cmults
+    localparam INPUT_WIDTH = N_POLS*BITWIDTH*2*(1<<P_FACTOR_BITS);   //width of complex in/out bus
+    localparam N_COMPONENTS = P_FACTOR*2*N_POLS;                     //number of components to accumulate
    
     input clk;                                  //clock input
     input ce;                                   //dummy clock enable (exists only for simulink)
@@ -50,7 +51,7 @@ module xeng_preproc(
         .N_STAGES(P_FACTOR),
         .BLOCK_SIZE(BITWIDTH*2),
         .STAGGER_OFFSET(DSP_REGISTERS-FIRST_DSP_REGISTERS)
-        ) stagger_inst[1:0] (
+        ) stagger_inst[N_POLS-1:0] (
         .clk(clk),
         .din(dout_uint_wire),
         .dout(dout_uint_stag)

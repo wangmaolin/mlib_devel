@@ -64,8 +64,8 @@ module component_tracker_sp(
     output buf_sel_out;
     
     //split the inputs into re/im ready for accumulating
-    wire [INPUT_WIDTH/4 -1:0] x_re;
-    wire [INPUT_WIDTH/4 -1:0] x_im;
+    wire [INPUT_WIDTH/(N_POLS*2) -1:0] x_re;
+    wire [INPUT_WIDTH/(N_POLS*2) -1:0] x_im;
     
     // a generate is required to hook these up, since the real/imag parts an not contiguous at the inputs
     //TODO: check these are right for single pol
@@ -84,8 +84,7 @@ module component_tracker_sp(
     localparam ADD_TREE_O_WIDTH = P_FACTOR_BITS+BITWIDTH;
     wire [ADD_TREE_O_WIDTH-1:0] x_re_sum;
     wire [ADD_TREE_O_WIDTH-1:0] x_im_sum;
-    wire [1:0] adder_tree_sync_v;
-    wire adder_tree_sync = adder_tree_sync_v[0];
+    wire adder_tree_sync;
     
     generate
         if (P_FACTOR_BITS != 0) begin : adder_tree_en //only construct adder tree if there is more than one simultaneous input
@@ -99,7 +98,7 @@ module component_tracker_sp(
                 .sync(sync),
                 .din(x_im),
                 .dout(x_im_sum),
-                .sync_out(adder_tree_sync_v)
+                .sync_out(adder_tree_sync)
             );
 
             adder_tree #(

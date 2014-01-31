@@ -198,17 +198,17 @@ module baseline_tap(
     ////// Instantiate the cmac
     generate
     if (N_POLS==1) begin :sp_cmac
-        simgle_pol_cmac #(
+        single_pol_cmac #(
             .BITWIDTH(BITWIDTH),
             .P_FACTOR_BITS(P_FACTOR_BITS),
             .SERIAL_ACC_LEN_BITS(SERIAL_ACC_LEN_BITS),
             .ACC_MUX_LATENCY(ACC_MUX_LATENCY),
             .FIRST_DSP_REGISTERS(FIRST_DSP_REGISTERS),
             .DSP_REGISTERS(DSP_REGISTERS)
-        ) dual_pol_cmac_inst (
+        ) single_pol_cmac_inst (
             .clk(clk),
             .a(a_del_delay_reg),
-            .b({ant_mux_x,ant_mux_y}),
+            .b(ant_mux_x),
             .acc_in(acc_in),
             .valid_in(valid_in),
             .sync(rst_reg),

@@ -12,7 +12,7 @@ function xeng_sp_top_config(this_block)
   myname = this_block.blockName;
   this_block.setTopLevelLanguage('Verilog');
 
-  this_block.setEntityName('xeng_top');
+  this_block.setEntityName('xeng_sp_top');
 
 
   serial_acc_len_bits   = str2num(get_param(myname, 'serial_acc_len_bits'  ));
