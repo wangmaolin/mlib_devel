@@ -28,7 +28,7 @@ module acc(
     output valid_out;                   //accumulation valid out signal
     output [BITWIDTH_OUT-1:0] acc_out;  //Accumulator output
     
-    // A wire for the accumulator input
+    // A wire for the accumulator input, sign extended
     wire [BITWIDTH_OUT-1:0] acc_input;
     generate
         if (UNSIGNED==0) begin : acc_input_gen

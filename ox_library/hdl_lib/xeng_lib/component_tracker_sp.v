@@ -128,13 +128,19 @@ module component_tracker_sp(
 
     wire [ADD_TREE_O_WIDTH+1+1 -1 : 0] x_re_p_im; //+1 for conversion of real parts to signed, +1 for bit growth in add
     wire [ADD_TREE_O_WIDTH+1+1 -1 : 0] x_re_m_im;
+	 
+	 reg comp_add_sync; //A sync which incurs the same delay as the add/sub operations below
+	 
+	 always @(posedge(clk)) begin
+	     comp_add_sync <= adder_tree_sync;
+    end	 
     
     adder #(
         .A_WIDTH(ADD_TREE_O_WIDTH+1), //+1 for conversion of real parts to signed
         .B_WIDTH(ADD_TREE_O_WIDTH),
         .A_IS_SIGNED("TRUE"),
         .B_IS_SIGNED("TRUE"),
-        .REGISTER_OUTPUT("FALSE")
+        .REGISTER_OUTPUT("TRUE")
     ) re_im_adder_inst (
         .clk(clk),
         .a(x_re_sum_signed),
@@ -147,7 +153,7 @@ module component_tracker_sp(
         .B_WIDTH(ADD_TREE_O_WIDTH),
         .A_IS_SIGNED("TRUE"),
         .B_IS_SIGNED("TRUE"),
-        .REGISTER_OUTPUT("FALSE")
+        .REGISTER_OUTPUT("TRUE")
     ) re_im_sub_inst (
         .clk(clk),
         .a(x_re_sum_signed),
@@ -183,15 +189,16 @@ module component_tracker_sp(
         .din({x_re_p_im, x_re_m_im}),
         .dout_a({x_re_p_im_acc_a, x_re_m_im_acc_a}),
         .dout_b({x_re_p_im_acc_b, x_re_m_im_acc_b}),
-        .sync(adder_tree_sync)
+        .sync(comp_add_sync)
         );
         
     ////////////////////////////////////////////////////////////////////
 
     //Generate the baseline output order and get corrections from the vacc bram     
     
-    //It takes 2 clocks for data to be pulled from the BRAM, so we need to request data (i.e. have ant_a/b_sel signals
-    //ready) two clocks in advance. To achieve this, use a sync delayed by 2 clocks less than the X-eng tap chain latency.
+    //It takes 2 clocks for data to be pulled from the BRAM, and 2 clocks to compute the correction (the add/subs below have 2 clock
+    // cycle latency. We need to request data (i.e. have ant_a/b_sel signals
+    //ready) three clocks in advance. To achieve this, use a sync delayed by 4 clocks less than the X-eng tap chain latency.
     reg [SERIAL_ACC_LEN_BITS-1:0] tap_out_vld_ctr = 0;
     wire gen_next_bl;
     wire bl_order_gen_sync;
@@ -207,7 +214,7 @@ module component_tracker_sp(
 
     delay #(
         .WIDTH(1),
-        .DELAY(VALID_DELAY-2)
+        .DELAY(VALID_DELAY-4)
     ) bl_order_gen_sync_del (
         .clk(clk),
         .din(sync),
@@ -230,7 +237,7 @@ module component_tracker_sp(
 
     delay #(
         .WIDTH(1),
-        .DELAY(2)
+        .DELAY(4)
     ) buf_sel_delay [1:0](
         .clk(clk),
         .din({last_triangle_int, buf_sel}),
@@ -247,7 +254,9 @@ module component_tracker_sp(
         .B_WIDTH(SERIAL_ACC_WIDTH),
         .A_IS_SIGNED("TRUE"),
         .B_IS_SIGNED("TRUE"),
-        .REGISTER_OUTPUT("FALSE")
+		  .REGISTER_INPUT("TRUE"),
+        .REGISTER_OUTPUT("TRUE"),
+		  .USE_DSP("NO")
     ) re_corr_adder_inst (
         .clk(clk),
         .a(x_re_p_im_acc_a),
@@ -260,7 +269,9 @@ module component_tracker_sp(
         .B_WIDTH(SERIAL_ACC_WIDTH),
         .A_IS_SIGNED("TRUE"),
         .B_IS_SIGNED("TRUE"),
-        .REGISTER_OUTPUT("FALSE")
+		  .REGISTER_INPUT("TRUE"),
+        .REGISTER_OUTPUT("TRUE"),
+		  .USE_DSP("NO")
     ) im_corr_sub_inst (
         .clk(clk),
         .a(x_re_m_im_acc_b),
