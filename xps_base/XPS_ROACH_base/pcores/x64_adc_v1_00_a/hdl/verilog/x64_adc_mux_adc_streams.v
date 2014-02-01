@@ -42,10 +42,10 @@ module x64_adc_mux_adc_streams (
   reg mstr_en;
   always @(posedge clk or posedge rst) begin
     if (rst) begin
-        mstr_en <= 0'b0;
+        mstr_en <= 1'b0;
     end else begin
         if (sync_reg) begin
-            mstr_en <= 0'b1;
+            mstr_en <= 1'b1;
         end
     end
   end
