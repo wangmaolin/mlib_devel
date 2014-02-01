@@ -183,7 +183,13 @@ if strcmp(delays_bram, 'on'),
   clog(['Using input latency of ', num2str(fan_latency), ' for ', num2str(n_brams),' bram/s in biplex core stage ', num2str(FFTStage)], log_group);
 else,
   %otherwise we control fanout based on the number of input streams
-  fan_latency = max(0, log2(n_inputs/max_fanout));
+  if strcmp(async, 'on'), 
+    %if we're asynchronous, then the fan latency exists to fan out the write enable signals
+    fan_latency = max(0, log2(n_inputs/max_fanout));
+  else
+    %if we're not asynchronous and are using slices for delays, there is nothing (address / write enable lines) to fan out, so fanout latency is 0
+    fan_latency = 0;
+  end
   clog(['Using input latency of ', num2str(fan_latency), ' for ', num2str(n_inputs),' streams in biplex core stage ', num2str(FFTStage)], log_group);
 end
 
