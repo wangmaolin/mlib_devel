@@ -177,132 +177,132 @@ module opb_adc5g_controller(
         if (!OPB_RNW) begin
           case (opb_addr[4:2])
             0:  begin
-	       opb_ack <= 1'b1;
-               if (OPB_BE[3]) begin
-                  adc0_reset_reg <= OPB_DBus[31];
-                  adc1_reset_reg <= OPB_DBus[30];
-	       end
-	       if (OPB_BE[1]) begin
-                  adc0_mmcm_psen_reg <= OPB_DBus[15];
-                  adc1_mmcm_psen_reg <= OPB_DBus[11];
-                  adc0_mmcm_psincdec_reg <= OPB_DBus[14];
-                  adc1_mmcm_psincdec_reg <= OPB_DBus[10];
-	       end
+	          opb_ack <= 1'b1;
+              if (OPB_BE[3]) begin
+                adc0_reset_reg <= OPB_DBus[31];
+                adc1_reset_reg <= OPB_DBus[30];
+	          end
+	          if (OPB_BE[1]) begin
+                adc0_mmcm_psen_reg <= OPB_DBus[15];
+                adc1_mmcm_psen_reg <= OPB_DBus[11];
+                adc0_mmcm_psincdec_reg <= OPB_DBus[14];
+                adc1_mmcm_psincdec_reg <= OPB_DBus[10];
+	          end
             end
             1:  begin
-	      if (adc0_config_done) begin
-		 opb_ack <= 1'b1;
-		 if (OPB_BE[3]) begin
-                    adc0_config_start_reg <= OPB_DBus[31];
-		 end
-		 if (OPB_BE[2]) begin
-                    adc0_config_addr_reg <= OPB_DBus[16:23];
-		 end
-		 if (OPB_BE[1]) begin
-                    adc0_config_data_reg[7:0] <= OPB_DBus[8:15];
-		 end
-		 if (OPB_BE[0]) begin
-                    adc0_config_data_reg[15:8] <= OPB_DBus[0:7];
-		 end
-	      end
+	          if (adc0_config_done) begin
+		        opb_ack <= 1'b1;
+		        if (OPB_BE[3]) begin
+                  adc0_config_start_reg <= OPB_DBus[31];
+		        end
+		        if (OPB_BE[2]) begin
+                  adc0_config_addr_reg <= OPB_DBus[16:23];
+		        end
+		        if (OPB_BE[1]) begin
+                  adc0_config_data_reg[7:0] <= OPB_DBus[8:15];
+		        end
+		        if (OPB_BE[0]) begin
+                  adc0_config_data_reg[15:8] <= OPB_DBus[0:7];
+		        end
+	          end
             end
             2:  begin
-	      if (adc1_config_done) begin
-		 opb_ack <= 1'b1;
-		 if (OPB_BE[3]) begin
-                    adc1_config_start_reg <= OPB_DBus[31];
-		 end
-		 if (OPB_BE[2]) begin
-                    adc1_config_addr_reg <= OPB_DBus[16:23];
-		 end
-		 if (OPB_BE[1]) begin
-                    adc1_config_data_reg[7:0] <= OPB_DBus[8:15];
-		 end
-		 if (OPB_BE[0]) begin
-                    adc1_config_data_reg[15:8] <= OPB_DBus[0:7];
-		 end
-	      end
+	          if (adc1_config_done) begin
+		        opb_ack <= 1'b1;
+		        if (OPB_BE[3]) begin
+                  adc1_config_start_reg <= OPB_DBus[31];
+		        end
+		        if (OPB_BE[2]) begin
+                  adc1_config_addr_reg <= OPB_DBus[16:23];
+		        end
+		        if (OPB_BE[1]) begin
+                  adc1_config_data_reg[7:0] <= OPB_DBus[8:15];
+		        end
+		        if (OPB_BE[0]) begin
+                  adc1_config_data_reg[15:8] <= OPB_DBus[0:7];
+		        end
+	          end
             end
             3:  begin
-	    end
-	    4:  begin
-	       opb_ack <= 1'b1;
-	       if (OPB_BE[3]) begin
-		  adc0_tap_rst_reg    <= OPB_DBus[31];
-	       end
-	       if (OPB_BE[1]) begin
-		  adc0_datain_pin_reg <= OPB_DBus[11:15];
-	       end
-	       if (OPB_BE[0]) begin
-		  adc0_datain_tap_reg <= OPB_DBus[3:7];
-	       end
-	    end
-	    5:  begin
-	       opb_ack <= 1'b1;
-	       if (OPB_BE[3]) begin
-		  adc1_tap_rst_reg    <= OPB_DBus[31];
-	       end
-	       if (OPB_BE[1]) begin
-		  adc1_datain_pin_reg <= OPB_DBus[11:15];
-	       end
-	       if (OPB_BE[0]) begin
-		  adc1_datain_tap_reg <= OPB_DBus[3:7];
-	       end
+	        end
+	        4:  begin
+	          opb_ack <= 1'b1;
+	          if (OPB_BE[3]) begin
+		        adc0_tap_rst_reg    <= OPB_DBus[31];
+	          end
+	          if (OPB_BE[1]) begin
+		        adc0_datain_pin_reg <= OPB_DBus[11:15];
+	          end
+	          if (OPB_BE[0]) begin
+		      adc0_datain_tap_reg <= OPB_DBus[3:7];
+	          end
+	        end
+	        5:  begin
+	          opb_ack <= 1'b1;
+	          if (OPB_BE[3]) begin
+		        adc1_tap_rst_reg    <= OPB_DBus[31];
+	          end
+	          if (OPB_BE[1]) begin
+		        adc1_datain_pin_reg <= OPB_DBus[11:15];
+	          end
+	          if (OPB_BE[0]) begin
+		        adc1_datain_tap_reg <= OPB_DBus[3:7];
+	          end
             end
           endcase
         end else begin // if (!OPB_RNW)
-	  case (opb_addr[4:2])
-	    0: begin
-	       opb_ack <= 1'b1;
-	       opb_data_out <= {2'b0, adc1_psdone, adc0_psdone, 4'b0, 
+	      case (opb_addr[4:2])
+	        0: begin
+	          opb_ack <= 1'b1;
+	          opb_data_out <= {2'b0, adc1_psdone, adc0_psdone, 4'b0, 
 	       			2'b0, adc1_mmcm_psincdec_reg, adc1_mmcm_psen_reg, 
 	       			2'b0, adc0_mmcm_psincdec_reg, adc0_mmcm_psen_reg, 16'b0};
-	    end
-	    1: begin
-	       opb_ack <= adc0_config_done ? 1'b1 : 1'b0;
-	       opb_data_out <= {adc0_read_data_reg[15:8], 
+	        end
+	        1: begin
+	          opb_ack <= adc0_config_done ? 1'b1 : 1'b0;
+	          opb_data_out <= {adc0_read_data_reg[15:8], 
 	       			adc0_read_data_reg[7:0], 
 	       			adc0_config_addr_reg, 7'b0, 
 	       			adc0_config_done};
-	    end
-	    2: begin
-	       opb_ack <= adc1_config_done ? 1'b1 : 1'b0;
-	       opb_data_out <= {adc1_read_data_reg[15:8], 
+	        end
+	        2: begin
+	          opb_ack <= adc1_config_done ? 1'b1 : 1'b0;
+	          opb_data_out <= {adc1_read_data_reg[15:8], 
 	       			adc1_read_data_reg[7:0], 
 	       			adc1_config_addr_reg, 
 	       			7'b0, adc1_config_done};
-	    end
-	    3: begin
-	       opb_ack <= 1'b1;
-	       opb_data_out <= {adc0_fifo_full_cnt[15:8], adc0_fifo_full_cnt[7:0], 
+	        end
+	        3: begin
+	          opb_ack <= 1'b1;
+	          opb_data_out <= {adc0_fifo_full_cnt[15:8], adc0_fifo_full_cnt[7:0], 
 	       			adc0_fifo_empty_cnt[15:8], adc0_fifo_empty_cnt[7:0]};
-	    end
-	    4: begin
-	       opb_ack <= 1'b1;
-	       opb_data_out <= {adc1_fifo_full_cnt[15:8], adc1_fifo_full_cnt[7:0], 
+	        end
+	        4: begin
+	          opb_ack <= 1'b1;
+	          opb_data_out <= {adc1_fifo_full_cnt[15:8], adc1_fifo_full_cnt[7:0], 
 	       			adc1_fifo_empty_cnt[15:8], adc1_fifo_empty_cnt[7:0]};
-	    end
-	    5: begin
-	       opb_ack <= 1'b1;
-	       opb_data_out <= {adc0_dcm_unlocked_cnt[15:8], adc0_dcm_unlocked_cnt[7:0],
+	        end
+	        5: begin
+	          opb_ack <= 1'b1;
+	          opb_data_out <= {adc0_dcm_unlocked_cnt[15:8], adc0_dcm_unlocked_cnt[7:0],
 	       			adc1_dcm_unlocked_cnt[15:8], adc1_dcm_unlocked_cnt[7:0]};
-	    end
-	    6: begin
-	       opb_ack <= 1'b1;
-	       opb_data_out <= {3'b0, adc0_datain_tap_reg,
+	        end
+	        6: begin
+	          opb_ack <= 1'b1;
+	          opb_data_out <= {3'b0, adc0_datain_tap_reg,
 				3'b0, adc0_datain_pin_reg,
 				8'b0,
 				adc0_tap_rst_reg, 7'b0};
-	    end
-	    7: begin
-	       opb_ack <= 1'b1;
-	       opb_data_out <= {3'b0, adc1_datain_tap_reg,
+	        end
+	        7: begin
+	          opb_ack <= 1'b1;
+	          opb_data_out <= {3'b0, adc1_datain_tap_reg,
 				3'b0, adc1_datain_pin_reg,
 				8'b0, 
 				adc1_tap_rst_reg, 7'b0};
+	        end
+	      endcase
 	    end
-	  endcase
-	end
       end
     end
   end
