@@ -15,15 +15,19 @@ module qdrc_phy_bit_correct(
   input  qdr_q_rise, qdr_q_fall;
   output qdr_q_rise_cal, qdr_q_fall_cal;
 
-  reg [1:0] data_buffer;
+  (* shreg_extract = "NO" *) reg [1:0] data_buffer2;
+  (* shreg_extract = "NO" *) reg [1:0] data_buffer1;
+  (* shreg_extract = "NO" *) reg [1:0] data_buffer0;
   reg [1:0] data_reg;
 
   always @(posedge clk0) begin
     data_reg    <= {qdr_q_rise, qdr_q_fall};
-    data_buffer <= data_reg;
+    data_buffer0 <= data_reg;
+    data_buffer1 <= data_buffer0;
+    data_buffer2 <= data_buffer1;
   end
 
-  assign qdr_q_rise_cal = aligned ? data_buffer[1] : data_buffer[0];
-  assign qdr_q_fall_cal = aligned ? data_buffer[0] : data_reg[1];
+  assign qdr_q_rise_cal = aligned ? data_buffer2[1] : data_buffer2[0];
+  assign qdr_q_fall_cal = aligned ? data_buffer2[0] : data_buffer1[1];
 
 endmodule

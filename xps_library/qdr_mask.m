@@ -48,7 +48,7 @@ switch hw_sys
     case 'ROACH2'
         data_width = 72;
         be_width = 8;
-        qdr_latency = 10;
+        qdr_latency = 12;
         n_qdr = 4;
         %%data_width = 72;
         %be_width = 8;

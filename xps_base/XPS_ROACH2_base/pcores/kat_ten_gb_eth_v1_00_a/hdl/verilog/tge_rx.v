@@ -432,13 +432,39 @@ end endgenerate
   );
   //synthesis attribute box_type rx_packet_ctrl_fifo_inst "user_black_box"
 
-  assign app_rx_valid        = !packet_fifo_empty;
-  assign app_rx_end_of_frame = packet_fifo_rd_data[64];
-  assign app_rx_bad_frame    = packet_fifo_rd_data[65];
-  assign app_rx_overrun      = packet_fifo_rd_data[66];
-  assign app_rx_data         = packet_fifo_rd_data[63:0];
-  assign app_rx_source_ip    = ctrl_fifo_rd_data[31:0];
-  assign app_rx_source_port  = ctrl_fifo_rd_data[47:32];
+  // app_rx_valid used to be tied directly to !packet_fifo_empty
+  // Now the packet FIFO has a latency of 2 if in bram (no FWFT + bram register)
+  // or latency 1 if in dram.
+  // Register output signals here so that they all have latency 1 in dist ram case,
+  // or all have latency 2 in case of bram packet fifo.
+  reg packet_fifo_empty_R;
+  reg packet_fifo_empty_RR;
+  reg [47:0] ctrl_fifo_rd_data_R;
+  always @(posedge app_clk) begin
+      packet_fifo_empty_R  <= packet_fifo_empty;
+      packet_fifo_empty_RR <= packet_fifo_empty_R;
+      ctrl_fifo_rd_data_R  <= ctrl_fifo_rd_data;
+  end
+
+  generate 
+    if (USE_DISTRIBUTED_RAM == 0) begin : bram_fifo_connects //all outputs have latency 2
+      assign app_rx_valid        = !packet_fifo_empty_RR;
+      assign app_rx_end_of_frame = packet_fifo_rd_data[64];
+      assign app_rx_bad_frame    = packet_fifo_rd_data[65];
+      assign app_rx_overrun      = packet_fifo_rd_data[66];
+      assign app_rx_data         = packet_fifo_rd_data[63:0];
+      assign app_rx_source_ip    = ctrl_fifo_rd_data_R[31:0];
+      assign app_rx_source_port  = ctrl_fifo_rd_data_R[47:32];
+    end else begin : dist_ram_fifo_connects //outputs have latency 1
+      assign app_rx_valid        = !packet_fifo_empty_R;
+      assign app_rx_end_of_frame = packet_fifo_rd_data[64];
+      assign app_rx_bad_frame    = packet_fifo_rd_data[65];
+      assign app_rx_overrun      = packet_fifo_rd_data[66];
+      assign app_rx_data         = packet_fifo_rd_data[63:0];
+      assign app_rx_source_ip    = ctrl_fifo_rd_data[31:0];
+      assign app_rx_source_port  = ctrl_fifo_rd_data[47:32];
+    end
+  endgenerate
 
   assign packet_fifo_rd_en = app_rx_ack;
   assign ctrl_fifo_rd_en   = app_rx_ack && app_rx_end_of_frame && app_rx_valid;
