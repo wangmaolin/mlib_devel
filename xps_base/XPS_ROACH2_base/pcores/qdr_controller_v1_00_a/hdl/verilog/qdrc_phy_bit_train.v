@@ -55,7 +55,7 @@ module qdrc_phy_bit_train #(
   reg dly_inc_dec_n_reg;
   assign dly_inc_dec_n = {DATA_WIDTH{dly_inc_dec_n_reg}};
 
-  reg [DATA_WIDTH - 1:0] dly_en_reg;
+  (* MAX_FANOUT = 4 *) reg [DATA_WIDTH - 1:0] dly_en_reg;
   assign dly_en = dly_en_reg;
 
   reg [DATA_WIDTH - 1:0] dly_rst_reg;
