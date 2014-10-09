@@ -313,7 +313,7 @@ function butterfly_direct_init(blk, varargin)
   %
   
   if strcmp(dsp48_adders, 'on'), add_implementation = 'DSP48 core';
-  else add_implementation = 'behavioral HDL';
+  else add_implementation = 'fabric core';
   end
 
   reuse_block(blk, 'bus_add', 'casper_library_bus/bus_addsub', ...
