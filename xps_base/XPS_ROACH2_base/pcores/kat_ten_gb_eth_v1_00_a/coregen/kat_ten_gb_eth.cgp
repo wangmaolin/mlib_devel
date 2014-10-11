@@ -1,22 +1,20 @@
-# Date: Tue Feb 11 12:16:47 2014
-
-SET addpads = false
-SET asysymbol = false
+# Date: Tue May  5 13:32:09 2009
+SET addpads = False
+SET asysymbol = False
 SET busformat = BusFormatAngleBracketNotRipped
-SET createndf = false
+SET createndf = False
 SET designentry = Verilog
-SET device = xc6vsx475t
-SET devicefamily = virtex6
+SET device = xc5vsx95t
+SET devicefamily = virtex5
 SET flowvendor = Other
-SET formalverification = false
-SET foundationsym = false
+SET formalverification = False
+SET foundationsym = False
 SET implementationfiletype = Ngc
-SET package = ff1759
-SET removerpms = false
+SET package = ff1136
+SET removerpms = False
 SET simulationfiles = Behavioral
 SET speedgrade = -1
-SET verilogsim = true
-SET vhdlsim = false
-SET workingdirectory = /home/jack/tmp/
+SET verilogsim = True
+SET vhdlsim = False
+SET workingdirectory = /home/dave/work/scratchpad/backed_up/kat_ten_gb_eth/coregen/tmp
 
-# CRC: fc486340

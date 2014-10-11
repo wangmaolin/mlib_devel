@@ -38,7 +38,6 @@ Program map
 -o <design>_map.ncd;        # Output Mapped ncd file
 -w;                         # Overwrite output files.
 -pr b;                      # Pack internal FF/latches into IOBs
--mt on;                     # multithreading
 #-fp <design>.mfp;          # Floorplan file
 <inputdir><design>.ngd;     # Input NGD file
 <inputdir><design>.pcf;     # Physical constraints file
@@ -54,7 +53,6 @@ Program post_map_trce
 #-o <design>_map.twr;       # Output trace report file
 -xml <design>_map.twx;      # Output XML version of the timing report
 #-tsi <design>_map.tsi;     # Produce Timing Specification Interaction report
--mt 4;                      # multithreading (4 threads)
 <inputdir><design>_map.ncd; # Input mapped ncd
 <inputdir><design>.pcf;     # Physical constraints file
 END Program post_map_trce
