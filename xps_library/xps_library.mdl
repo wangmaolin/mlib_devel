@@ -19,7 +19,7 @@ Library {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [301.0, -14.0, 1358.0, 1196.0]
+      Location		      [285.0, 17.0, 1390.0, 1166.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -43,9 +43,9 @@ Library {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1302.0, 1017.0]
-	ZoomFactor		[1.0]
-	Offset			[-8.125, 0.0]
+	Extents			[1338.0, 982.0]
+	ZoomFactor		[1.25]
+	Offset			[-75.191666666666777, 86.833333333333258]
       }
     }
   }
@@ -53,11 +53,11 @@ Library {
   Creator		  "hchen05"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "wnew"
+  LastModifiedBy	  "jack"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jul 08 10:43:11 2014"
-  RTWModifiedTimeStamp	  326716982
-  ModelVersionFormat	  "1.%<AutoIncrement:519>"
+  LastModifiedDate	  "Fri Oct 10 17:02:34 2014"
+  RTWModifiedTimeStamp	  334861349
+  ModelVersionFormat	  "1.%<AutoIncrement:521>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -802,7 +802,7 @@ Library {
   }
   System {
     Name		    "xps_library"
-    Location		    [301, -14, 1659, 1182]
+    Location		    [285, 17, 1675, 1183]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -814,9 +814,9 @@ Library {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "125"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "336"
+    SIDHighWatermark	    "353"
     Block {
       BlockType		      SubSystem
       Name		      "1new_yellow_block"
@@ -24161,7 +24161,7 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"54"
+	SIDHighWatermark	"102"
 	Block {
 	  BlockType		  Inport
 	  Name			  "addr"
@@ -25541,7 +25541,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"3"
+		SIDHighWatermark	"6"
 		Block {
 		  BlockType		  Inport
 		  Name			  "din"
@@ -25696,7 +25696,7 @@ Library {
 		TiledPageScale		1
 		ShowPageBoundaries	off
 		ZoomFactor		"100"
-		SIDHighWatermark	"3"
+		SIDHighWatermark	"6"
 		Block {
 		  BlockType		  Inport
 		  Name			  "din"
@@ -25981,7 +25981,7 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "100"
-	    SIDHighWatermark	    "3"
+	    SIDHighWatermark	    "6"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "din"
@@ -26136,7 +26136,7 @@ Library {
 	    TiledPageScale	    1
 	    ShowPageBoundaries	    off
 	    ZoomFactor		    "100"
-	    SIDHighWatermark	    "3"
+	    SIDHighWatermark	    "6"
 	    Block {
 	      BlockType		      Inport
 	      Name		      "din"
@@ -48422,7 +48422,7 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"3"
+	SIDHighWatermark	"6"
 	Block {
 	  BlockType		  Inport
 	  Name			  "gpio_out"
@@ -52799,7 +52799,7 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"65"
+	SIDHighWatermark	"130"
 	Block {
 	  BlockType		  Inport
 	  Name			  "tx_rst"
@@ -54822,7 +54822,7 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"103"
+	SIDHighWatermark	"196"
 	SIDPrevWatermark	"101"
 	Block {
 	  BlockType		  Inport
@@ -58559,7 +58559,7 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"6815"
+	SIDHighWatermark	"6832"
 	Block {
 	  BlockType		  Inport
 	  Name			  "out_reg"
@@ -58571,10 +58571,10 @@ Library {
 	Block {
 	  BlockType		  Reference
 	  Name			  "assert_reg"
-	  SID			  "332:6814"
+	  SID			  "332:6831"
 	  Ports			  [1, 1]
 	  Position		  [200, 100, 250, 120]
-	  ZOrder		  6766
+	  ZOrder		  6776
 	  ShowName		  off
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Assert"
@@ -58609,10 +58609,10 @@ Library {
 	Block {
 	  BlockType		  Reference
 	  Name			  "cast_gw"
-	  SID			  "332:6812"
+	  SID			  "332:6829"
 	  Ports			  [1, 1]
 	  Position		  [700, 100, 750, 120]
-	  ZOrder		  6764
+	  ZOrder		  6774
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Convert"
 	  SourceType		  "Xilinx Type Converter Block"
@@ -58647,10 +58647,10 @@ Library {
 	Block {
 	  BlockType		  Reference
 	  Name			  "io_delay"
-	  SID			  "332:6811"
+	  SID			  "332:6828"
 	  Ports			  [1, 1]
 	  Position		  [600, 100, 650, 120]
-	  ZOrder		  6763
+	  ZOrder		  6773
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Delay"
 	  SourceType		  "Xilinx Delay Block"
@@ -58678,10 +58678,10 @@ Library {
 	Block {
 	  BlockType		  Reference
 	  Name			  "reint1"
-	  SID			  "332:6815"
+	  SID			  "332:6832"
 	  Ports			  [1, 1]
 	  Position		  [300, 100, 350, 120]
-	  ZOrder		  6767
+	  ZOrder		  6777
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Reinterpret"
 	  SourceType		  "Xilinx Type Reinterpreter Block"
@@ -58709,10 +58709,10 @@ Library {
 	Block {
 	  BlockType		  Reference
 	  Name			  "xps_library_software register_user_data_in"
-	  SID			  "332:6813"
+	  SID			  "332:6830"
 	  Ports			  [1, 1]
 	  Position		  [900, 100, 950, 120]
-	  ZOrder		  6765
+	  ZOrder		  6775
 	  LibraryVersion	  "1.2"
 	  SourceBlock		  "xbsIndex_r4/Gateway Out"
 	  SourceType		  "Xilinx Gateway Out Block"
@@ -61331,7 +61331,7 @@ Library {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"119"
-	SIDHighWatermark	"561"
+	SIDHighWatermark	"629"
 	SIDPrevWatermark	"561"
 	Block {
 	  BlockType		  Inport
@@ -63125,6 +63125,58 @@ Library {
 	  DstBlock		  "tx_overflow"
 	  DstPort		  1
 	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "ucf"
+      SID		      "353"
+      Tag		      "xps:ucf"
+      Ports		      []
+      Position		      [27, 497, 73, 540]
+      ZOrder		      5236
+      BackgroundColor	      "[1.000000, 1.000000, 0.000000]"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		333
+	$ClassName		"Simulink.Mask"
+	Type			"ucf"
+	Description		"Allows insertion of custom constraints into a compile. "
+	SelfModifiable		"on"
+	Display			"fprintf('UCF');"
+	Object {
+	  $PropName		  "Parameters"
+	  $ObjectID		  334
+	  $ClassName		  "Simulink.MaskParameter"
+	  Type			  "edit"
+	  Name			  "ucf_file"
+	  Prompt		  "Path to file containing constraints. (This should adhere to .ucf syntax)"
+	  Value			  "/tmp/testucf.ucf"
+	  Evaluate		  "off"
+	}
+      }
+      System {
+	Name			"ucf"
+	Location		[2092, 303, 3648, 1417]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[1.270000, 1.270000, 1.270000, 1.270000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
       }
     }
     Annotation {
