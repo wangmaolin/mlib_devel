@@ -201,6 +201,18 @@ function bus_addsub_init(blk, varargin)
 
   clog(['making ',num2str(comp),' AddSubs'],{'bus_addsub_init_debug'});
 
+  if strcmp(cmplx, 'on') && strcmp(add_implementation, 'DSP48 core') && strcmp(async, 'off') ...
+          && all(n_bits_a <= 24) && all(n_bits_b <= 24) && (latency >= 2)
+    % If all the above conditions are met, we can use DSPs in SIMD
+    % mode.
+    % Actually, we don't quite need all the above conditions (eg
+    % complex inputs), but they simplify things and cover most
+    % use cases (eg, FFT)
+    use_dual_dsps = 1;
+  else
+    use_dual_dsps = 0;
+  end
+        
   for index = 1:comp
     switch type_o(index),
       case 0,
@@ -247,22 +259,44 @@ function bus_addsub_init(blk, varargin)
       use_behavioral_HDL = 'off';
       hw_selection = 'DSP48';
     end
-
-    add_name = ['addsub',num2str(index)]; 
-    reuse_block(blk, add_name, 'xbsIndex_r4/AddSub', ...
-      'mode', m, 'latency', num2str(latency), ...
-      'en', async, 'precision', 'User Defined', ...
-      'n_bits', num2str(n_bits_out(index)), 'bin_pt', num2str(bin_pt_out(index)), ...  
-      'arith_type', arith_type, 'quantization', quant, 'overflow', of, ... 
-      'pipelined', 'on', 'use_behavioral_HDL', use_behavioral_HDL, 'hw_selection', hw_selection, ... 
-      'Position', [xpos-add_w/2 ypos_tmp xpos+add_w/2 ypos_tmp+add_d-20]);
-    ypos_tmp = ypos_tmp + add_d;
+    
+    if use_dual_dsps
+      if mod(index, 2) == 1
+        %the first of a complex pair
+        add_name = ['addsub',num2str(ceil(index/2))]; 
+        reuse_block(blk, add_name, 'casper_library_misc/caddsub_dsp48e', ...
+          'mode', m, 'cast_latency', num2str(latency - 2), ...
+          'n_bits_a', num2str(n_bits_a(index)), 'n_bits_b', num2str(n_bits_b(index)), ...
+          'bin_pt_a', num2str(bin_pt_a(index)), 'bin_pt_b', num2str(bin_pt_b(index)), ...
+          'full_precision', 'off', ...
+          'n_bits_c', num2str(n_bits_out(index)), 'bin_pt_c', num2str(bin_pt_out(index)), ...
+          'quantization', quant, 'overflow', of, ... 
+          'Position', [xpos-add_w/2 ypos_tmp xpos+add_w/2 ypos_tmp+add_d-20]);
+        add_line(blk, ['a_debus/',num2str(a_src(index))], [add_name,'/1']);
+        add_line(blk, ['b_debus/',num2str(b_src(index))], [add_name,'/3']);
+      else
+        %the second of a complex pair (i.e., imag parts)  
+        add_line(blk, ['a_debus/',num2str(a_src(index))], [add_name,'/2']);
+        add_line(blk, ['b_debus/',num2str(b_src(index))], [add_name,'/4']);
+      end
+      ypos_tmp = ypos_tmp + add_d;
+    else
+      add_name = ['addsub',num2str(index)]; 
+      reuse_block(blk, add_name, 'xbsIndex_r4/AddSub', ...
+        'mode', m, 'latency', num2str(latency), ...
+        'en', async, 'precision', 'User Defined', ...
+        'n_bits', num2str(n_bits_out(index)), 'bin_pt', num2str(bin_pt_out(index)), ...  
+        'arith_type', arith_type, 'quantization', quant, 'overflow', of, ... 
+        'pipelined', 'on', 'use_behavioral_HDL', use_behavioral_HDL, 'hw_selection', hw_selection, ... 
+        'Position', [xpos-add_w/2 ypos_tmp xpos+add_w/2 ypos_tmp+add_d-20]);
+      ypos_tmp = ypos_tmp + add_d;
   
-    add_line(blk, ['a_debus/',num2str(a_src(index))], [add_name,'/1']);
-    add_line(blk, ['b_debus/',num2str(b_src(index))], [add_name,'/2']);
+      add_line(blk, ['a_debus/',num2str(a_src(index))], [add_name,'/1']);
+      add_line(blk, ['b_debus/',num2str(b_src(index))], [add_name,'/2']);
 
-    if strcmp(async, 'on')
-      add_line(blk, 'en/1', [add_name,'/3']);
+      if strcmp(async, 'on')
+        add_line(blk, 'en/1', [add_name,'/3']);
+      end
     end
 
   end %for
@@ -293,7 +327,15 @@ function bus_addsub_init(blk, varargin)
     'Position', [xpos-bus_create_w/2 ypos_tmp-add_d*comp/2 xpos+bus_create_w/2 ypos_tmp+add_d*comp/2]);
   
   for index = 1:comp,
-    add_line(blk, ['addsub',num2str(index),'/1'], ['op_bussify/',num2str(index)]);
+    if use_dual_dsps
+      if mod(index, 2) == 1
+        add_name = ['addsub',num2str(ceil(index/2))]; 
+        add_line(blk, [add_name, '/1'], ['op_bussify/',num2str(index)]);
+        add_line(blk, [add_name, '/2'], ['op_bussify/',num2str(index+1)]);
+      end 
+    else
+      add_line(blk, ['addsub',num2str(index),'/1'], ['op_bussify/',num2str(index)]);
+    end
   end
 
   %output port/s
