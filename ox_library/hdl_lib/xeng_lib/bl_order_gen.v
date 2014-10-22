@@ -74,11 +74,30 @@ module bl_order_gen(
             end 
         end
     end
+
+    // register everything
+    reg [ANT_BITS-1:0] ant_aR;
+    reg [ANT_BITS-1:0] ant_bR;
+    reg buf_selR;
+    reg last_triangleR;
     
-    assign ant_a = a;
-    assign ant_b = b;
-    assign buf_sel = ant_a <= ant_b ? buf_sel_reg : ~buf_sel_reg;
-    assign last_triangle = (ant_a > ant_b);
+    reg 
+    always @(posedge (clk)) begin
+        ant_aR <= a;
+        ant_bR <= b;
+        if (a <= b) begin
+            buf_selR <= buf_sel_reg;
+            last_triangleR <= 1'b0;
+        end else begin
+            buf_selR <= ~buf_sel_reg;
+            last_triangleR <= 1'b1;
+        end
+    end
+    
+    assign ant_a = ant_aR;
+    assign ant_b = ant_bR;
+    assign buf_sel = buf_selR;
+    assign last_triangle = last_triangleR;
 
 endmodule
 

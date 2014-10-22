@@ -216,8 +216,9 @@ module component_tracker(
 
     //Generate the baseline output order and get corrections from the vacc bram     
     
+    //It takes 1 clock cycle to generate the bl addressing
     //It takes 2 clocks for data to be pulled from the BRAM, so we need to request data (i.e. have ant_a/b_sel signals
-    //ready) two clocks in advance. To achieve this, use a sync delayed by 2 clocks less than the X-eng tap chain latency.
+    //ready) 3 clocks in advance. To achieve this, use a sync delayed by 3 clocks less than the X-eng tap chain latency.
     reg [SERIAL_ACC_LEN_BITS-1:0] tap_out_vld_ctr = 0;
     wire gen_next_bl;
     wire bl_order_gen_sync;
@@ -233,7 +234,8 @@ module component_tracker(
 
     delay #(
         .WIDTH(1),
-        .DELAY(VALID_DELAY-2)
+        .DELAY(VALID_DELAY-3),
+        .ALLOW_SRL("NO")
     ) bl_order_gen_sync_del (
         .clk(clk),
         .din(sync),
@@ -256,7 +258,8 @@ module component_tracker(
 
     delay #(
         .WIDTH(1),
-        .DELAY(2)
+        .DELAY(2),
+        .ALLOW_SRL("NO")
     ) buf_sel_delay [1:0](
         .clk(clk),
         .din({last_triangle_int, buf_sel}),
