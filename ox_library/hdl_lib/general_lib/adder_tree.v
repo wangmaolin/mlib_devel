@@ -55,7 +55,8 @@ module adder_tree(
         if (REGISTER_OUTPUTS == "TRUE") begin : output_reg_gen
             delay # (
                 .WIDTH(1),
-                .DELAY(PARALLEL_SAMPLE_BITS)
+                .DELAY(PARALLEL_SAMPLE_BITS),
+                .ALLOW_SRL("NO")
             ) sync_delay (
                 .clk(clk),
                 .ce(1'b1),
