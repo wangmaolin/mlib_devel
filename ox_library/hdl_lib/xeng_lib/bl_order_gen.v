@@ -81,7 +81,6 @@ module bl_order_gen(
     reg buf_selR;
     reg last_triangleR;
     
-    reg 
     always @(posedge (clk)) begin
         ant_aR <= a;
         ant_bR <= b;
