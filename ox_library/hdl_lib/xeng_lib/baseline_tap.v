@@ -80,9 +80,9 @@ module baseline_tap(
     
     ////// Connect up the simple passthrough ports, with registers where appropriate
     assign sync_out = sync1;
-    reg [INPUT_WIDTH-1:0] a_end_reg = 0;
-    reg [INPUT_WIDTH-1:0] a_ndel_reg = 0;
-    reg rst_reg = 0;
+    (* KEEP = "TRUE" *) reg [INPUT_WIDTH-1:0] a_end_reg = 0;
+    (* KEEP = "TRUE" *) reg [INPUT_WIDTH-1:0] a_ndel_reg = 0;
+    (* KEEP = "TRUE" *) reg rst_reg = 0;
     always @(posedge(clk)) begin
         a_ndel_reg <= a_ndel;
         a_end_reg <= a_end;
