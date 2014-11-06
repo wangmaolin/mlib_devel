@@ -55,7 +55,9 @@ defaults = { ...
   'fanout_latency', 0, ...
   'n_inputs', 1, ...
   'double_buffer', 0, ...
-  'bram_map', 'on'};
+  'bram_map', 'on', ...
+  'asynchronous', 'on'};
+
 if same_state(blk, 'defaults', defaults, varargin{:}), return, end
 
 check_mask_type(blk, 'reorder');
@@ -69,6 +71,7 @@ fanout_latency  = get_var('fanout_latency', 'defaults', defaults, varargin{:});
 n_inputs        = get_var('n_inputs', 'defaults', defaults, varargin{:});
 double_buffer   = get_var('double_buffer', 'defaults', defaults, varargin{:});
 bram_map        = get_var('bram_map', 'defaults', defaults, varargin{:});
+asynchronous    = get_var('asynchronous', 'defaults', defaults, varargin{:});
 mux_latency     = 1;
 
 yinc = 20;
@@ -124,32 +127,35 @@ if double_buffer == 0,
 else, pre_delay = map_latency;
 end
 
-reuse_block(blk, 'en', 'built-in/inport', 'Position', [25   43    55   57], 'Port', '2');
-reuse_block(blk, 'delay_we0', 'xbsIndex_r4/Delay', ...
-  'reg_retiming', 'off', 'latency', num2str(pre_delay+rep_latency), 'Position', [305 40 345 60]);
-add_line(blk, 'en/1', 'delay_we0/1');
-reuse_block(blk, 'delay_we1', 'xbsIndex_r4/Delay', ...
-  'reg_retiming', 'off', 'latency', num2str(pre_delay+rep_latency), 'Position', [305 80 345 100]);
-add_line(blk, 'en/1', 'delay_we1/1');
-reuse_block(blk, 'delay_we2', 'xbsIndex_r4/Delay', ...
-  'reg_retiming', 'off', 'latency', num2str(pre_delay), 'Position', [305 120 345 140]);
-add_line(blk, 'en/1', 'delay_we2/1');
-reuse_block(blk, 'delay_valid', 'xbsIndex_r4/Delay', 'reg_retiming', 'on', ...
-    'Position', [860  80  900  100], 'latency', num2str(bram_latency+(double_buffer*2)+fanout_latency));
-add_line(blk, 'delay_we1/1', 'delay_valid/1');
-reuse_block(blk, 'valid', 'built-in/outport', 'Position', [965   82   995   98], 'Port', '2');
-add_line(blk, 'delay_valid/1', 'valid/1');
+if strcmp(asynchronous, 'on')
+    reuse_block(blk, 'en', 'built-in/inport', 'Position', [25   43    55   57], 'Port', '2');
+    reuse_block(blk, 'delay_we0', 'xbsIndex_r4/Delay', ...
+      'reg_retiming', 'off', 'latency', num2str(pre_delay+rep_latency), 'Position', [305 40 345 60]);
+    add_line(blk, 'en/1', 'delay_we0/1');
+    reuse_block(blk, 'delay_we1', 'xbsIndex_r4/Delay', ...
+      'reg_retiming', 'off', 'latency', num2str(pre_delay+rep_latency), 'Position', [305 80 345 100]);
+    add_line(blk, 'en/1', 'delay_we1/1');
+    reuse_block(blk, 'delay_we2', 'xbsIndex_r4/Delay', ...
+      'reg_retiming', 'off', 'latency', num2str(pre_delay), 'Position', [305 120 345 140]);
+    add_line(blk, 'en/1', 'delay_we2/1');
+    reuse_block(blk, 'delay_valid', 'xbsIndex_r4/Delay', 'reg_retiming', 'on', ...
+        'Position', [860  80  900  100], 'latency', num2str(bram_latency+(double_buffer*2)+fanout_latency));
+    add_line(blk, 'delay_we1/1', 'delay_valid/1');
+    reuse_block(blk, 'valid', 'built-in/outport', 'Position', [965   82   995   98], 'Port', '2');
+    add_line(blk, 'delay_valid/1', 'valid/1');
 
-reuse_block(blk, 'we_replicate', 'casper_library_bus/bus_replicate', ...
-    'latency', num2str(rep_latency), 'replication', num2str(n_inputs), 'misc', 'off', ...
-    'Position', [490 119 530 141]);
-add_line(blk, 'delay_we2/1', 'we_replicate/1');
 
-reuse_block(blk, 'we_expand', 'casper_library_flow_control/bus_expand', ...
-    'mode', 'divisions of equal size', 'outputNum', num2str(n_inputs), ...
-    'outputWidth', '1', 'outputBinaryPt', '0', 'outputArithmeticType', '2', ...
-    'Position', [585 119 635 119+(yinc*n_inputs)]);
-add_line(blk, 'we_replicate/1', 'we_expand/1');
+    reuse_block(blk, 'we_replicate', 'casper_library_bus/bus_replicate', ...
+        'latency', num2str(rep_latency), 'replication', num2str(n_inputs), 'misc', 'off', ...
+        'Position', [490 119 530 141]);
+    add_line(blk, 'delay_we2/1', 'we_replicate/1');
+
+    reuse_block(blk, 'we_expand', 'casper_library_flow_control/bus_expand', ...
+        'mode', 'divisions of equal size', 'outputNum', num2str(n_inputs), ...
+        'outputWidth', '1', 'outputBinaryPt', '0', 'outputArithmeticType', '2', ...
+        'Position', [585 119 635 119+(yinc*n_inputs)]);
+    add_line(blk, 'we_replicate/1', 'we_expand/1');
+end
 
 % sync stuff
 % delay value here is time into BRAM + time for one vector + time out of BRAM
@@ -157,16 +163,27 @@ reuse_block(blk, 'sync', 'built-in/inport', 'Position', [25    3    55    17], '
 reuse_block(blk, 'pre_sync_delay', 'xbsIndex_r4/Delay', ...
     'reg_retiming', 'off', 'Position', [305 0 345 20], 'latency', num2str(pre_delay+rep_latency));
 add_line(blk, 'sync/1', 'pre_sync_delay/1');
-reuse_block(blk, 'or', 'xbsIndex_r4/Logical', ...
-    'logical_function', 'OR', 'Position', [375 19 400 46]);
-add_line(blk, 'delay_we0/1', 'or/2');
-add_line(blk, 'pre_sync_delay/1', 'or/1');
 reuse_block(blk, 'sync_delay_en', 'casper_library_delays/sync_delay_en', ...
     'Position', [530 5 690 25], 'DelayLen', num2str(map_length));
-add_line(blk, 'or/1', 'sync_delay_en/2');
+
+if strcmp(asynchronous, 'on')
+    reuse_block(blk, 'or', 'xbsIndex_r4/Logical', ...
+        'logical_function', 'OR', 'Position', [375 19 400 46]);
+    add_line(blk, 'delay_we0/1', 'or/2');
+    add_line(blk, 'pre_sync_delay/1', 'or/1');
+    add_line(blk, 'or/1', 'sync_delay_en/2');
+else
+    reuse_block(blk, 'always', 'xbsIndex_r4/Constant', ...
+    'const', '1', 'arith_type', 'Boolean', ...
+    'explicit_period', 'on', 'period', '1', ...
+    'Position', [375 19 400 46]);
+    add_line(blk, 'always/1', 'sync_delay_en/2');
+end
+
+
 add_line(blk, 'pre_sync_delay/1', 'sync_delay_en/1');
 reuse_block(blk, 'post_sync_delay', 'xbsIndex_r4/Delay', ...
-    'reg_retiming', 'on', 'Position', [860  5  900  25], 'latency', num2str(bram_latency+(double_buffer*2)+fanout_latency));
+    'reg_retiming', 'on', 'Position', [860  5  900  25], 'latency', num2str(bram_latency+fanout_latency));
 add_line(blk, 'sync_delay_en/1', 'post_sync_delay/1');
 reuse_block(blk, 'sync_out', 'built-in/outport', 'Position', [965   7   995   23], 'Port', '1');
 add_line(blk, 'post_sync_delay/1', 'sync_out/1');
@@ -190,9 +207,11 @@ if order ~= 1,
     reuse_block(blk, 'Counter', 'xbsIndex_r4/Counter', ...
         'Position', [95   base   145   base+55], 'n_bits', num2str(map_bits + order_bits), 'cnt_type', 'Free Running', ...
         'use_behavioral_HDL', 'off', 'implementation', 'Fabric', 'arith_type', 'Unsigned', ...
-        'en', 'on', 'rst', 'on');
+        'en', asynchronous, 'rst', 'on');
     add_line(blk, 'sync/1', 'Counter/1');
-    add_line(blk, 'en/1', 'Counter/2');
+    if strcmp(asynchronous, 'on')
+        add_line(blk, 'en/1', 'Counter/2');
+    end
 
     reuse_block(blk, 'Slice2', 'xbsIndex_r4/Slice', ...
         'Position', [170   base+35   200  base+55], 'mode', 'Lower Bit Location + Width', ...
@@ -232,7 +251,11 @@ if order == 1,
         % Wires
         add_line(blk, ['delay_din', num2str(cnt-1),'/1'], ['delay_din_bram', num2str(cnt-1),'/1']);
         add_line(blk, ['delay_din_bram', num2str(cnt-1),'/1'], ['dout', num2str(cnt-1),'/1']);
-        add_line(blk, ['we_expand/',num2str(cnt)], ['delay_din_bram', num2str(cnt-1),'/2']);
+        if strcmp(asynchronous, 'on')
+            add_line(blk, ['we_expand/',num2str(cnt)], ['delay_din_bram', num2str(cnt-1),'/2']);
+        else
+            add_line(blk, 'always/1', ['delay_din_bram', num2str(cnt-1),'/2']);
+        end
     end %for
 % Case for order != 1, single-buffered
 elseif double_buffer == 0,
@@ -271,7 +294,11 @@ elseif double_buffer == 0,
           'en_register', 'off', 'en_implementation', 'behavioral', ...
           'Position', [845    base+80*(cnt-1)-17+40   910   base+80*(cnt-1)+77]);
       end
-      add_line(blk, ['we_expand/',num2str(cnt)], [bram_name,'/3']);
+      if strcmp(asynchronous, 'on')
+        add_line(blk, ['we_expand/',num2str(cnt)], [bram_name,'/3']);
+      else
+        add_line(blk, 'always/1', [bram_name,'/3']);
+      end
       add_line(blk, ['addr_expand/',num2str(cnt)], [bram_name,'/1']);
       add_line(blk, ['delay_din',num2str(cnt-1),'/1'], [bram_name,'/2']);
       add_line(blk, [bram_name,'/1'], ['dout',num2str(cnt-1),'/1']);
@@ -448,7 +475,11 @@ else, %TODO fanout for signals into wr_addr and rw_mode for many inputs not hand
         bram_name = ['dbl_buffer',num2str(cnt-1)];
         add_line(blk, 'delay_d0/1', [bram_name,'/2']);
         add_line(blk, ['addr_expand/',num2str(cnt)], [bram_name,'/3']);
-        add_line(blk, ['we_expand/',num2str(cnt)], [bram_name,'/5']);
+        if strcmp(asynchronous, 'on')
+            add_line(blk, ['we_expand/',num2str(cnt)], [bram_name,'/5']);
+        else
+            add_line(blk, 'always/1', [bram_name,'/5']);
+        end
         add_line(blk, 'delay_sel/1', [bram_name,'/1']);
         add_line(blk, ['delay_din',num2str(cnt-1),'/1'], [bram_name,'/4']);
         add_line(blk, [bram_name,'/1'], ['dout',num2str(cnt-1),'/1']);
