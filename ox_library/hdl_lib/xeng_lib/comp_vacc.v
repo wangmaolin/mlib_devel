@@ -77,14 +77,75 @@ module comp_vacc(
     //accumulation sample counter
     wire [ACC_LEN_BITS-1:0] sample_index = acc_ctr[ACC_LEN_BITS-1:0];
     
-  
-    reg [ACC_WIDTH-1:0] acc_reg = 0;
-    wire acc_valid = sample_index == ACC_LEN-1 ? 1'b1 : 1'b0;
-    wire [ACC_WIDTH-1:0] acc_wire = din_ext + acc_reg;
-    always @(posedge(clk)) begin
-        acc_reg <= sample_index == 0 ? din_ext : acc_wire;
-    end
-    
+    wire last_sample = (sample_index == ACC_LEN-1);
+    wire acc_valid;
+    wire [INPUT_WIDTH + ACC_LEN_BITS - 1 : 0] acc_dout;
+
+    dsp_acc #(
+        .IN_WIDTH(INPUT_WIDTH),
+        .OUT_WIDTH(INPUT_WIDTH+ACC_LEN_BITS),
+        .IS_SIGNED("TRUE")
+    ) acc_inst (
+        .clk(clk),
+        .ce(1'b1),
+        .din(din),
+        .end_of_acc(last_sample),
+        .dout(acc_dout),
+        .dout_vld(acc_valid)
+    );
+
+    // the dsp acc has 2 cycles latency. Add a stage of
+    // registers below, and match this
+    // latency on the other ram control signals
+
+    wire [INPUT_WIDTH + ACC_LEN_BITS - 1 : 0] acc_doutR;
+    delay #(
+        .WIDTH(INPUT_WIDTH + ACC_LEN_BITS),
+        .DELAY(1),
+        .ALLOW_SRL("NO")
+    ) acc_dout_delay (
+        .clk(clk),
+        .ce(1'b1),
+        .din(acc_dout),
+        .dout(acc_doutR)
+    );
+
+    wire acc_validR;
+    delay #(
+        .WIDTH(1),
+        .DELAY(1),
+        .ALLOW_SRL("NO")
+    ) acc_valid_delay (
+        .clk(clk),
+        .ce(1'b1),
+        .din(acc_valid),
+        .dout(acc_validR)
+    );
+
+    wire active_ram_dsp_del;
+    delay #(
+        .WIDTH(1),
+        .DELAY(3),
+        .ALLOW_SRL("YES")
+    ) active_ram_delay_comp (
+        .clk(clk),
+        .ce(1'b1),
+        .din(active_ram),
+        .dout(active_ram_dsp_del)
+    );
+
+    wire [VECTOR_LEN_BITS - 1 : 0] vec_index_dsp_del;
+    delay #(
+        .WIDTH(1),
+        .DELAY(3),
+        .ALLOW_SRL("YES")
+    ) vec_index_delay_comp (
+        .clk(clk),
+        .ce(1'b1),
+        .din(vec_index),
+        .dout(vec_index_dsp_del)
+    );
+
     wire [ACC_WIDTH-1:0] UNUSED0;
     wire [ACC_WIDTH-1:0] UNUSED1;
     wire [ACC_WIDTH-1:0] dout_a_int;
@@ -93,7 +154,7 @@ module comp_vacc(
 `ifdef DEBUG    
     always @(posedge(clk)) begin
         if(acc_valid) begin
-            $display("ACC_VALID: writing %d for antenna %d in ram %d", acc_wire, vec_index, active_ram);
+            $display("ACC_VALID: writing %d for antenna %d in ram %d", acc_doutR, vec_index_dsp_del, active_ram_dsp_del);
         end
     end
 `endif
@@ -103,9 +164,10 @@ module comp_vacc(
         .ADDR(VECTOR_LEN_BITS+1)
     ) bram_tdp_inst [1:0] (
         .a_clk(clk),
-        .a_wr(acc_valid),
-        .a_addr({active_ram,vec_index}),
-        .a_din(acc_wire),
+        .a_wr(acc_validR),
+        .a_addr({active_ram_dsp_del, vec_index_dsp_del}),
+        .a_din(acc_doutR),
+        //.a_din(acc_wire),
         .a_dout({UNUSED0, UNUSED1}),
         .b_clk(clk),
         .b_wr(1'b0),

@@ -210,6 +210,7 @@ function xeng_top_config(this_block)
   this_block.addFile([source_root_path, '/general_lib/sdp_ram.v']);
   this_block.addFile([source_root_path, '/general_lib/dp_ram.v']);
   this_block.addFile([source_root_path, '/general_lib/bram_delay_behave.v']);
+  this_block.addFile([source_root_path, '/general_lib/dsp_acc.v']);
 
   
   this_block.addFile([source_root_path, '/xeng_lib/stagger.v']);
