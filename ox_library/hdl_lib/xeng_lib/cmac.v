@@ -63,16 +63,31 @@ module cmac(
     wire [ACC_BITS_OUT-1:0] acc_in_imag = acc_in[ACC_BITS_OUT-1:0];
     
     //Build the logic to generate reset pulses for the accumulators
+    wire sync_delay_cmult_int; //The sync input, delayed by the cmult latency - 2
     wire sync_delay_cmult; //The sync input, delayed by the cmult latency - 1
+
     delay # (
         .WIDTH(1),
-        .DELAY(MULT_LATENCY+ADD_LATENCY-1)
+        .DELAY(MULT_LATENCY+ADD_LATENCY-2),
+        .ALLOW_SRL("YES")
     ) cmult_delay_comp (
         .clk(clk),
         .ce(1'b1),
         .din(sync),
+        .dout(sync_delay_cmult_int)
+    );
+
+    delay # (
+        .WIDTH(1),
+        .DELAY(1),
+        .ALLOW_SRL("NO")
+    ) cmult_delay_comp_last (
+        .clk(clk),
+        .ce(1'b1),
+        .din(sync_delay_cmult_int),
         .dout(sync_delay_cmult)
     );
+
     // A counter which counts out complete integrations
     reg [SERIAL_ACC_LEN_BITS-1:0] acc_ctr = 0;
     reg acc_rst = 0;
