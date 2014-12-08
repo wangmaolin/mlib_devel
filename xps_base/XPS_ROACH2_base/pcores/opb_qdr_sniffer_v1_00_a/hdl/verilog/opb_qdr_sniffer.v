@@ -70,10 +70,6 @@ module opb_qdr_sniffer #(
 	 
     input [5*(37+36)-1 : 0] dly_cntrs,
 
-    /* MMCM lock status */
-    input  fab_clk_lock,
-    input  sys_clk_lock,
-
     /* Misc signals */
     input  phy_rdy,
     input  cal_fail,

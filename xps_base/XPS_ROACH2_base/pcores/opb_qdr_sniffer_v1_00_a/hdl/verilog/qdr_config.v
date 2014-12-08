@@ -26,10 +26,6 @@ module qdr_config #(
 
     input [5*(37+36)-1:0] dly_cntrs,
 
-    /* MMCM lock status */
-    input  fab_clk_lock,
-    input  sys_clk_lock,
-
     /* Misc signals */
     output qdr_reset,
     input  cal_fail,
@@ -61,7 +57,6 @@ module qdr_config #(
   reg Sl_xferAck_reg;
   reg [3:0] opb_data_sel;
 
-  reg qdr_hard_reset;
   reg [4:0] qdr_reset_shifter;
 
   always @(posedge OPB_Clk) begin
@@ -80,8 +75,6 @@ module qdr_config #(
             if (!OPB_RNW) begin
               if (OPB_BE[3])
                 qdr_reset_shifter[0] <= OPB_DBus[31];
-              if (OPB_BE[2])
-                qdr_hard_reset       <= OPB_DBus[23];
             end
           end
           REG_DLY_EN_0: begin
@@ -117,9 +110,6 @@ module qdr_config #(
   always @(*) begin
     if (Sl_xferAck_reg) begin
       case (opb_data_sel) 
-        REG_RESET: begin
-	  Sl_DBus_reg <= {8'b0, 7'b0, sys_clk_lock, 7'b0, fab_clk_lock, 7'b0, qdr_reset};
-        end
         REG_STATUS: begin
           Sl_DBus_reg <= {16'b0, 7'b0, cal_fail, 7'b0, phy_rdy};
         end
@@ -149,7 +139,7 @@ module qdr_config #(
     qdr_reset_R  <= |qdr_reset_shifter;
     qdr_reset_RR <= qdr_reset_R;
   end
-  assign qdr_reset = (qdr_reset_RR || qdr_hard_reset || !(fab_clk_lock && sys_clk_lock));
+  assign qdr_reset = qdr_reset_RR;
 
   wire [35:0] dly_en_i_clk_crossed;
   wire [36:0] dly_en_o_clk_crossed;
