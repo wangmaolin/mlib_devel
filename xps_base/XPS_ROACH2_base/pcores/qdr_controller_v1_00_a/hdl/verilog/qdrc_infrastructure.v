@@ -191,11 +191,9 @@ module qdrc_infrastructure(
     qdr_dll_off_n_reg <= qdr_dll_off_n_buf;
     qdr_dll_off_n_iob <= qdr_dll_off_n_reg;
   end
-  //synthesis attribute SHREG_EXTRACT of qdr_sa_regR is no
-  //synthesis attribute SHREG_EXTRACT of qdr_sa_reg is no
 
   always @(posedge clk180) begin 
-  /* Add delay to ease timing */ //JH: this is a clock domain cross, it doesn't help timing(?)
+  /* Add delay to ease timing */
     qdr_sa_reg0  <= qdr_sa_reg;
     qdr_w_n_reg0 <= qdr_w_n_reg;
     qdr_r_n_reg0 <= qdr_r_n_reg;
@@ -413,13 +411,13 @@ module qdrc_infrastructure(
     .INIT_Q2 (1'b0),
     .SRTYPE ("SYNC")
   ) IDDR_qdr_q [DATA_WIDTH - 1:0] (
-    .C  (clk0),
+    .C  (clk180),
     .CE (1'b1),
     .D  (qdr_q_iodelay),
     .R  (1'b0),
     .S  (1'b0),
-    .Q1 (qdr_q_fall_int),
-    .Q2 (qdr_q_rise_int)
+    .Q1 (qdr_q_rise_int),
+    .Q2 (qdr_q_fall_int)
   );
 
   reg [17:0] qdr_q_rise_intR_low , qdr_q_rise_intRR_low , qdr_q_rise_intRRR_low ;
@@ -427,17 +425,25 @@ module qdrc_infrastructure(
   reg [17:0] qdr_q_fall_intR_low , qdr_q_fall_intRR_low , qdr_q_fall_intRRR_low ;
   reg [17:0] qdr_q_fall_intR_high, qdr_q_fall_intRR_high, qdr_q_fall_intRRR_high;
 
-  always @(posedge clk0) begin
+  always @(posedge clk180) begin
     qdr_q_rise_intR_high   <= qdr_q_rise_int [35:18];
     qdr_q_fall_intR_high   <= qdr_q_fall_int [35:18];
     qdr_q_rise_intRR_high  <= qdr_q_rise_intR_high;
     qdr_q_fall_intRR_high  <= qdr_q_fall_intR_high;
-    qdr_q_rise_intRRR_high <= qdr_q_rise_intRR_high;
-    qdr_q_fall_intRRR_high <= qdr_q_fall_intRR_high;
+    //qdr_q_rise_intRRR_high <= qdr_q_rise_intRR_high;
+    //qdr_q_fall_intRRR_high <= qdr_q_fall_intRR_high;
     qdr_q_rise_intR_low    <= qdr_q_rise_int  [17:0];
     qdr_q_fall_intR_low    <= qdr_q_fall_int  [17:0];
     qdr_q_rise_intRR_low   <= qdr_q_rise_intR_low;
     qdr_q_fall_intRR_low   <= qdr_q_fall_intR_low;
+    //qdr_q_rise_intRRR_low  <= qdr_q_rise_intRR_low;
+    //qdr_q_fall_intRRR_low  <= qdr_q_fall_intRR_low;
+  end
+
+  //cross clock domain
+  always @(posedge clk0) begin
+    qdr_q_rise_intRRR_high <= qdr_q_rise_intRR_high;
+    qdr_q_fall_intRRR_high <= qdr_q_fall_intRR_high;
     qdr_q_rise_intRRR_low  <= qdr_q_rise_intRR_low;
     qdr_q_fall_intRRR_low  <= qdr_q_fall_intRR_low;
   end
