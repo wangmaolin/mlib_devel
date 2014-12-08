@@ -165,7 +165,7 @@ function butterfly_direct_init(blk, varargin)
   % Validate input fields.
 
   if strcmp(bitgrowth, 'on') || strcmp(hardcode_shifts, 'on'), mux_latency = 0;
-  else mux_latency = 2;
+  else mux_latency = 1;
   end
 
   %TODO
