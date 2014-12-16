@@ -128,12 +128,12 @@ module component_tracker_sp(
 
     wire [ADD_TREE_O_WIDTH+1+1 -1 : 0] x_re_p_im; //+1 for conversion of real parts to signed, +1 for bit growth in add
     wire [ADD_TREE_O_WIDTH+1+1 -1 : 0] x_re_m_im;
-	 
-	 reg comp_add_sync; //A sync which incurs the same delay as the add/sub operations below
-	 
-	 always @(posedge(clk)) begin
-	     comp_add_sync <= adder_tree_sync;
-    end	 
+     
+     reg comp_add_sync; //A sync which incurs the same delay as the add/sub operations below
+     
+     always @(posedge(clk)) begin
+         comp_add_sync <= adder_tree_sync;
+    end  
     
     adder #(
         .A_WIDTH(ADD_TREE_O_WIDTH+1), //+1 for conversion of real parts to signed
@@ -257,9 +257,9 @@ module component_tracker_sp(
         .B_WIDTH(SERIAL_ACC_WIDTH),
         .A_IS_SIGNED("TRUE"),
         .B_IS_SIGNED("TRUE"),
-		  .REGISTER_INPUT("TRUE"),
+        .REGISTER_INPUT("TRUE"),
         .REGISTER_OUTPUT("TRUE"),
-		  .USE_DSP("NO")
+        .USE_DSP("NO")
     ) re_corr_adder_inst (
         .clk(clk),
         .a(x_re_p_im_acc_a),
@@ -272,9 +272,9 @@ module component_tracker_sp(
         .B_WIDTH(SERIAL_ACC_WIDTH),
         .A_IS_SIGNED("TRUE"),
         .B_IS_SIGNED("TRUE"),
-		  .REGISTER_INPUT("TRUE"),
+        .REGISTER_INPUT("TRUE"),
         .REGISTER_OUTPUT("TRUE"),
-		  .USE_DSP("NO")
+        .USE_DSP("NO")
     ) im_corr_sub_inst (
         .clk(clk),
         .a(x_re_m_im_acc_b),
