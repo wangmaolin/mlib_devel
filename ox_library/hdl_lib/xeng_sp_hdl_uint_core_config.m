@@ -1,5 +1,5 @@
 
-function xeng_sp_top_config(this_block)
+function xeng_sp_hdl_uint_core_config(this_block)
 
   % Revision History:
   %
