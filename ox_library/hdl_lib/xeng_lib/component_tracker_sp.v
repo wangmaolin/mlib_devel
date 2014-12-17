@@ -116,7 +116,7 @@ module component_tracker_sp(
         end else begin : adder_tree_bypass
             assign x_re_sum = x_re;
             assign x_im_sum = x_im;
-            assign adder_tree_sync_v = {sync,sync};
+            assign adder_tree_sync = sync;
         end //adder tree bypass
     endgenerate
     
@@ -170,7 +170,7 @@ module component_tracker_sp(
     wire [SERIAL_ACC_WIDTH -1 :0] x_re_m_im_acc_a;
     wire [SERIAL_ACC_WIDTH -1 :0] x_re_p_im_acc_b;
     wire [SERIAL_ACC_WIDTH -1 :0] x_re_m_im_acc_b;
-    
+	 
     wire [ANT_BITS-1:0] ant_a_sel;
     wire [ANT_BITS-1:0] ant_b_sel;
     
@@ -196,12 +196,12 @@ module component_tracker_sp(
 
     //Generate the baseline output order and get corrections from the vacc bram     
     
-    //It takes 1 clock cycle to generate the bl addressing
+    //It takes 2 clock cycles to generate the bl addressing
     //2 clocks for data to be pulled from the BRAM
     // 2 clocks to compute the correction (the add/subs below have 2 clock
     // cycle latency. 
     // We need to request data (i.e. have ant_a/b_sel signals
-    // ready) four clocks in advance. To achieve this, use a sync delayed by 5 clocks less than the X-eng tap chain latency.
+    // ready) six clocks in advance. To achieve this, use a sync delayed by 5 clocks less than the X-eng tap chain latency.
     reg [SERIAL_ACC_LEN_BITS-1:0] tap_out_vld_ctr = 0;
     wire gen_next_bl;
     wire bl_order_gen_sync;
