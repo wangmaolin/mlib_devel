@@ -76,10 +76,10 @@ module bl_order_gen(
     end
 
     // register everything
-    reg [ANT_BITS-1:0] ant_aR;
-    reg [ANT_BITS-1:0] ant_bR;
-    reg buf_selR;
-    reg last_triangleR;
+    reg [ANT_BITS-1:0] ant_aR = 0;
+    reg [ANT_BITS-1:0] ant_bR = 0;
+    reg buf_selR = 0;
+    reg last_triangleR = 0;
     
     always @(posedge (clk)) begin
         ant_aR <= a;
