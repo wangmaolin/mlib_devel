@@ -66,11 +66,11 @@ module bl_order_gen(
             offset <= N_ANTS/2+1;
         end else if (en) begin
             if(a==b) begin
-                b <= b+1'b1;
+                b <= b == N_ANTS - 1 ? 0 : b + 1'b1;
                 a <= offset;
-                offset <= offset+1'b1;
+                offset <= offset == N_ANTS - 1 ? 0 : offset + 1'b1;
             end else begin
-                a <= a+1'b1;
+                a <= a == N_ANTS - 1 ? 0 : a + 1'b1;
             end 
         end
     end
