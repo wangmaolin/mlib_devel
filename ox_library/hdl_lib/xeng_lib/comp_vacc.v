@@ -77,7 +77,7 @@ module comp_vacc(
     //accumulation sample counter
     wire [ACC_LEN_BITS-1:0] sample_index = acc_ctr[ACC_LEN_BITS-1:0];
     
-    wire last_sample = (sample_index == ACC_LEN-1);
+    wire last_sample = ((sample_index == ACC_LEN-1) || sync);
     wire acc_valid;
     wire [INPUT_WIDTH + ACC_LEN_BITS - 1 : 0] acc_dout;
 
@@ -95,7 +95,7 @@ module comp_vacc(
     );
 
     // the dsp acc has 2 cycles latency. Add a stage of
-    // registers below, and match this
+    // registers below, and match this total delay of 3
     // latency on the other ram control signals
 
     wire [INPUT_WIDTH + ACC_LEN_BITS - 1 : 0] acc_doutR;
@@ -136,7 +136,7 @@ module comp_vacc(
 
     wire [VECTOR_LEN_BITS - 1 : 0] vec_index_dsp_del;
     delay #(
-        .WIDTH(1),
+        .WIDTH(VECTOR_LEN_BITS),
         .DELAY(3),
         .ALLOW_SRL("YES")
     ) vec_index_delay_comp (
@@ -151,13 +151,13 @@ module comp_vacc(
     wire [ACC_WIDTH-1:0] dout_a_int;
     wire [ACC_WIDTH-1:0] dout_b_int;
     
-`ifdef DEBUG    
+//`ifdef DEBUG    
     always @(posedge(clk)) begin
-        if(acc_valid) begin
+        if(acc_validR) begin
             $display("ACC_VALID: writing %d for antenna %d in ram %d", acc_doutR, vec_index_dsp_del, active_ram_dsp_del);
         end
     end
-`endif
+//`endif
 
     bram_tdp #(
         .DATA(ACC_WIDTH),
