@@ -68,7 +68,7 @@ module subtractor(
     endgenerate
 
     // subtraction circuit
-    (* use_dsp48 = USE_DSP *) wire [OUTPUT_WIDTH-1:0] c_int = a_ext_delay + b_ext_delay;
+    (* use_dsp48 = USE_DSP *) wire [OUTPUT_WIDTH-1:0] c_int = a_ext_delay - b_ext_delay;
     
     //optional output register
     generate
