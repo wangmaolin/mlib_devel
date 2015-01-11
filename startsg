@@ -1,8 +1,10 @@
 #!/bin/bash
 ####### User to edit these accordingly ######
-export MATLAB_PATH=/usr/local/MATLAB/R2012b
+#export MATLAB_PATH=/usr/local/MATLAB/R2012b
+export MATLAB_PATH=/usr/local/MATLAB/R2013a
 PLATFORM=lin64
-export XILINX_PATH=/opt/Xilinx/14.6/ISE_DS
+#export XILINX_PATH=/opt/Xilinx/14.6/ISE_DS
+export XILINX_PATH=/opt/Xilinx/14.7/ISE_DS
 export MLIB_DEVEL_PATH=/home/jack/github/jack-h/mlib_devel
 export TMP=/home/jack/tmp
 export TEMP=/home/jack/tmp
