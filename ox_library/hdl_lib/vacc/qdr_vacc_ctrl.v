@@ -21,8 +21,8 @@ module qdr_vacc_ctrl(
   parameter ADD_LATENCY = 3;
   parameter VEC_LEN = 4000;
   parameter VEC_LEN_BITS = 12;
-  localparam ACC_BITS = 32;
-  localparam RB_BURST_BITS = 32;
+  parameter ACC_BITS = 16;
+  parameter RB_BURST_BITS = 16;
 
   input clk;
   input ce;
@@ -66,7 +66,7 @@ module qdr_vacc_ctrl(
 
   always @(posedge clk) begin
     if (rst) begin
-      vacc_rd_addr <= 0;
+      vacc_rd_addr <= VEC_LEN-1;
       vacc_re_reg <= 1'b0;
     end else if (ce) begin
       if (sync) begin
@@ -118,7 +118,7 @@ module qdr_vacc_ctrl(
 
   always @(posedge clk) begin
     if (rst) begin
-      vacc_wr_addr <= 0;
+      vacc_wr_addr <= VEC_LEN-1;
       vacc_we_reg <= 1'b0;
     end else if (ce) begin
       if (sync_delayed) begin
@@ -165,7 +165,10 @@ module qdr_vacc_ctrl(
   // Mark the first vector in an accumulation with the first_vec flag. This
   // needs delaying so that it is in sync with the point at which new incoming
   // data would be added to the stored vector.
-  wire first_vec_int = acc_ctr==0;
+  // wire first_vec_int = acc_ctr==0;
+  // May as well make this a register and pulse it off the same conditions as
+  // the acc_ctr reset. (I hope this reduces the logic path)
+  reg first_vec_int = 1;
   delay #(
     .DELAY(QDR_LATENCY+2),
     .ALLOW_SRL("NO")
@@ -183,23 +186,33 @@ module qdr_vacc_ctrl(
   always @(posedge clk) begin
     if (rst) begin
       acc_ctr <= 0;
+      first_vec_int <= 1'b1;
       wr_buf <= 0;
       new_acc <= 1'b0;
     end else if (ce) begin
-      new_acc <= 1'b0; //default value
-      if ((vacc_wr_addr == VEC_LEN-2) && vld_delayed) begin
-`ifdef DEBUG $display("time %t: FIRST OF LAST PAIR OF ELEMENT ENTERED! acc_ctr:%d",$time,acc_ctr); `endif
-        // This happens as the wr_en cmd for the last pair of vectors is written to the QDR
-        if (acc_ctr == acc_len_mi) begin
-          // The last vector has been written in
-          acc_ctr <= 0;
-          wr_buf <= ~wr_buf;
-          new_acc <= 1'b1;
-`ifdef DEBUG $display("time %t: NEW ACCUMULATION! new_acc goes high next clock",$time); `endif
-        end else begin
-          acc_ctr <= acc_ctr + 1'b1;
-        end
-      end
+      //if (sync_delayed) begin
+      //    acc_ctr <= 0;
+      //    first_vec_int <= 1'b1;
+      //end else begin
+      //TODO: Is this right? We don't reset the acc_ctr on a sync, because syncs come every vector, not every accumulation
+
+          new_acc <= 1'b0; //default value
+          if ((vacc_wr_addr == VEC_LEN-2) && vld_delayed) begin
+`ifdef     DEBUG $display("time %t: FIRST OF LAST PAIR OF ELEMENT ENTERED! acc_ctr:%d",$time,acc_ctr); `endif
+            // This happens as the wr_en cmd for the last pair of vectors is written to the QDR
+            if (acc_ctr == acc_len_mi) begin
+              // The last vector has been written in
+              acc_ctr <= 0;
+              first_vec_int <= 1'b1;
+              wr_buf <= ~wr_buf;
+              new_acc <= 1'b1;
+`ifdef     DEBUG $display("time %t: NEW ACCUMULATION! new_acc goes high next clock",$time); `endif
+            end else begin
+              acc_ctr <= acc_ctr + 1'b1;
+              first_vec_int <= 1'b0;
+            end
+          end
+       //end
     end
   end
 
