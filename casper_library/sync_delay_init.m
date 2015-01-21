@@ -26,7 +26,7 @@ Out = xOutport('Out');
 
 %% diagram
 % if total delay is 128 or lower, just use a delay core
-if DelayLen <= 128
+if DelayLen <= 1024;
     Delay_out = xSignal;
     Delay = xBlock(struct('source', 'Delay', 'name', 'Delay'), ...
                             struct('latency', DelayLen, ...
