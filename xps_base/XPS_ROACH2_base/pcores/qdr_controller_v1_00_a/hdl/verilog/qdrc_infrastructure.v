@@ -177,10 +177,6 @@ module qdrc_infrastructure(
 
   /* This signals are all sliced so use the register in the slice */
 
-  reg [ADDR_WIDTH - 1:0] qdr_sa_reg0;
-  reg qdr_w_n_reg0;
-  reg qdr_r_n_reg0;
-
   always @(posedge clk0) begin 
     //qdr_sa_regR        <= qdr_sa_buf;
     //qdr_w_n_regR       <= qdr_w_n_buf;
@@ -197,19 +193,44 @@ module qdrc_infrastructure(
   //synthesis attribute SHREG_EXTRACT of qdr_sa_regR is no
   //synthesis attribute SHREG_EXTRACT of qdr_sa_reg is no
 
-  always @(posedge clk180) begin 
-  /* Add delay to ease timing */
-    qdr_sa_reg0  <= qdr_sa_reg;
-    qdr_w_n_reg0 <= qdr_w_n_reg;
-    qdr_r_n_reg0 <= qdr_r_n_reg;
-    qdr_sa_iob   <= qdr_sa_reg0;
-    qdr_w_n_iob  <= qdr_w_n_reg0;
-    qdr_r_n_iob  <= qdr_r_n_reg0;
-  end
+  reg [ADDR_WIDTH - 1:0] qdr_sa_reg0;
+  reg qdr_w_n_reg0;
+  reg qdr_r_n_reg0;
 
   reg [ADDR_WIDTH - 1:0] qdr_sa_iob;
   reg qdr_w_n_iob;
   reg qdr_r_n_iob;
+
+  /* The below code registers onto the 180 degree clock and
+   * adds a pipeline for timing.
+   * Instead, let's register first into the 270 degree clock
+   * domain, and then into the 180, which has less strenuous
+   * timing constraints.
+   */
+   always @(posedge clk180) begin 
+     /* Add delay to ease timing */
+     qdr_sa_reg0  <= qdr_sa_reg;
+     qdr_w_n_reg0 <= qdr_w_n_reg;
+     qdr_r_n_reg0 <= qdr_r_n_reg;
+     qdr_sa_iob   <= qdr_sa_reg0;
+     qdr_w_n_iob  <= qdr_w_n_reg0;
+     qdr_r_n_iob  <= qdr_r_n_reg0;
+   end
+   
+
+  /*
+  always @(posedge clk270) begin
+    qdr_sa_reg0  <= qdr_sa_reg;
+    qdr_w_n_reg0 <= qdr_w_n_reg;
+    qdr_r_n_reg0 <= qdr_r_n_reg;
+  end
+  always @(posedge clk180) begin
+    qdr_sa_iob   <= qdr_sa_reg0;
+    qdr_w_n_iob  <= qdr_w_n_reg0;
+    qdr_r_n_iob  <= qdr_r_n_reg0;
+  end
+  */
+
   reg qdr_dll_off_n_iob;
   reg qdr_dll_off_n_reg;
   //synthesis attribute IOB of qdr_sa_iob        is "TRUE"
