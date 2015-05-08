@@ -8,3 +8,5 @@ casper_library/Tests/xldsp48e_isim.log
 casper_library/casper_library_bus.*
 casper_library/casper_library_downconverter.*
 tags
+*.jou
+*.log
