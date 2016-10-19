@@ -20,7 +20,7 @@ elif [ `hostname` == "casr99" ]; then
     echo casr99
     export MATLAB_PATH=/opt/R2012b
     PLATFORM=lin64
-    export XILINX_PATH=/opt/Xilinx/14.5/ISE_DS
+    export XILINX_PATH=/opt/Xilinx/14.7/ISE_DS
     export MLIB_DEVEL_PATH=/home/maolin/Tools/mlib_devel
     export TMP=/home/maolin/Tmp
     export TEMP=/home/maolin/Tmp
