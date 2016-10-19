@@ -25,3 +25,5 @@ else
   load_system('casper_library');
   load_system('xps_library');
 end
+%go to the working directory
+cd ~/Projects/
