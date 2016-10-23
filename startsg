@@ -4,7 +4,7 @@ if [ `hostname` == "kona" ]; then
     export MATLAB_PATH=/vol/tools/Mathworks/Matlab/R2012b
     PLATFORM=lin64
     export XILINX_PATH=/vol/tools/Xilinx/14.7/ISE_DS
-    export MLIB_DEVEL_PATH=/home/mwang/Apps/mlib_devel_jack
+    export MLIB_DEVEL_PATH=/home/mwang/Apps/mlib_devel
     export TMP=/home/mwang/Tmp
     export TEMP=/home/mwang/Tmp
     export DSP_CACHE_DIR=/home/mwang/Tmp
